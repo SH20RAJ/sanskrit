@@ -12,7 +12,7 @@ permalink: /
 Write beautiful code in देवनागरी (Devanagari) script with the simplicity of JavaScript.
 {: .fs-6 .fw-300 }
 
-[Get Started]({% link getting-started.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Get Started](../getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 [View on GitHub](https://github.com/sh20raj/sanskrit){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
@@ -85,7 +85,7 @@ Sanskrit is a modern programming language that combines the elegance and precisi
 
 ## Contributing
 
-We welcome contributions from the community! Whether you're fixing bugs, adding features, or improving documentation, please check out our [contributing guide]({% link docs/contributing.md %}).
+We welcome contributions from the community! Whether you're fixing bugs, adding features, or improving documentation, please check out our [contributing guide](../docs/contributing).
 
 ## Community
 

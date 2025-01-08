@@ -150,5 +150,5 @@ Make sure your example:
 ## More Resources
 
 - For more details about the language syntax, please see the [Language Guide](../language-guide).
-- [Getting Started]({% link getting-started.md %})
+- [Getting Started](../getting-started)
 - [GitHub Repository](https://github.com/sh20raj/sanskrit)

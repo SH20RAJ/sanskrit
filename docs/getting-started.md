@@ -95,8 +95,8 @@ sanskrit repl
 
 ## Next Steps
 
-1. Check out the [Language Guide]({% link language-guide.md %}) for detailed syntax
-2. Try the [Examples]({% link examples.md %})
+1. Check out the [Language Guide](../language-guide) for detailed syntax
+2. Try the [Examples](../examples)
 3. Join our [GitHub community](https://github.com/sh20raj/sanskrit)
 
 ## Common Issues
