@@ -8,7 +8,7 @@
 A modern programming language that uses Sanskrit vocabulary and grammar, combining the ancient wisdom of Sanskrit with modern computing concepts. Write code in देवनागरी (Devanagari) script with the power of modern programming paradigms.
 
 
-![sanskrit](https://socialify.git.ci/SH20RAJ/sanskrit/image?description=1&forks=1&issues=1&language=1&name=1&owner=1&pulls=1&stargazers=1&theme=Auto)
+![sanskrit](https://raw.githubusercontent.com/SH20RAJ/sanskrit/refs/heads/main/docs/og-image.png)
 
 ## Features
 
