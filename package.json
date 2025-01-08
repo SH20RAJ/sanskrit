@@ -3,20 +3,19 @@
   "version": "0.1.0",
   "description": "Sanskrit Programming Language - A modern language for scientific computing and AI/ML",
   "main": "src/index.js",
+  "bin": {
+    "sanskrit": "./src/cli.js"
+  },
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "start": "node dist/index.js",
-    "dev": "nodemon src/index.js",
-    "docs": "jekyll serve",
-    "postinstall": "npm rebuild"
+    "start": "node src/cli.js",
+    "dev": "nodemon src/cli.js",
+    "docs": "jekyll serve"
   },
   "dependencies": {
     "commander": "^11.0.0",
-    "typescript": "^5.0.0",
-    "node-gyp": "^9.0.0",
-    "llvm-bindings": "^0.4.1",
-    "cmake-js": "^7.2.1"
+    "typescript": "^5.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",

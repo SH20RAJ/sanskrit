@@ -27,7 +27,7 @@ cd "$INSTALL_DIR/sanskrit"
 
 # Install dependencies
 echo "Installing dependencies..."
-npm install
+npm install --production
 
 # Add sanskrit to PATH
 PROFILE_FILE="$HOME/.bashrc"
@@ -41,7 +41,7 @@ if ! grep -q "sanskrit" "$PROFILE_FILE"; then
     echo "Added Sanskrit to PATH in $PROFILE_FILE"
 fi
 
-# Create symbolic links
+# Create bin directory and executable
 mkdir -p "$INSTALL_DIR/sanskrit/bin"
 cat > "$INSTALL_DIR/sanskrit/bin/sanskrit" << 'EOF'
 #!/bin/bash
@@ -51,15 +51,7 @@ EOF
 chmod +x "$INSTALL_DIR/sanskrit/bin/sanskrit"
 
 echo ""
-echo "संस्कृत has been successfully installed!"
+echo "Installation completed successfully!"
 echo "Please restart your terminal or run: source $PROFILE_FILE"
 echo ""
-echo "Get started with:"
-echo "  sanskrit --help"
-echo "  sanskrit repl"
-echo "  sanskrit run hello.sns"
-echo "  sanskrit compile hello.sns"
-echo "  sanskrit fmt hello.sns"
-echo ""
-echo "Documentation: https://sh20raj.github.io/sanskrit/"
-echo "GitHub Repository: https://github.com/sh20raj/sanskrit"
+echo "Try running: sanskrit repl"

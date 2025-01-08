@@ -26,7 +26,7 @@ A modern programming language that uses Sanskrit vocabulary and grammar, combini
 ### Quick Install (Linux/macOS)
 
 ```bash
-curl -fsSL https://sh20raj.github.io/sanskrit/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/SH20RAJ/sanskrit/refs/heads/main/install.sh | sh
 ```
 
 ### Manual Installation
