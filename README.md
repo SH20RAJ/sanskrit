@@ -7,6 +7,8 @@
 
 A modern programming language that uses Sanskrit vocabulary and grammar, combining the ancient wisdom of Sanskrit with modern computing concepts. Write code in देवनागरी (Devanagari) script with the simplicity of JavaScript.
 
+Read about [how and why I created this Sanskrit-based programming language](https://sh20raj.github.io/sanskrit/docs/blog.html).
+
 ## Features
 
 - **Sanskrit-Based Syntax**: Write code using Sanskrit words and grammar
@@ -24,6 +26,14 @@ A modern programming language that uses Sanskrit vocabulary and grammar, combini
 - npm (v6 or higher)
 
 ### Quick Install
+
+For latest development version
+```bash
+curl -fsSL https://raw.githubusercontent.com/sh20raj/sanskrit/main/install.sh | bash
+
+```
+
+or
 
 ```bash
 npm install -g sanskrit-lang

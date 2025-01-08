@@ -1,4 +1,9 @@
- 
+---
+layout: default
+title: Blog
+has_children: true
+---
+
 # **Sanskrit **: Let's make sanskrit a programming language 🕉️💻  
 
 ---
