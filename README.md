@@ -1,64 +1,63 @@
-# Sanskrit Programming Language
+# संस्कृत Programming Language
 
-Sanskrit is a modern, high-performance programming language designed for scientific computing, AI/ML operations, and general-purpose programming. It combines the simplicity of Python, the performance of C++, and the flexibility of JavaScript into a unified, elegant syntax.
+A modern programming language that uses Sanskrit vocabulary and grammar, combining the ancient wisdom of Sanskrit with modern computing concepts.
 
-## Key Features
+## Features
 
-- **Simple and Intuitive Syntax**: Clean, readable code with minimal boilerplate
+- **Sanskrit-Based Syntax**: Write code using Sanskrit words and grammar
+- **Devanagari Support**: Native support for Devanagari script
+- **Cultural Integration**: Programming concepts expressed through Sanskrit terminology
 - **High Performance**: Native compilation with LLVM backend
-- **AI/ML First**: Built-in support for tensor operations and neural networks
-- **Scientific Computing**: Advanced mathematical and statistical libraries
+- **Scientific Computing**: Advanced mathematical and tensor operations
+- **AI/ML First**: Built-in support for neural networks and machine learning
 - **Type System**: Strong, static typing with type inference
 - **Memory Safety**: Automatic memory management with optional manual control
-- **Concurrency**: Built-in async/await, parallel processing, and actor model
-- **Metaprogramming**: Powerful macro system and compile-time code execution
-- **Cross-Platform**: Run anywhere - Linux, macOS, Windows, and WebAssembly
-- **Interoperability**: Seamless integration with C, C++, Python, and JavaScript
 
 ## Quick Start
 
 ```sanskrit
 // Hello World
-fn main() {
-    print("नमस्ते विश्व!") // Hello World in Sanskrit!
+कार्य मुख्य() {
+    लेख("नमस्ते विश्व!")  // Prints: नमस्ते विश्व!
 }
 
 // Variables and Types
-let x = 42                  // Type inference
-let y: Int = 42            // Explicit typing
-let z: Float64 = 3.14159
+चर क = ४२                   // Type inference
+चर ख: पूर्णांक = ४२         // Explicit typing
+चर ग: दशांश = ३.१४१५९     // Floating point
 
 // Functions
-fn add(a: Int, b: Int) -> Int {
-    return a + b
+कार्य योग(क: पूर्णांक, ख: पूर्णांक) -> पूर्णांक {
+    प्रत्यागम क + ख
 }
 
 // Pattern Matching
-match value {
-    0 => print("Zero"),
-    n if n > 0 => print("Positive"),
-    _ => print("Negative"),
+मिलान मान {
+    ० => लेख("शून्य"),
+    न यदि न > ० => लेख("धनात्मक"),
+    _ => लेख("ऋणात्मक"),
 }
 
 // Async Programming
-async fn fetch_data() -> Result<Data> {
-    let response = await http.get("api.example.com")
-    return response.json()
+असिन्क् कार्य डेटा_प्राप्त() -> परिणाम<डेटा> {
+    चर प्रतिक्रिया = प्रतीक्षा सर्वर.प्राप्त("api.example.com")
+    प्रत्यागम प्रतिक्रिया.जेसन()
 }
 
 // AI/ML Example
-tensor Matrix = [[1, 2, 3],
-                [4, 5, 6]]
-let model = NeuralNetwork {
-    layers: [
-        Dense(units: 128, activation: "relu"),
-        Dense(units: 10, activation: "softmax")
+टेन्सर मैट्रिक्स = [[१, २, ३],
+                    [४, ५, ६]]
+
+चर मॉडल = तंत्रिकाजाल {
+    स्तर: [
+        घन(इकाई: १२८, सक्रियण: "रेलु"),
+        घन(इकाई: १०, सक्रियण: "सॉफ्टमैक्स")
     ]
 }
 
 // Scientific Computing
-let vector = Vector[1, 2, 3]
-let result = vector.normalize().dot(other_vector)
+चर सदिश = सदिश[१, २, ३]
+चर परिणाम = सदिश.सामान्यीकरण().बिंदु(अन्य_सदिश)
 ```
 
 ## Installation

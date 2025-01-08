@@ -2,31 +2,45 @@
 
 ## Introduction
 
-Sanskrit is a modern, high-performance programming language designed for scientific computing, AI/ML operations, and general-purpose programming. It combines the simplicity of Python, the performance of C++, and the flexibility of JavaScript into a unified, elegant syntax.
+Sanskrit is a modern, high-performance programming language that uses Sanskrit vocabulary and grammar for its syntax. It combines the ancient wisdom of Sanskrit with modern programming concepts, making it both culturally rich and technically powerful.
 
-## Language Features
+## Basic Syntax Guide
+
+### Keywords and Their Meanings
+
+| Sanskrit Keyword | Meaning | Usage |
+|-----------------|---------|--------|
+| कार्य (kārya) | function | Defines a function |
+| चर (chara) | variable | Declares a variable |
+| स्थिर (sthira) | constant | Declares a constant |
+| यदि (yadi) | if | Conditional statement |
+| अन्यथा (anyathā) | else | Alternative condition |
+| यावत् (yāvat) | while | While loop |
+| पुनः (punaḥ) | for | For loop |
+| प्रत्यागम (pratyāgama) | return | Return statement |
+| प्रयत्न (prayatna) | try | Exception handling |
+| पकड़ (pakaḍ) | catch | Catch exceptions |
+| टेन्सर (ṭensor) | tensor | Tensor operations |
+
+## Code Examples
 
 ### 1. Basic Syntax
 
 ```sanskrit
-// Variables
-let x = 42                  // Type inference
-let y: Int = 42            // Explicit typing
-let z: Float64 = 3.14159   // 64-bit floating point
+// Variables (चर) and Constants (स्थिर)
+चर x = ४२                    // Type inference
+चर y: पूर्णांक = ४२         // Explicit typing (पूर्णांक = Integer)
+स्थिर π: दशांश = ३.१४१५९   // Constant (दशांश = Decimal)
 
-// Constants
-const PI: Float64 = 3.14159
-const MAX_SIZE = 1000
-
-// Functions
-fn add(a: Int, b: Int) -> Int {
-    return a + b
+// Functions (कार्य)
+कार्य योग(क: पूर्णांक, ख: पूर्णांक) -> पूर्णांक {
+    प्रत्यागम क + ख
 }
 
 // Async Functions
-async fn fetch_data() -> Result<String> {
-    let response = await http.get("api.example.com")
-    return response.text()
+असिन्क् कार्य डेटा_प्राप्त() -> परिणाम<पाठ> {
+    चर प्रतिक्रिया = प्रतीक्षा सर्वर.प्राप्त("api.example.com")
+    प्रत्यागम प्रतिक्रिया.पाठ()
 }
 ```
 
@@ -34,55 +48,46 @@ async fn fetch_data() -> Result<String> {
 
 ```sanskrit
 // If-else statements
-if x > 0 {
-    print("Positive")
-} else if x < 0 {
-    print("Negative")
-} else {
-    print("Zero")
+यदि x > ० {
+    लेख("धनात्मक")
+} अन्यथा यदि x < ० {
+    लेख("ऋणात्मक")
+} अन्यथा {
+    लेख("शून्य")
 }
 
 // Pattern matching
-match value {
-    0 => print("Zero"),
-    n if n > 0 => print("Positive"),
-    _ => print("Negative"),
+मिलान मान {
+    ० => लेख("शून्य"),
+    न यदि न > ० => लेख("धनात्मक"),
+    _ => लेख("ऋणात्मक"),
 }
 
 // Loops
-for i in 0..10 {
-    print(i)
+पुनः क इन ०..१० {
+    लेख(क)
 }
 
-while condition {
-    // do something
+यावत् स्थिति {
+    // कार्य
 }
 ```
 
 ### 3. Data Structures
 
 ```sanskrit
-// Arrays
-let numbers = [1, 2, 3, 4, 5]
-let matrix = [[1, 2], [3, 4]]
+// Arrays (सूची)
+चर संख्याएं = [१, २, ३, ४, ५]
+चर मैट्रिक्स = [[१, २], [३, ४]]
 
-// Tuples
-let point = (x: 10, y: 20)
-
-// Structs
-struct Point {
-    x: Float64,
-    y: Float64,
+// Structs (संरचना)
+संरचना बिंदु {
+    x: दशांश,
+    y: दशांश,
     
-    fn distance_from_origin(self) -> Float64 {
-        return (self.x * self.x + self.y * self.y).sqrt()
+    कार्य मूल_से_दूरी(स्व) -> दशांश {
+        प्रत्यागम (स्व.x * स्व.x + स्व.y * स्व.y).वर्गमूल()
     }
-}
-
-// Enums
-enum Result<T> {
-    Ok(T),
-    Err(String)
 }
 ```
 
@@ -90,180 +95,60 @@ enum Result<T> {
 
 ```sanskrit
 // Tensors
-tensor Matrix = [[1, 2, 3],
-                [4, 5, 6]]
+टेन्सर मैट्रिक्स = [[१, २, ३],
+                    [४, ५, ६]]
 
 // Matrix operations
-let transposed = Matrix.transpose()
-let product = Matrix.dot(other_matrix)
-let inverse = Matrix.inverse()
-
-// Statistical functions
-let mean = data.mean()
-let std = data.std()
-let correlation = data.corr()
+चर परिवर्तित = मैट्रिक्स.परिवर्तन()  // transpose
+चर गुणनफल = मैट्रिक्स.बिंदु(अन्य_मैट्रिक्स)  // dot product
+चर व्युत्क्रम = मैट्रिक्स.व्युत्क्रम()  // inverse
 ```
 
 ### 5. AI/ML Operations
 
 ```sanskrit
 // Neural Networks
-let model = NeuralNetwork {
-    layers: [
-        Dense(units: 128, activation: "relu"),
-        Dropout(0.2),
-        Dense(units: 10, activation: "softmax")
+चर मॉडल = तंत्रिकाजाल {
+    स्तर: [
+        घन(इकाई: १२८, सक्रियण: "रेलु"),
+        ड्रॉपआउट(०.२),
+        घन(इकाई: १०, सक्रियण: "सॉफ्टमैक्स")
     ]
 }
 
 // Training
-model.compile(
-    optimizer: "adam",
-    loss: "categorical_crossentropy",
-    metrics: ["accuracy"]
+मॉडल.संकलन(
+    अनुकूलक: "आदम",
+    हानि: "श्रेणीकृत_एन्ट्रोपी",
+    मापदंड: ["सटीकता"]
 )
-
-model.fit(
-    x: training_data,
-    y: labels,
-    epochs: 10,
-    batch_size: 32
-)
-
-// Inference
-let predictions = model.predict(test_data)
 ```
 
 ### 6. Error Handling
 
 ```sanskrit
 // Try-catch blocks
-try {
-    let result = risky_operation()
-} catch error {
-    print("Error occurred: {error}")
-}
-
-// Result type
-fn divide(a: Int, b: Int) -> Result<Float64> {
-    if b == 0 {
-        return Err("Division by zero")
-    }
-    return Ok(a as Float64 / b as Float64)
+प्रयत्न {
+    चर परिणाम = जोखिम_कार्य()
+} पकड़ त्रुटि {
+    लेख("त्रुटि हुई: {त्रुटि}")
 }
 ```
 
-### 7. Concurrency
+## Installation
 
-```sanskrit
-// Async/await
-async fn process_data() {
-    let data = await fetch_data()
-    let result = await process(data)
-    return result
-}
-
-// Parallel processing
-parallel for item in items {
-    process(item)
-}
-
-// Channels
-let (sender, receiver) = channel()
-sender.send(42)
-let value = receiver.receive()
+```bash
+curl -fsSL https://sanskrit-lang.org/install.sh | sh
 ```
-
-### 8. Memory Management
-
-Sanskrit uses automatic memory management with optional manual control:
-
-```sanskrit
-// Automatic memory management (default)
-fn process_data() {
-    let data = load_large_dataset()
-    // Memory automatically freed when data goes out of scope
-}
-
-// Manual memory management when needed
-unsafe fn low_level_operation() {
-    let ptr = allocate<Int>(1000)
-    // Manual memory operations
-    free(ptr)
-}
-```
-
-### 9. Metaprogramming
-
-```sanskrit
-// Compile-time code execution
-const_fn factorial(n: Int) -> Int {
-    if n <= 1 { return 1 }
-    return n * factorial(n - 1)
-}
-
-// Macros
-macro_rules! debug {
-    ($x:expr) => {
-        println!("[DEBUG] {}: {}", stringify!($x), $x)
-    }
-}
-```
-
-## Best Practices
-
-1. Use type annotations for function parameters and return types
-2. Prefer immutable variables (const) when possible
-3. Handle errors explicitly using Result type
-4. Use async/await for asynchronous operations
-5. Leverage the type system for better code safety
-6. Write unit tests for your code
-7. Document your code using comments
-
-## Performance Tips
-
-1. Use tensors for large numerical computations
-2. Leverage parallel processing for CPU-intensive tasks
-3. Use appropriate data structures for your use case
-4. Profile your code to identify bottlenecks
-5. Use release mode compilation for production
-
-## Tooling
-
-- `sanskrit compile`: Compile Sanskrit source files
-- `sanskrit run`: Run Sanskrit programs
-- `sanskrit repl`: Interactive Sanskrit shell
-- `sanskrit fmt`: Format Sanskrit code
-- `sanskrit test`: Run tests
-- `sanskrit bench`: Run benchmarks
 
 ## Package Management
 
-Sanskrit uses a modern package manager for dependency management:
-
 ```bash
 # Initialize a new project
-sanskrit init my-project
+संस्कृत आरंभ मेरी-परियोजना
 
 # Add dependencies
-sanskrit add tensor-lib
-sanskrit add --dev testing-framework
-
-# Run project
-sanskrit run
+संस्कृत जोड़ें टेन्सर-पुस्तकालय
 ```
 
-## Contributing
-
-We welcome contributions to the Sanskrit programming language! Please check our [Contributing Guide](CONTRIBUTING.md) for more information.
-
-## License
-
-Sanskrit is open source and available under the MIT License.
-
-## Resources
-
-- [Official Website](https://sanskrit-lang.org)
-- [API Documentation](https://docs.sanskrit-lang.org/api)
-- [GitHub Repository](https://github.com/sanskrit-lang/sanskrit)
-- [Community Forum](https://forum.sanskrit-lang.org)
+For detailed documentation, visit [docs.sanskrit-lang.org](https://docs.sanskrit-lang.org)

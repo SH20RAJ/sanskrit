@@ -10,9 +10,25 @@ const TokenTypes = {
 };
 
 const Keywords = new Set([
-    'fn', 'let', 'const', 'if', 'else', 'while', 'for', 'return',
-    'async', 'await', 'match', 'tensor', 'type', 'interface',
-    'import', 'export', 'try', 'catch', 'throw'
+    'कार्य',     // function (karya)
+    'चर',       // variable (chara)
+    'स्थिर',    // constant (sthira)
+    'यदि',      // if (yadi)
+    'अन्यथा',   // else (anyatha)
+    'यावत्',    // while (yavat)
+    'पुनः',     // for (punah)
+    'प्रत्यागम', // return (pratyagam)
+    'असिन्क्',   // async (async)
+    'प्रतीक्षा', // await (prateeksha)
+    'मिलान',    // match (milan)
+    'टेन्सर',   // tensor (tensor)
+    'प्रकार',   // type (prakar)
+    'अंतरफलक', // interface (antarfalak)
+    'आयात',    // import (aayaat)
+    'निर्यात',  // export (niryaat)
+    'प्रयत्न',  // try (prayatna)
+    'पकड़',     // catch (pakad)
+    'फेंक'      // throw (phenk)
 ]);
 
 class Token {
