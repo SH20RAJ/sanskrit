@@ -3,8 +3,12 @@
 [![GitHub stars](https://img.shields.io/github/stars/sh20raj/sanskrit.svg)](https://github.com/sh20raj/sanskrit/stargazers)
 [![License](https://img.shields.io/github/license/sh20raj/sanskrit.svg)](https://github.com/sh20raj/sanskrit/blob/main/LICENSE)
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fsh20raj.github.io%2Fsanskrit%2F)](https://sh20raj.github.io/sanskrit/)
+[![Visitors](https://api.visitorbadge.io/api/combined?path=https%3A%2F%2Fgithub.com%2FSH20RAJ%2Fsanskrit&labelColor=%23f47373&countColor=%23dce775&style=flat)](https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2FSH20RAJ%2Fsanskrit)
 
 A modern programming language that uses Sanskrit vocabulary and grammar, combining the ancient wisdom of Sanskrit with modern computing concepts. Write code in देवनागरी (Devanagari) script with the power of modern programming paradigms.
+
+
+![sanskrit](https://socialify.git.ci/SH20RAJ/sanskrit/image?description=1&forks=1&issues=1&language=1&name=1&owner=1&pulls=1&stargazers=1&theme=Auto)
 
 ## Features
 
