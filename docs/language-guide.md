@@ -174,6 +174,6 @@ Here are some complete examples to help you get started:
 
 ## Further Reading
 
-- [Getting Started Guide]({% link getting-started.md %})
-- [Examples]({% link examples.md %})
+- [Getting Started Guide](../getting-started)
+- [Examples](../examples)
 - [GitHub Repository](https://github.com/sh20raj/sanskrit)
