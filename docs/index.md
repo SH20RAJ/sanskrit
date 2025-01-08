@@ -1,92 +1,99 @@
 ---
 layout: default
-title: Home
+title: संस्कृत Programming Language
 nav_order: 1
-description: "संस्कृत Programming Language - A modern programming language with Sanskrit vocabulary and grammar"
+description: "A modern programming language that uses Sanskrit vocabulary and grammar"
 permalink: /
 ---
 
 # संस्कृत Programming Language
 {: .fs-9 }
 
-A modern programming language that combines the ancient wisdom of Sanskrit with modern computing concepts.
+Write beautiful code in देवनागरी (Devanagari) script with the simplicity of JavaScript.
 {: .fs-6 .fw-300 }
 
-[Get Started](./docs/getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[Get Started]({% link getting-started.md %}){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
 [View on GitHub](https://github.com/sh20raj/sanskrit){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
-## About संस्कृत
+## About Sanskrit Programming Language
 
-संस्कृत (Sanskrit) is not just another programming language – it's a bridge between ancient wisdom and modern technology. By using Sanskrit vocabulary and grammar as its foundation, it creates a unique programming paradigm that is both powerful and culturally rich.
+Sanskrit is a modern programming language that combines the elegance and precision of the Sanskrit language with the ease of modern programming. It allows you to write code using Devanagari script while leveraging the power and simplicity of JavaScript.
 
-## Key Features
+### Key Features
 
 - **Sanskrit-Based Syntax**: Write code using Sanskrit words and grammar
-- **Devanagari Support**: Native support for Devanagari script
-- **Cultural Integration**: Programming concepts expressed through Sanskrit terminology
-- **High Performance**: Native compilation with LLVM backend
-- **Scientific Computing**: Advanced mathematical and tensor operations
-- **AI/ML First**: Built-in support for neural networks and machine learning
+- **Devanagari Support**: Native support for Devanagari script and numerals
+- **JavaScript-Based**: Easy to install and run with Node.js
+- **Interpreter**: Fast development with immediate feedback
+- **Cross-Platform**: Runs anywhere Node.js is available
 
-## Quick Start
-
-### Installation
-
-```bash
-curl -fsSL https://sh20raj.github.io/sanskrit/install.sh | sh
-```
-
-### Hello World
+## Quick Example
 
 ```sanskrit
-कार्य मुख्य() {
-    लेख("नमस्ते विश्व!")
+// नमस्ते विश्व
+कार्य नमस्ते() {
+    मुद्रण("नमस्ते विश्व!");
 }
+
+नमस्ते();
 ```
-
-### Variables and Functions
-
-```sanskrit
-// Variables
-चर क = ४२                   // Type inference
-चर ख: पूर्णांक = ४२         // Explicit typing
-
-// Functions
-कार्य योग(क: पूर्णांक, ख: पूर्णांक) -> पूर्णांक {
-    प्रत्यागम क + ख
-}
-```
-
-## Why Sanskrit?
-
-1. **Precise Grammar**: Sanskrit's precise and unambiguous grammar rules make it perfect for programming
-2. **Rich Vocabulary**: Sanskrit's vast vocabulary allows for clear and meaningful naming
-3. **Cultural Connection**: Bridge the gap between traditional knowledge and modern technology
-4. **Mathematical Foundation**: Sanskrit's deep connection with mathematics aligns with computing concepts
 
 ## Getting Started
 
-1. [Installation Guide](./docs/installation)
-2. [Language Basics](./docs/basics)
-3. [Advanced Concepts](./docs/advanced)
-4. [API Reference](./docs/api)
+1. Install Node.js (v14 or higher)
+2. Install the Sanskrit language package:
+   ```bash
+   npm install -g sanskrit-lang
+   ```
+3. Create your first program:
+   ```sanskrit
+   कार्य योग(क, ख) {
+       मुद्रण(क + ख);
+   }
 
-## Community
+   योग(१०, २०);  // Outputs: ३०
+   ```
+4. Run your program:
+   ```bash
+   sanskrit run program.sns
+   ```
 
-Join our growing community:
+## Current Features
 
-- [GitHub Discussions](https://github.com/sh20raj/sanskrit/discussions)
-- [Discord Server](https://discord.gg/sanskrit)
-- [Twitter](https://twitter.com/SanskritLang)
+- Function declarations and calls
+- String literals and concatenation
+- Basic arithmetic operations
+- Built-in `मुद्रण` (print) function
+- Full Devanagari script support
+
+## Coming Soon
+
+- Variables and assignments
+- Control flow (if/else, loops)
+- Arrays and objects
+- More built-in functions
+- REPL environment
+
+## Why Sanskrit?
+
+1. **Cultural Heritage**: Connect with India's rich mathematical and computational heritage
+2. **Precision**: Sanskrit's precise grammar maps well to programming concepts
+3. **Accessibility**: Make programming more approachable for Sanskrit speakers
+4. **Educational**: Learn programming concepts through a familiar linguistic framework
 
 ## Contributing
 
-We welcome contributions from everyone! Whether you're fixing bugs, improving documentation, or proposing new features, check out our [Contributing Guide](./docs/contributing) to get started.
+We welcome contributions from the community! Whether you're fixing bugs, adding features, or improving documentation, please check out our [contributing guide]({% link docs/contributing.md %}).
 
----
+## Community
+
+Join our growing community of Sanskrit programmers:
+
+- **GitHub**: [https://github.com/sh20raj/sanskrit](https://github.com/sh20raj/sanskrit)
+- **Documentation**: [https://sh20raj.github.io/sanskrit/docs](https://sh20raj.github.io/sanskrit/docs)
 
 ## License
 
-संस्कृत is distributed under the MIT license. See [LICENSE](https://github.com/sh20raj/sanskrit/blob/main/LICENSE) for more information.
+Sanskrit is open source and available under the MIT License. See [LICENSE](https://github.com/sh20raj/sanskrit/blob/main/LICENSE) for more information.

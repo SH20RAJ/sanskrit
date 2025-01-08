@@ -2,153 +2,178 @@
 
 ## Introduction
 
-Sanskrit is a modern, high-performance programming language that uses Sanskrit vocabulary and grammar for its syntax. It combines the ancient wisdom of Sanskrit with modern programming concepts, making it both culturally rich and technically powerful.
+Sanskrit is a programming language that uses Sanskrit vocabulary and Devanagari script. This guide covers the basic concepts and syntax of the language.
 
-## Basic Syntax Guide
+## Basic Syntax
 
-### Keywords and Their Meanings
-
-| Sanskrit Keyword | Meaning | Usage |
-|-----------------|---------|--------|
-| कार्य (kārya) | function | Defines a function |
-| चर (chara) | variable | Declares a variable |
-| स्थिर (sthira) | constant | Declares a constant |
-| यदि (yadi) | if | Conditional statement |
-| अन्यथा (anyathā) | else | Alternative condition |
-| यावत् (yāvat) | while | While loop |
-| पुनः (punaḥ) | for | For loop |
-| प्रत्यागम (pratyāgama) | return | Return statement |
-| प्रयत्न (prayatna) | try | Exception handling |
-| पकड़ (pakaḍ) | catch | Catch exceptions |
-| टेन्सर (ṭensor) | tensor | Tensor operations |
-
-## Code Examples
-
-### 1. Basic Syntax
+### Comments
 
 ```sanskrit
-// Variables (चर) and Constants (स्थिर)
-चर x = ४२                    // Type inference
-चर y: पूर्णांक = ४२         // Explicit typing (पूर्णांक = Integer)
-स्थिर π: दशांश = ३.१४१५९   // Constant (दशांश = Decimal)
+// एक पंक्ति टिप्पणी (Single line comment)
 
-// Functions (कार्य)
-कार्य योग(क: पूर्णांक, ख: पूर्णांक) -> पूर्णांक {
-    प्रत्यागम क + ख
-}
-
-// Async Functions
-असिन्क् कार्य डेटा_प्राप्त() -> परिणाम<पाठ> {
-    चर प्रतिक्रिया = प्रतीक्षा सर्वर.प्राप्त("api.example.com")
-    प्रत्यागम प्रतिक्रिया.पाठ()
-}
+/* 
+बहु पंक्ति टिप्पणी
+(Multi-line comment)
+*/
 ```
 
-### 2. Control Flow
+### Functions
+
+Functions are declared using the `कार्य` (kārya) keyword:
 
 ```sanskrit
-// If-else statements
-यदि x > ० {
-    लेख("धनात्मक")
-} अन्यथा यदि x < ० {
-    लेख("ऋणात्मक")
+कार्य नमस्ते() {
+    मुद्रण("नमस्ते विश्व!");
+}
+
+// Function with parameters
+कार्य योग(क, ख) {
+    मुद्रण(क + ख);
+}
+
+// Calling functions
+नमस्ते();
+योग(१०, २०);  // Outputs: ३०
+```
+
+### Strings
+
+Strings can be written in both Devanagari and Latin scripts:
+
+```sanskrit
+मुद्रण("संस्कृत भाषा");
+मुद्रण("Sanskrit Language");
+
+// String concatenation
+मुद्रण("संस्कृत" + " " + "भाषा");
+```
+
+### Numbers
+
+Sanskrit supports both Devanagari and Arabic numerals:
+
+```sanskrit
+// Devanagari numerals
+मुद्रण(१ + २);      // Outputs: ३
+मुद्रण(१० * २०);    // Outputs: २००
+
+// Arabic numerals
+मुद्रण(1 + 2);      // Outputs: ३
+मुद्रण(10 * 20);    // Outputs: २००
+```
+
+### Built-in Functions
+
+#### मुद्रण (Print)
+Prints values to the console:
+
+```sanskrit
+मुद्रण("Hello");              // Prints: Hello
+मुद्रण(१० + २०);              // Prints: ३०
+मुद्रण("संख्या:", १०);        // Prints: संख्या: १०
+```
+
+## Coming Soon
+
+The following features are under development:
+
+### Variables (Coming Soon)
+
+```sanskrit
+चर नाम = "राम";
+स्थिर संख्या = ४२;
+```
+
+### Control Flow (Coming Soon)
+
+```sanskrit
+यदि (क > ख) {
+    मुद्रण("क बड़ा है");
 } अन्यथा {
-    लेख("शून्य")
+    मुद्रण("ख बड़ा है");
 }
 
-// Pattern matching
-मिलान मान {
-    ० => लेख("शून्य"),
-    न यदि न > ० => लेख("धनात्मक"),
-    _ => लेख("ऋणात्मक"),
-}
-
-// Loops
-पुनः क इन ०..१० {
-    लेख(क)
-}
-
-यावत् स्थिति {
-    // कार्य
+यावत् (क < १०) {
+    मुद्रण(क);
+    क = क + १;
 }
 ```
 
-### 3. Data Structures
+### Arrays (Coming Soon)
 
 ```sanskrit
-// Arrays (सूची)
-चर संख्याएं = [१, २, ३, ४, ५]
-चर मैट्रिक्स = [[१, २], [३, ४]]
-
-// Structs (संरचना)
-संरचना बिंदु {
-    x: दशांश,
-    y: दशांश,
-    
-    कार्य मूल_से_दूरी(स्व) -> दशांश {
-        प्रत्यागम (स्व.x * स्व.x + स्व.y * स्व.y).वर्गमूल()
-    }
-}
+चर सूची = [१, २, ३, ४, ५];
+मुद्रण(सूची[०]);  // Prints: १
 ```
 
-### 4. Scientific Computing
+### Objects (Coming Soon)
 
 ```sanskrit
-// Tensors
-टेन्सर मैट्रिक्स = [[१, २, ३],
-                    [४, ५, ६]]
-
-// Matrix operations
-चर परिवर्तित = मैट्रिक्स.परिवर्तन()  // transpose
-चर गुणनफल = मैट्रिक्स.बिंदु(अन्य_मैट्रिक्स)  // dot product
-चर व्युत्क्रम = मैट्रिक्स.व्युत्क्रम()  // inverse
+चर विद्यार्थी = {
+    नाम: "राम",
+    आयु: २०,
+    कक्षा: "द्वादश"
+};
 ```
 
-### 5. AI/ML Operations
+## Best Practices
+
+1. **Use Meaningful Names**: Choose Sanskrit words that clearly describe your variables and functions.
+2. **Consistent Script**: Try to stick to either Devanagari or Latin script within a single file.
+3. **Comments**: Add comments in Sanskrit or English to explain complex logic.
+4. **Formatting**: Use proper indentation and spacing for better readability.
+
+## Error Messages
+
+Common error messages you might encounter:
+
+- `Function is not defined`: Function name is misspelled or not declared
+- `Unexpected token`: Syntax error in your code
+- `Cannot read property of undefined`: Trying to access an undefined value
+
+## Examples
+
+Here are some complete examples to help you get started:
+
+### Basic Calculator
 
 ```sanskrit
-// Neural Networks
-चर मॉडल = तंत्रिकाजाल {
-    स्तर: [
-        घन(इकाई: १२८, सक्रियण: "रेलु"),
-        ड्रॉपआउट(०.२),
-        घन(इकाई: १०, सक्रियण: "सॉफ्टमैक्स")
-    ]
+कार्य जोड़(क, ख) {
+    मुद्रण(क + ख);
 }
 
-// Training
-मॉडल.संकलन(
-    अनुकूलक: "आदम",
-    हानि: "श्रेणीकृत_एन्ट्रोपी",
-    मापदंड: ["सटीकता"]
-)
+कार्य घटा(क, ख) {
+    मुद्रण(क - ख);
+}
+
+कार्य गुणा(क, ख) {
+    मुद्रण(क * ख);
+}
+
+कार्य भाग(क, ख) {
+    मुद्रण(क / ख);
+}
+
+// Usage
+जोड़(१०, ५);   // Outputs: १५
+घटा(१०, ५);   // Outputs: ५
+गुणा(१०, ५);  // Outputs: ५०
+भाग(१०, ५);   // Outputs: २
 ```
 
-### 6. Error Handling
+### String Operations
 
 ```sanskrit
-// Try-catch blocks
-प्रयत्न {
-    चर परिणाम = जोखिम_कार्य()
-} पकड़ त्रुटि {
-    लेख("त्रुटि हुई: {त्रुटि}")
+कार्य नमस्कार(नाम) {
+    मुद्रण("नमस्ते " + नाम + "!");
 }
+
+नमस्कार("राम");    // Outputs: नमस्ते राम!
+नमस्कार("सीता");   // Outputs: नमस्ते सीता!
 ```
 
-## Installation
+## Further Reading
 
-```bash
-curl -fsSL https://sanskrit-lang.org/install.sh | sh
-```
-
-## Package Management
-
-```bash
-# Initialize a new project
-संस्कृत आरंभ मेरी-परियोजना
-
-# Add dependencies
-संस्कृत जोड़ें टेन्सर-पुस्तकालय
-```
-
-For detailed documentation, visit [docs.sanskrit-lang.org](https://docs.sanskrit-lang.org)
+- [Getting Started Guide]({% link getting-started.md %})
+- [Examples]({% link examples.md %})
+- [GitHub Repository](https://github.com/sh20raj/sanskrit)

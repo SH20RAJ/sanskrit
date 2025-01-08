@@ -42,6 +42,9 @@ if ! grep -q "sanskrit" "$PROFILE_FILE"; then
 fi
 
 # Create bin directory and executable
+if [ -d "$INSTALL_DIR/sanskrit/bin" ]; then
+    rm -rf "$INSTALL_DIR/sanskrit/bin"
+fi
 mkdir -p "$INSTALL_DIR/sanskrit/bin"
 cat > "$INSTALL_DIR/sanskrit/bin/sanskrit" << 'EOF'
 #!/bin/bash

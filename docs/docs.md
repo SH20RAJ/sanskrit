@@ -29,9 +29,9 @@ Sanskrit uses Devanagari script for keywords and identifiers. Here are some basi
 #### Control Flow
 ```sanskrit
 यदि (x > 0) {
-    प्रिन्ट("धन");
+    मुद्रण("धन");
 } अन्यथा {
-    प्रिन्ट("ऋण");
+    मुद्रण("ऋण");
 }
 ```
 
