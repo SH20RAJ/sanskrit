@@ -1,35 +1,36 @@
 {
   "name": "sanskrit-lang",
   "version": "0.1.0",
-  "description": "Sanskrit Programming Language - A modern language for scientific computing and AI/ML",
-  "main": "src/index.js",
+  "description": "A modern programming language that uses Sanskrit vocabulary and grammar",
+  "main": "src/cli.js",
   "bin": {
-    "sanskrit": "./src/cli.js"
+    "sanskrit": "src/cli.js"
   },
   "scripts": {
-    "test": "jest",
-    "build": "tsc",
-    "start": "node src/cli.js",
-    "dev": "nodemon src/cli.js",
-    "docs": "jekyll serve"
-  },
-  "dependencies": {
-    "commander": "^11.0.0",
-    "typescript": "^5.0.0"
-  },
-  "devDependencies": {
-    "@types/node": "^18.0.0",
-    "jest": "^29.0.0",
-    "nodemon": "^3.0.0",
-    "prettier": "^3.0.0",
-    "eslint": "^8.0.0"
+    "test": "node test/test.js",
+    "start": "node src/cli.js"
   },
   "keywords": [
-    "programming-language",
-    "compiler",
     "sanskrit",
-    "scientific-computing"
+    "programming-language",
+    "devanagari",
+    "interpreter",
+    "javascript"
   ],
-  "author": "",
-  "license": "MIT"
+  "author": "Shaswat Raj",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sh20raj/sanskrit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sh20raj/sanskrit/issues"
+  },
+  "homepage": "https://github.com/sh20raj/sanskrit#readme"
 }
