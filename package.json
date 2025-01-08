@@ -10,13 +10,9 @@
     "dev": "nodemon src/index.js"
   },
   "dependencies": {
-    "@llvm-node/core": "^0.5.0",
     "commander": "^11.0.0",
     "typescript": "^5.0.0",
-    "llvm-bindings": "^0.4.1",
-    "node-gyp": "^9.0.0",
-    "tensorflow.js": "^4.0.0",
-    "webassembly": "^0.11.0"
+    "node-gyp": "^9.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
@@ -29,10 +25,8 @@
     "programming-language",
     "compiler",
     "sanskrit",
-    "scientific-computing",
-    "ai-ml",
-    "llvm"
+    "scientific-computing"
   ],
-  "author": "Sanskrit Language Team",
+  "author": "",
   "license": "MIT"
 }
