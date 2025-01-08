@@ -149,6 +149,6 @@ Make sure your example:
 
 ## More Resources
 
-- [Language Guide]({% link language-guide.md %})
+- For more details about the language syntax, please see the [Language Guide](../language-guide).
 - [Getting Started]({% link getting-started.md %})
 - [GitHub Repository](https://github.com/sh20raj/sanskrit)
