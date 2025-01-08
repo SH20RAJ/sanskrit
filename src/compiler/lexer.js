@@ -66,18 +66,50 @@ class Lexer {
         }
     }
 
+    skipComment() {
+        // Skip the rest of the line for single-line comments
+        if (this.currentChar === '/' && this.peek() === '/') {
+            while (this.currentChar && this.currentChar !== '\n') {
+                this.advance();
+            }
+            if (this.currentChar === '\n') {
+                this.advance();
+            }
+        }
+        // Skip multi-line comments
+        else if (this.currentChar === '/' && this.peek() === '*') {
+            this.advance(); // Skip /
+            this.advance(); // Skip *
+            while (this.currentChar && !(this.currentChar === '*' && this.peek() === '/')) {
+                this.advance();
+            }
+            if (this.currentChar) {
+                this.advance(); // Skip *
+                this.advance(); // Skip /
+            }
+        }
+    }
+
+    peek() {
+        return this.position + 1 < this.input.length ? this.input[this.position + 1] : null;
+    }
+
     readNumber() {
         let result = '';
-        while (this.currentChar && /[\d.]/.test(this.currentChar)) {
+        // Support Devanagari numerals (०-९) as well as Arabic numerals
+        while (this.currentChar && /[\d०-९.]/.test(this.currentChar)) {
             result += this.currentChar;
             this.advance();
         }
+        // Convert Devanagari numerals to Arabic numerals
+        result = result.replace(/[०-९]/g, d => String.fromCharCode(d.charCodeAt(0) - 0x0966 + 0x30));
         return new Token(TokenTypes.NUMBER, Number(result), this.line, this.column);
     }
 
     readIdentifier() {
         let result = '';
-        while (this.currentChar && /[a-zA-Z0-9_]/.test(this.currentChar)) {
+        // Support Devanagari characters, including combining marks
+        while (this.currentChar && /[\u0900-\u097F\u200C\u200D]|[a-zA-Z0-9_]/.test(this.currentChar)) {
             result += this.currentChar;
             this.advance();
         }
@@ -115,11 +147,18 @@ class Lexer {
                 continue;
             }
 
-            if (/\d/.test(this.currentChar)) {
+            if (this.currentChar === '/' && (this.peek() === '/' || this.peek() === '*')) {
+                this.skipComment();
+                continue;
+            }
+
+            // Check for Devanagari numerals
+            if (/[\d०-९]/.test(this.currentChar)) {
                 return this.readNumber();
             }
 
-            if (/[a-zA-Z_]/.test(this.currentChar)) {
+            // Check for Devanagari characters or Latin letters
+            if (/[\u0900-\u097F\u200C\u200D]|[a-zA-Z_]/.test(this.currentChar)) {
                 return this.readIdentifier();
             }
 

@@ -3,6 +3,12 @@ class Interpreter {
     constructor() {
         this.variables = new Map();
         this.functions = new Map();
+
+        // Add built-in functions
+        this.functions.set('मुद्रण', {
+            builtin: true,
+            execute: (...args) => console.log(...args)
+        });
     }
 
     interpret(ast) {
@@ -29,9 +35,18 @@ class Interpreter {
         const [identifier, params, , body] = node.children;
         const funcName = identifier.value;
         this.functions.set(funcName, {
-            params: params.children.map(p => p.children[0].value),
-            body
+            params: params.children.map(p => p.value),
+            body,
+            builtin: false
         });
+    }
+
+    visitBlockStatement(node) {
+        let result;
+        for (const child of node.children) {
+            result = this.visit(child);
+        }
+        return result;
     }
 
     visitFunctionCall(node) {
@@ -40,12 +55,12 @@ class Interpreter {
         const func = this.functions.get(funcName);
         
         if (!func) {
-            if (funcName === 'print') {
-                const evaluated = args.children.map(arg => this.visit(arg));
-                console.log(...evaluated);
-                return;
-            }
             throw new Error(`Function ${funcName} is not defined`);
+        }
+
+        if (func.builtin) {
+            const evaluatedArgs = args.children.map(arg => this.visit(arg));
+            return func.execute(...evaluatedArgs);
         }
 
         const scope = new Map(this.variables);
@@ -63,16 +78,9 @@ class Interpreter {
         return result;
     }
 
-    visitVariableDeclaration(node) {
-        const [identifier, value] = node.children;
-        const evaluated = this.visit(value);
-        this.variables.set(identifier.value, evaluated);
-        return evaluated;
-    }
-
     visitIdentifier(node) {
         const value = this.variables.get(node.value);
-        if (value === undefined) {
+        if (value === undefined && !this.functions.has(node.value)) {
             throw new Error(`Variable ${node.value} is not defined`);
         }
         return value;
