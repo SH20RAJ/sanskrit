@@ -7,6 +7,9 @@
 
 A modern programming language that uses Sanskrit vocabulary and grammar, combining the ancient wisdom of Sanskrit with modern computing concepts. Write code in देवनागरी (Devanagari) script with the simplicity of JavaScript.
 
+![image](https://github.com/user-attachments/assets/f21527b4-9ae5-49af-a6ba-255c9b0193b9)
+
+
 Read about [how and why I created this Sanskrit-based programming language](https://sh20raj.github.io/sanskrit/docs/blog.html).
 
 ## Features
