@@ -24,18 +24,18 @@ Built for Learning: Combines linguistic learning with programming.
 📝 Example Code
 
 Here’s a "Hello World" program in SanskritLang:
-
+```python
 लिख("नमः संसारः")।   # Output: नमः संसारः (Hello, World!)
-
+```
 A simple program to check if a number is even or odd:
-
+```python
 पूर्णांक संख्या = 10।
 यदि (संख्या % 2 == 0) {
     लिख("सम संख्या")।  # Output: सम संख्या (Even number)
 } अन्यथा {
     लिख("विषम संख्या")।  # Output: विषम संख्या (Odd number)
 }
-
+```
 
 ---
 
