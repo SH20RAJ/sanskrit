@@ -1,0 +1,31 @@
+remote_theme: just-the-docs/just-the-docs
+title: संस्कृत Programming Language
+description: A modern programming language with Sanskrit vocabulary and grammar
+baseurl: "/sanskrit"
+url: "https://sh20raj.github.io"
+
+# Enable search
+search_enabled: true
+
+# Enable copy code buttons
+enable_copy_code_button: true
+
+# Footer content
+footer_content: "Copyright &copy; 2024 Sanskrit Programming Language. Distributed under an MIT license."
+
+# Navigation
+nav_external_links:
+  - title: GitHub
+    url: https://github.com/sh20raj/sanskrit
+    hide_icon: false
+
+# Aux links for the upper right navigation
+aux_links:
+  "View on GitHub":
+    - "//github.com/sh20raj/sanskrit"
+
+# Makes Aux links open in a new tab
+aux_links_new_tab: true
+
+# Color scheme
+color_scheme: light
