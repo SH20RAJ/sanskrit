@@ -10,25 +10,101 @@ const TokenTypes = {
 };
 
 const Keywords = new Set([
+    // Core language constructs
     'कार्य',     // function (karya)
     'चर',       // variable (chara)
     'स्थिर',    // constant (sthira)
+    'वर्ग',     // class (varga)
+    'विस्तार',  // extends (vistaar)
+    'निर्माण',  // constructor (nirmaan)
+    'स्व',      // this (sva)
+    'सुपर',     // super (super)
+    'स्थैतिक',  // static (sthaithik)
+    'निजी',     // private (niji)
+    'सार्वजनिक', // public (sarvajanik)
+    'संरक्षित',  // protected (sanrakshit)
+    
+    // Control flow
     'यदि',      // if (yadi)
     'अन्यथा',   // else (anyatha)
+    'अन्यथायदि', // else if (anyatha yadi)
     'यावत्',    // while (yavat)
     'पुनः',     // for (punah)
+    'प्रत्येक',  // foreach (pratyeka)
+    'में',      // in (mein)
+    'का',       // of (ka)
+    'स्विच',    // switch (switch)
+    'केस',      // case (case)
+    'डिफ़ॉल्ट', // default (default)
+    'तोड़',     // break (tod)
+    'जारी',     // continue (jaari)
+    
+    // Functions and returns
     'प्रत्यागम', // return (pratyagam)
+    'उत्पन्न',   // yield (utpanna)
     'असिन्क्',   // async (async)
     'प्रतीक्षा', // await (prateeksha)
-    'मिलान',    // match (milan)
-    'टेन्सर',   // tensor (tensor)
+    
+    // Data types and structures
+    'सूची',     // array (suchi)
+    'वस्तु',     // object (vastu)
+    'मानचित्र', // map (maanchitra)
+    'सेट',      // set (set)
+    'स्ट्रिंग',  // string (string)
+    'संख्या',   // number (sankhya)
+    'बूलियन',   // boolean (boolean)
+    'अपरिभाषित', // undefined (aparibhashit)
+    'शून्य',    // null (shunya)
     'प्रकार',   // type (prakar)
-    'अंतरफलक', // interface (antarfalak)
+    'इंटरफेस', // interface (interface)
+    'एनम',     // enum (enum)
+    
+    // Logical operators
+    'और',      // and (aur)
+    'या',       // or (ya)
+    'नहीं',     // not (nahin)
+    'सत्य',     // true (satya)
+    'असत्य',    // false (asatya)
+    
+    // Module system
     'आयात',    // import (aayaat)
     'निर्यात',  // export (niryaat)
+    'से',       // from (se)
+    'के रूप में', // as (ke roop mein)
+    'मॉड्यूल',  // module (module)
+    'नेमस्पेस', // namespace (namespace)
+    
+    // Error handling
     'प्रयत्न',  // try (prayatna)
     'पकड़',     // catch (pakad)
-    'फेंक'      // throw (phenk)
+    'अंततः',   // finally (antatah)
+    'फेंक',     // throw (phenk)
+    'त्रुटि',   // error (truti)
+    
+    // Advanced features
+    'मिलान',    // match (milan)
+    'टेन्सर',   // tensor (tensor)
+    'जेनेरिक', // generic (generic)
+    'डेकोरेटर', // decorator (decorator)
+    'मेटाडेटा', // metadata (metadata)
+    'रिफ्लेक्शन', // reflection (reflection)
+    
+    // Memory and performance
+    'मेमोरी',   // memory (memory)
+    'गार्बेज',  // garbage (garbage)
+    'कलेक्टर', // collector (collector)
+    'ऑप्टिमाइज़', // optimize (optimize)
+    
+    // Concurrency
+    'थ्रेड',   // thread (thread)
+    'प्रोसेस',  // process (process)
+    'लॉक',     // lock (lock)
+    'म्यूटेक्स', // mutex (mutex)
+    'सेमाफोर', // semaphore (semaphore)
+    
+    // Built-in constants
+    'अनंत',     // infinity (anant)
+    'NaN',      // NaN (NaN)
 ]);
 
 class Token {
@@ -166,15 +242,40 @@ class Lexer {
                 return this.readString();
             }
 
-            if (/[+\-*\/=<>!&|^%]/.test(this.currentChar)) {
+            if (/[+\-*\/=<>!&|^%~]/.test(this.currentChar)) {
                 let operator = this.currentChar;
                 this.advance();
-                if (this.currentChar === '=' || 
-                    (operator === '&' && this.currentChar === '&') ||
-                    (operator === '|' && this.currentChar === '|')) {
+                
+                // Handle compound operators
+                if (this.currentChar === '=' && /[+\-*\/=<>!^%]/.test(operator)) {
                     operator += this.currentChar;
                     this.advance();
+                } else if ((operator === '&' && this.currentChar === '&') ||
+                          (operator === '|' && this.currentChar === '|') ||
+                          (operator === '=' && this.currentChar === '=') ||
+                          (operator === '!' && this.currentChar === '=') ||
+                          (operator === '<' && this.currentChar === '=') ||
+                          (operator === '>' && this.currentChar === '=') ||
+                          (operator === '<' && this.currentChar === '<') ||
+                          (operator === '>' && this.currentChar === '>') ||
+                          (operator === '*' && this.currentChar === '*') ||
+                          (operator === '+' && this.currentChar === '+') ||
+                          (operator === '-' && this.currentChar === '-')) {
+                    operator += this.currentChar;
+                    this.advance();
+                    
+                    // Handle triple operators like === and !==
+                    if ((operator === '==' || operator === '!=') && this.currentChar === '=') {
+                        operator += this.currentChar;
+                        this.advance();
+                    }
+                    // Handle >>> operator
+                    else if (operator === '>>' && this.currentChar === '>') {
+                        operator += this.currentChar;
+                        this.advance();
+                    }
                 }
+                
                 return new Token(TokenTypes.OPERATOR, operator, this.line, this.column);
             }
 
