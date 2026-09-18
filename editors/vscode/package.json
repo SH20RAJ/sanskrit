@@ -2,7 +2,7 @@
   "name": "sanskrit-vscode",
   "displayName": "Sanskrit Next",
   "description": "Comprehensive language platform for Sanskrit Next: Language intelligence, compiler integration, debugger, test explorer, benchmark runner, and tensor inspector.",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "publisher": "sh20raj",
   "author": {
     "name": "Shaswat Raj",
