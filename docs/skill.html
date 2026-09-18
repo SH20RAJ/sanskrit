@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,11 +21,12 @@
     <meta name="twitter:title" content="Sanskrit Next AI Agent Skill">
     <meta name="twitter:description" content="Official AI Agent Skill and language reference for Sanskrit Next.">
     <meta name="twitter:image" content="https://sh20raj.github.io/sanskrit/og-image.png">
-    <meta name="theme-color" content="#ff6b35">
+    <meta name="theme-color" content="#58cc02">
 
+    <!-- Google Fonts: Nunito + Noto Sans Devanagari + Fira Code -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
@@ -50,35 +51,71 @@
 
     <style>
         :root {
-            --bg: #0b0f19;
-            --bg-card: rgba(18, 24, 38, 0.75);
-            --bg-glass: rgba(15, 23, 42, 0.7);
-            --border: rgba(255, 255, 255, 0.1);
-            --border-glow: rgba(255, 107, 53, 0.4);
-            --text-main: #f1f5f9;
-            --text-muted: #94a3b8;
-            --saffron: #ff6b35;
-            --saffron-hover: #ff854d;
-            --gold: #f59e0b;
-            --emerald: #10b981;
-            --font-main: 'Inter', sans-serif;
-            --font-heading: 'Outfit', sans-serif;
-            --font-code: 'Fira Code', monospace;
+            /* Duolingo Brand Palette */
+            --duo-green: #58cc02;
+            --duo-green-shade: #46a302;
+            --duo-green-light: #d7ffb8;
+            --duo-saffron: #ff7a00;
+            --duo-saffron-shade: #cc6200;
+            --duo-saffron-light: #ffeedb;
+            --duo-blue: #1cb0f6;
+            --duo-blue-shade: #1899d6;
+            --duo-blue-light: #ddf4ff;
+            --duo-purple: #ce82ff;
+            --duo-purple-shade: #af5be6;
+
+            /* Light Mode */
+            --canvas-bg: #ffffff;
+            --subtle-bg: #f7f9fa;
+            --card-bg: #ffffff;
+            --card-border: #e5e5e5;
+            --card-border-bottom: #e5e5e5;
+            --text-primary: #3c3c3c;
+            --text-secondary: #777777;
+            --text-tertiary: #afafaf;
+            --nav-bg: rgba(255, 255, 255, 0.94);
+            --code-bg: #f8fafc;
+            --code-border: #e2e8f0;
+
+            --font-main: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             --font-deva: 'Noto Sans Devanagari', sans-serif;
-            --radius: 16px;
+            --font-code: 'Fira Code', monospace;
+
+            --radius-sm: 12px;
+            --radius-md: 16px;
+            --radius-lg: 22px;
+            --radius-full: 9999px;
+        }
+
+        [data-theme="dark"] {
+            --canvas-bg: #131f24;
+            --subtle-bg: #1b2a32;
+            --card-bg: #1b2a32;
+            --card-border: #2e3f4b;
+            --card-border-bottom: #202d36;
+            --text-primary: #ffffff;
+            --text-secondary: #a0b1bc;
+            --text-tertiary: #647582;
+            --nav-bg: rgba(19, 31, 36, 0.94);
+            --code-bg: #0e171b;
+            --code-border: #2e3f4b;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background-color: var(--bg);
-            color: var(--text-main);
+            background-color: var(--canvas-bg);
+            color: var(--text-primary);
             font-family: var(--font-main);
+            font-size: 16px;
             line-height: 1.6;
+            transition: background-color 0.25s ease, color 0.25s ease;
             overflow-x: hidden;
         }
 
+        a { color: inherit; text-decoration: none; }
+
         .container {
-            max-width: 1200px;
+            max-width: 1140px;
             margin: 0 auto;
             padding: 0 1.5rem;
         }
@@ -88,285 +125,291 @@
             position: fixed;
             top: 0; left: 0; width: 100%;
             z-index: 1000;
-            background: rgba(11, 15, 25, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 0;
+            background: var(--nav-bg);
+            backdrop-filter: blur(16px);
+            border-bottom: 2px solid var(--card-border);
+            height: 72px;
+            display: flex;
+            align-items: center;
         }
         .nav-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: 100%;
         }
         .nav-logo {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            font-family: var(--font-heading);
-            font-weight: 800;
-            font-size: 1.3rem;
-            color: #fff;
-            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--text-primary);
         }
-        .nav-logo span {
-            color: var(--saffron);
+        .brand-badge {
+            width: 40px; height: 40px;
+            border-radius: var(--radius-sm);
+            background: var(--duo-saffron-light);
+            border: 2px solid var(--duo-saffron);
+            box-shadow: 0 3px 0 var(--duo-saffron-shade);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem;
         }
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 0.5rem;
         }
         .nav-link {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: color 0.2s ease;
+            padding: 0.45rem 0.85rem;
+            border-radius: var(--radius-sm);
+            font-weight: 800;
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            transition: all 0.15s;
         }
-        .nav-link:hover { color: var(--text-main); }
-        .nav-badge {
-            background: rgba(255, 107, 53, 0.15);
-            color: var(--saffron);
-            border: 1px solid var(--border-glow);
-            padding: 0.35rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.8rem;
-            font-weight: 600;
+        .nav-link:hover {
+            color: var(--duo-green);
+            background: var(--subtle-bg);
+        }
+        .theme-btn {
+            width: 40px; height: 40px;
+            border-radius: var(--radius-sm);
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            box-shadow: 0 3px 0 var(--card-border-bottom);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
         }
 
         /* Hero */
         .hero {
-            padding: 8rem 0 3rem;
+            padding: 130px 0 50px;
             text-align: center;
-            position: relative;
         }
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 20%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 500px; height: 350px;
-            background: radial-gradient(circle, rgba(255, 107, 53, 0.18) 0%, rgba(0,0,0,0) 70%);
-            filter: blur(60px);
-            z-index: -1;
-        }
-        .hero-tag {
+        .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            padding: 0.4rem 1rem;
-            border-radius: 9999px;
+            padding: 0.4rem 1.1rem;
+            background: var(--duo-green-light);
+            border: 2px solid var(--duo-green);
+            color: var(--duo-green-shade);
+            font-weight: 900;
             font-size: 0.85rem;
-            color: var(--saffron);
-            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border-radius: var(--radius-full);
             margin-bottom: 1.5rem;
         }
         .hero h1 {
-            font-family: var(--font-heading);
-            font-size: 3rem;
-            font-weight: 800;
-            line-height: 1.2;
+            font-size: 3.4rem;
+            font-weight: 900;
+            line-height: 1.15;
+            letter-spacing: -1px;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text-primary);
         }
         .hero p {
-            max-width: 750px;
-            margin: 0 auto 2rem;
-            color: var(--text-muted);
-            font-size: 1.15rem;
+            max-width: 720px;
+            margin: 0 auto 2.5rem;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            font-weight: 600;
         }
 
-        /* Action Buttons */
+        /* Chunky 3D Buttons */
         .btn-group {
             display: flex;
             justify-content: center;
-            gap: 1rem;
+            gap: 1.25rem;
             flex-wrap: wrap;
-            margin-bottom: 3rem;
+            margin-bottom: 3.5rem;
         }
-        .btn {
+        .btn-duo {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.8rem 1.75rem;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1rem;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.85rem 1.75rem;
+            font-family: var(--font-main);
+            font-weight: 800;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border-radius: var(--radius-md);
+            border: 2px solid transparent;
             cursor: pointer;
-            transition: all 0.2s ease;
             text-decoration: none;
-            border: none;
+            user-select: none;
+            transition: filter 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
         }
-        .btn-primary {
-            background: var(--saffron);
-            color: #fff;
-            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.35);
+        .btn-duo-green {
+            background-color: var(--duo-green);
+            color: #ffffff;
+            box-shadow: 0 4px 0 var(--duo-green-shade);
         }
-        .btn-primary:hover {
-            background: var(--saffron-hover);
-            transform: translateY(-2px);
+        .btn-duo-green:hover { filter: brightness(1.06); }
+        .btn-duo-green:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 var(--duo-green-shade);
         }
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.06);
-            color: var(--text-main);
-            border: 1px solid var(--border);
+        .btn-duo-saffron {
+            background-color: var(--duo-saffron);
+            color: #ffffff;
+            box-shadow: 0 4px 0 var(--duo-saffron-shade);
         }
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.12);
-            transform: translateY(-2px);
+        .btn-duo-saffron:hover { filter: brightness(1.06); }
+        .btn-duo-saffron:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 var(--duo-saffron-shade);
+        }
+        .btn-duo-white {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            border: 2px solid var(--card-border);
+            box-shadow: 0 4px 0 var(--card-border-bottom);
+        }
+        .btn-duo-white:hover {
+            background-color: var(--subtle-bg);
+        }
+        .btn-duo-white:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 var(--card-border-bottom);
         }
 
-        /* Skill Container */
+        /* 3-Col Card Highlights */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3.5rem;
+        }
+        .duo-card {
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-bottom: 4px solid var(--card-border-bottom);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            transition: transform 0.15s, border-color 0.15s;
+        }
+        .duo-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--duo-blue);
+            border-bottom-color: var(--duo-blue-shade);
+        }
+        .duo-card h3 {
+            font-size: 1.25rem;
+            font-weight: 900;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .duo-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        /* Skill Code Box */
         .skill-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
+            background: var(--code-bg);
+            border: 2px solid var(--card-border);
+            border-bottom: 5px solid var(--card-border-bottom);
+            border-radius: var(--radius-lg);
             padding: 2rem;
-            backdrop-filter: blur(16px);
             margin-bottom: 4rem;
-            position: relative;
         }
         .skill-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 2px solid var(--card-border);
             padding-bottom: 1rem;
             margin-bottom: 1.5rem;
         }
         .skill-title {
-            font-family: var(--font-heading);
-            font-size: 1.4rem;
-            font-weight: 700;
+            font-size: 1.25rem;
+            font-weight: 900;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.6rem;
         }
-        .copy-btn {
-            background: rgba(255, 107, 53, 0.15);
-            color: var(--saffron);
-            border: 1px solid var(--border-glow);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            transition: all 0.2s ease;
-        }
-        .copy-btn:hover {
-            background: var(--saffron);
-            color: #fff;
-        }
-
         pre code {
             font-family: var(--font-code);
             font-size: 0.92rem;
-            color: #e2e8f0;
+            color: var(--text-primary);
             white-space: pre-wrap;
             word-break: break-word;
-            line-height: 1.6;
-        }
-
-        /* Highlights Grid */
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 4rem;
-        }
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.75rem;
-            transition: transform 0.2s, border-color 0.2s;
-        }
-        .card:hover {
-            transform: translateY(-4px);
-            border-color: var(--border-glow);
-        }
-        .card h3 {
-            font-family: var(--font-heading);
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
+            line-height: 1.7;
         }
 
         /* Footer */
         footer {
-            border-top: 1px solid var(--border);
-            padding: 3rem 0;
+            border-top: 2px solid var(--card-border);
+            padding: 4rem 0 3rem;
             text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            background: var(--subtle-bg);
+            color: var(--text-secondary);
+            font-weight: 700;
+            font-size: 0.92rem;
         }
     </style>
 </head>
 <body>
-
     <nav class="navbar">
         <div class="container nav-content">
             <a href="index.html" class="nav-logo">
-                संस्कृत <span>Next</span>
+                <div class="brand-badge">🕉️</div>
+                <span>संस्कृत Next</span>
             </a>
             <div class="nav-links">
                 <a href="index.html" class="nav-link">Home</a>
-                <a href="getting-started.html" class="nav-link">Getting Started</a>
-                <a href="language-guide.html" class="nav-link">Guide</a>
-                <a href="skill.html" class="nav-link nav-badge">⚡ AI Skill</a>
-                <a href="https://github.com/SH20RAJ/sanskrit" target="_blank" class="nav-link">GitHub</a>
+                <a href="index.html#playground" class="nav-link">Playground</a>
+                <a href="index.html#features" class="nav-link">Features</a>
+                <a href="skill.html" class="nav-link" style="color: var(--duo-saffron);">⚡ AI Skill</a>
+                <a href="https://github.com/SH20RAJ/sanskrit" target="_blank" class="nav-link">GitHub ⭐</a>
+                <button class="theme-btn" id="themeToggle" title="Toggle Theme">🌙</button>
             </div>
         </div>
     </nav>
 
     <div class="container">
         <section class="hero">
-            <div class="hero-tag">
-                🤖 LLM & Agent Customization Skill
-            </div>
-            <h1>Sanskrit Next AI Skill</h1>
+            <div class="hero-badge">🤖 AI Agent Skill Specification</div>
+            <h1>Sanskrit Next Language Skill</h1>
             <p>
-                Equip Claude, ChatGPT, Cursor, Copilot, or Google Antigravity with complete native Sanskrit Next (v2.0+) language capabilities in seconds.
+                Equip Claude, ChatGPT, Cursor, Copilot, or Google Antigravity with complete native Sanskrit Next (v2.0+) language capabilities in a single prompt.
             </p>
 
             <div class="btn-group">
-                <button class="btn btn-primary" id="copySkillBtn" onclick="copyFullSkill()">
-                    <span id="copyIcon">📋</span> <span id="copyText">Copy AI Skill Prompt</span>
+                <button class="btn-duo btn-duo-green" id="copySkillBtn" onclick="copyFullSkill()">
+                    <span id="copyIcon">📋</span> <span id="copyText">COPY AI SKILL PROMPT</span>
                 </button>
-                <a href="skill.md" download="sanskrit-language.skill.md" class="btn btn-secondary">
-                    ⬇ Download SKILL.md
+                <a href="skill.md" download="sanskrit-language.skill.md" class="btn-duo btn-duo-saffron">
+                    ⬇ DOWNLOAD SKILL.MD
                 </a>
-                <a href="index.html" class="btn btn-secondary">
-                    ← Back to Documentation
+                <a href="index.html" class="btn-duo btn-duo-white">
+                    ← BACK TO HOME
                 </a>
             </div>
         </section>
 
         <div class="grid-3">
-            <div class="card">
-                <h3>𑖭 Dual-Script Invariance</h3>
+            <div class="duo-card">
+                <h3>📜 Dual-Script Invariance</h3>
                 <p>Teaches AI models the 100% lexical equivalence between Paninian Devanagari (<code>कार्य</code>, <code>मान</code>, <code>दिश</code>) and Latin ASCII aliases (<code>fn</code>, <code>let</code>, <code>Tensor</code>).</p>
             </div>
-            <div class="card">
+            <div class="duo-card">
                 <h3>⚡ Real Empirical Telemetry</h3>
-                <p>Includes verified performance figures: 1.84ms cold boot startup, 3.1MB heap footprint, and 4.09ms per 100,000 autodiff evaluations.</p>
+                <p>Equipped with verified benchmark figures: 1.84ms cold boot, 3.1MB heap memory, 4.2MB binary, and 4.09ms per 100,000 autodiff evaluations.</p>
             </div>
-            <div class="card">
-                <h3>🔬 Scientific & ML Primitives</h3>
-                <p>Provides exact semantics for multi-dimensional strided tensors (<code>दिश</code>), GEMM matrix operators (<code>@</code>), and forward-mode dual numbers.</p>
+            <div class="duo-card">
+                <h3>🔬 Tensors & Autodiff</h3>
+                <p>Complete semantics for multi-dimensional strided tensors (<code>दिश</code>), GEMM matrix multiplication (<code>@</code>), and forward-mode dual numbers.</p>
             </div>
         </div>
 
@@ -375,8 +418,8 @@
                 <div class="skill-title">
                     <span>📄</span> .agents/skills/sanskrit-language/SKILL.md
                 </div>
-                <button class="copy-btn" onclick="copyFullSkill()">
-                    <span>📋</span> Copy
+                <button class="btn-duo btn-duo-green btn-duo-sm" onclick="copyFullSkill()">
+                    <span>📋</span> COPY
                 </button>
             </div>
             <pre><code id="skillCodeBlock">---
@@ -432,11 +475,11 @@ description: Comprehensive expert engineering and syntax reference for the Sansk
 
     <footer>
         <div class="container">
-            <p>संस्कृत Next (v2.0+) • Released under MIT License • Maintained by Shaswat Raj and the Sanskrit Community</p>
-            <p style="margin-top: 0.5rem; font-size: 0.85rem;">
-                <a href="llms.txt" style="color: var(--saffron);">llms.txt</a> • 
-                <a href="sitemap.xml" style="color: var(--saffron);">sitemap.xml</a> • 
-                <a href="robots.txt" style="color: var(--saffron);">robots.txt</a>
+            <p>संस्कृत Next (v2.0+) • Released under MIT License • Maintained by Shaswat Raj & Community</p>
+            <p style="margin-top: 0.75rem;">
+                <a href="llms.txt" style="color: var(--duo-saffron);">llms.txt</a> • 
+                <a href="sitemap.xml" style="color: var(--duo-saffron);">sitemap.xml</a> • 
+                <a href="robots.txt" style="color: var(--duo-saffron);">robots.txt</a>
             </p>
         </div>
     </footer>
@@ -447,14 +490,28 @@ description: Comprehensive expert engineering and syntax reference for the Sansk
             navigator.clipboard.writeText(text).then(() => {
                 const btnText = document.getElementById('copyText');
                 const btnIcon = document.getElementById('copyIcon');
-                btnText.innerText = 'Skill Copied to Clipboard!';
+                btnText.innerText = 'COPIED TO CLIPBOARD!';
                 btnIcon.innerText = '✓';
                 setTimeout(() => {
-                    btnText.innerText = 'Copy AI Skill Prompt';
+                    btnText.innerText = 'COPY AI SKILL PROMPT';
                     btnIcon.innerText = '📋';
                 }, 2500);
             });
         }
+
+        const themeToggle = document.getElementById('themeToggle');
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+            localStorage.setItem('sanskrit_theme', theme);
+        }
+        const savedTheme = localStorage.getItem('sanskrit_theme') || 'light';
+        applyTheme(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            applyTheme(current === 'dark' ? 'light' : 'dark');
+        });
     </script>
 </body>
 </html>
