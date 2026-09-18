@@ -34,3 +34,8 @@ Thumbs.db
 # Rust
 target/
 .sanskrit/
+
+# VS Code Extension
+*.vsix
+out/
+dist/

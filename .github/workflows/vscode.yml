@@ -1,0 +1,49 @@
+name: VS Code Extension CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'editors/vscode/**'
+      - '.github/workflows/vscode.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'editors/vscode/**'
+      - '.github/workflows/vscode.yml'
+
+jobs:
+  build-and-test:
+    name: Build, Lint & Package Extension
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: 'editors/vscode/package-lock.json'
+
+      - name: Install dependencies
+        run: |
+          cd editors/vscode
+          npm install
+
+      - name: Run TypeScript typecheck
+        run: |
+          cd editors/vscode
+          npm run lint
+
+      - name: Build extension bundle
+        run: |
+          cd editors/vscode
+          npm run build
+
+      - name: Validate VSIX packaging
+        run: |
+          cd editors/vscode
+          npx @vscode/vsce package --no-git-tag-version
