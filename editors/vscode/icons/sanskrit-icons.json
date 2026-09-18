@@ -1,0 +1,35 @@
+{
+  "iconDefinitions": {
+    "_sanskrit_file": {
+      "iconPath": "../media/icon.svg"
+    },
+    "_sanskrit_manifest": {
+      "iconPath": "../media/icon.svg"
+    }
+  },
+  "file": "_sanskrit_file",
+  "fileExtensions": {
+    "skt": "_sanskrit_file",
+    "sns": "_sanskrit_file"
+  },
+  "fileNames": {
+    "Sanskrit.toml": "_sanskrit_manifest",
+    "Sanskrit.lock": "_sanskrit_manifest"
+  },
+  "languageIds": {
+    "sanskrit": "_sanskrit_file"
+  },
+  "light": {
+    "fileExtensions": {
+      "skt": "_sanskrit_file",
+      "sns": "_sanskrit_file"
+    },
+    "fileNames": {
+      "Sanskrit.toml": "_sanskrit_manifest",
+      "Sanskrit.lock": "_sanskrit_manifest"
+    },
+    "languageIds": {
+      "sanskrit": "_sanskrit_file"
+    }
+  }
+}

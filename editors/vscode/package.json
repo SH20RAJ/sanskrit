@@ -2,7 +2,7 @@
   "name": "sanskrit-vscode",
   "displayName": "Sanskrit Next",
   "description": "Comprehensive language platform for Sanskrit Next: Language intelligence, compiler integration, debugger, test explorer, benchmark runner, and tensor inspector.",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "publisher": "sh20raj",
   "author": {
     "name": "Shaswat Raj",
@@ -68,6 +68,13 @@
     }
   },
   "contributes": {
+    "iconThemes": [
+      {
+        "id": "sanskrit-icons",
+        "label": "Sanskrit Next Icons",
+        "path": "./icons/sanskrit-icons.json"
+      }
+    ],
     "languages": [
       {
         "id": "sanskrit",
@@ -75,13 +82,18 @@
           "Sanskrit",
           "Sanskrit Next",
           "skt",
-          "sns"
+          "sns",
+          "संस्कृत"
         ],
         "extensions": [
           ".skt",
           ".sns"
         ],
-        "configuration": "./syntaxes/sanskrit-configuration.json"
+        "configuration": "./syntaxes/sanskrit-configuration.json",
+        "icon": {
+          "light": "./media/icon.png",
+          "dark": "./media/icon.png"
+        }
       }
     ],
     "grammars": [

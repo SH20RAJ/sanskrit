@@ -42,6 +42,27 @@ This skill provides an authoritative, comprehensive guide for writing, reviewing
 | **Await** | `प्रतीक्षते` | `await` | Await async task | `मान res = प्रतीक्षते कार्यम्()` |
 | **Self** | `आत्मा` | `self` | Instance receiver | `आत्मा.मूल्य` / `self.value` |
 
+### 2.1 Phonetic Romanized Typing (DX Superpower)
+Developers and AI agents can type using a standard English/QWERTY keyboard without any Devanagari IME installed. The LSP and editor completions automatically transliterate phonetic inputs to canonical Devanagari:
+
+| Typed Phonetic English | Autocompletes To | Description / Signature |
+| :--- | :--- | :--- |
+| `mudran` / `mud` | `मुद्रण(...)` | `मुद्रण(${1:सन्देश})` standard output print |
+| `karya` / `kary` | `कार्य` | `कार्य ${1:नाम}(${2:मापदण्ड}): ${3:प्रकार} :` function declaration |
+| `maan` / `man` | `मान` | `मान ${1:चर} = ${2:मूल्य}` variable binding |
+| `sthir` / `sthira` | `स्थिर` | `स्थिर ${1:स्थिराङ्क} = ${2:मूल्य}` constant declaration |
+| `yadi` / `yad` | `यदि` | `यदि ${1:प्रतिबन्ध}:` if condition |
+| `anyatha` | `अन्यथा` | `अन्यथा:` else branch |
+| `yaavat` / `yavat` | `यावत्` | `यावत् ${1:प्रतिबन्ध}:` while loop |
+| `pratyagama` | `प्रत्यागम` | `प्रत्यागम ${0}` return value |
+| `vifal` / `viphal` | `विफल(...)` | `विफल("${1:सन्देश}")` panic assertion |
+| `nishchay` | `निश्चय(...)` | `निश्चय(${1:शर्त}, "${2:सन्देश}")` invariant assert |
+| `dish` / `disha` | `दिश[...]` | `दिश[${1:f32}, ${2:1024}]` Tensor definition |
+| `purnank` | `पूर्णाङ्क` | `पूर्णाङ्क` (i32) signed integer type |
+| `sutra` | `सूत्र` | `सूत्र` (str) immutable UTF-8 string |
+| `tarka` | `तर्क` | `तर्क` (bool) boolean logical type |
+| `dashamalav` | `दशमलव` | `दशमलव` (f64) floating point type |
+
 ---
 
 ## 3. Type System

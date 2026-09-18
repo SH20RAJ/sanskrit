@@ -2,6 +2,20 @@
 
 All notable changes to the "sanskrit-vscode" extension will be documented in this file.
 
+## [2.0.2] - 2026-09-19
+
+### Added
+- **Phonetic Romanized / English Typing Intelligence**: Type in phonetic English (e.g. `mudran` / `mud`, `karya`, `yadi`, `dish`, `purnank`, `sutra`) and receive instant autocomplete to canonical Devanagari (`मुद्रण`, `कार्य`, `यदि`, `दिश`, etc.).
+- **Dynamic Word Transliteration**: Real-time phonetic transliteration for arbitrary Sanskrit words and identifier names.
+- **Custom Sanskrit File Icons & Theme**: Official Sanskrit glyph (`सं`) file icon and integrated `sanskrit-icons` theme for `.skt` and `.sns` files.
+
+## [2.0.1] - 2026-09-18
+
+### Added
+- **Unicode TextMate Highlighting**: Fixed Devanagari word boundaries (`U+0900`–`U+097F`) with lookaround assertions.
+- **TSX/Tailwind-class Intelligence**: Semantic tokens, inlay hints, signature help, and document outlines.
+- **CodeLens & Code Actions**: One-click Run/Benchmark lenses and dual-script refactoring.
+
 ## [2.0.0-alpha.1] - 2026-09-18
 
 ### Added

@@ -47,7 +47,7 @@
           "description": "Safe, extremely fast, scientifically powerful, AI/ML-native systems language with dual-script invariance and zero runtime dependencies.",
           "applicationCategory": "DeveloperApplication",
           "operatingSystem": "Linux, macOS, Windows",
-          "softwareVersion": "2.0.1",
+          "softwareVersion": "2.0.2",
           "license": "https://opensource.org/licenses/MIT",
           "downloadUrl": "https://github.com/SH20RAJ/sanskrit/releases",
           "author": {
@@ -1128,13 +1128,8 @@
                 <span>संस्कृत Next</span>
             </a>
             <ul class="nav-links">
-                <li><a href="#playground">Playground</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#architecture">Architecture</a></li>
-                <li><a href="#benchmarks">Benchmarks</a></li>
-                <li><a href="#install">Install</a></li>
                 <li><a href="skill.html" style="color: var(--duo-saffron);">⚡ AI Skill</a></li>
-                <li><a href="https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode" target="_blank" style="color: var(--duo-blue);">VS Code (v2.0.1)</a></li>
+                <li><a href="https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode" target="_blank" style="color: var(--duo-blue);">VS Code</a></li>
                 <li><a href="https://github.com/sh20raj/sanskrit" target="_blank">GitHub ⭐</a></li>
             </ul>
             <div class="nav-actions">
@@ -1193,6 +1188,10 @@
                     <span class="icon">🦀</span>
                     <span>100% Native Rust</span>
                 </div>
+                <div class="metric-pill" style="background: var(--duo-blue-light); border-color: var(--duo-blue); color: var(--duo-blue-shade);">
+                    <span class="icon">⌨️</span>
+                    <span>English Typing: mudran ➔ मुद्रण</span>
+                </div>
             </div>
         </div>
     </section>
@@ -1203,7 +1202,7 @@
             <div class="section-header">
                 <div class="section-badge">🎮 Interactive Code Lab</div>
                 <h2 class="section-title">Test Sanskrit Live in Browser</h2>
-                <p class="section-desc">Write, edit, and run Sanskrit programs in real-time. Toggle between the Bytecode Virtual Machine and the AST Tree-walk interpreter.</p>
+                <p class="section-desc">Write, edit, and run Sanskrit programs in real-time with live phonetic English-to-Devanagari autocomplete. Toggle between Bytecode VM and AST Tree-walk.</p>
             </div>
 
             <div class="playground-container">
@@ -1233,9 +1232,16 @@
                     <div class="editor-wrapper">
                         <div class="pane-topbar">
                             <span>संस्कृत Source Code (.sns)</span>
+                            <div id="phonetic-pill" style="display: none; background: var(--duo-green-light); border: 2px solid var(--duo-green); border-radius: var(--radius-full); padding: 0.2rem 0.8rem; font-size: 0.85rem; font-weight: 800; color: var(--duo-green-shade); cursor: pointer;" title="Click or press Tab to autocomplete to Devanagari">
+                                <span>💡 Press Tab: </span><span id="phonetic-target" style="font-family: var(--font-deva); font-weight: 900; font-size: 1rem;">मुद्रण</span>
+                            </div>
                             <span id="char-count">Chars: 0</span>
                         </div>
-                        <textarea id="code-editor" class="editor-input" spellcheck="false"></textarea>
+                        <textarea id="code-editor" class="editor-input" spellcheck="false" placeholder="Type here in Sanskrit or phonetic English (e.g. mudran, karya, yadi, dish) and press Tab to autocomplete!"></textarea>
+                        <div style="padding: 0.5rem 1.25rem; background: var(--subtle-bg); border-top: 2px solid var(--card-border); font-size: 0.82rem; font-weight: 700; color: var(--text-secondary); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+                            <span>⌨️ <strong>Phonetic English Typing:</strong> Type <code>mudran</code>, <code>karya</code>, <code>yadi</code>, <code>dish</code> &amp; press <kbd style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 4px; padding: 1px 5px; font-weight: 800;">Tab</kbd></span>
+                            <span style="color: var(--duo-green); font-weight: 800;">100% Dual-Script Parity</span>
+                        </div>
                     </div>
 
                     <!-- Output Console -->
@@ -1305,6 +1311,13 @@
                     <h3>Zip, Enumerate & Sorting</h3>
                     <p>Iterate parallel lists with <code>संयोजन</code> (zip), indexed iterations with <code>क्रमांकन</code> (enumerate), and sort with <code>क्रमबद्ध</code>.</p>
                     <div class="feature-snippet">संयोजन(नाम, अंक); // [[अ, १], [ब, २]]</div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon-badge" style="background: var(--duo-blue-light); color: var(--duo-blue-shade);">⌨️</div>
+                    <h3>Phonetic English Typing</h3>
+                    <p>Type seamlessly on any QWERTY keyboard in phonetic English (<code>mudran</code>, <code>karya</code>, <code>yadi</code>, <code>dish</code>) and get instant autocomplete to canonical Devanagari with snippets.</p>
+                    <div class="feature-snippet">mudran("नमस्ते") ➔ मुद्रण("नमस्ते")</div>
                 </div>
             </div>
         </div>
@@ -1446,15 +1459,15 @@
                     <button class="btn-duo btn-duo-white btn-duo-sm" onclick="navigator.clipboard.writeText('curl -fsSL https://raw.githubusercontent.com/SH20RAJ/sanskrit/main/install.sh | bash'); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000)">Copy</button>
                 </div>
 
-                <div class="install-label">Method 2: Visual Studio Code Extension (Marketplace v2.0.1)</div>
+                <div class="install-label">Method 2: Visual Studio Code Extension (Marketplace v2.0.2)</div>
                 <div class="install-box">
                     <code>code --install-extension sh20raj.sanskrit-vscode</code>
                     <button class="btn-duo btn-duo-white btn-duo-sm" onclick="navigator.clipboard.writeText('code --install-extension sh20raj.sanskrit-vscode'); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000)">Copy</button>
                 </div>
 
                 <div style="margin-top: 1.25rem; display: flex; justify-content: space-between; font-size: 0.95rem; font-weight: 800;">
-                    <a href="https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode" target="_blank" style="color: var(--duo-saffron);">🏪 View on VS Code Marketplace →</a>
-                    <a href="https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.1" target="_blank" style="color: var(--duo-blue);">📦 Direct VSIX Download →</a>
+                    <a href="https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode" target="_blank" style="color: var(--duo-saffron);">🏪 View on VS Code Marketplace (v2.0.2) →</a>
+                    <a href="https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.2" target="_blank" style="color: var(--duo-blue);">📦 Direct VSIX v2.0.2 Download →</a>
                 </div>
             </div>
         </div>
@@ -1497,7 +1510,7 @@
 
                 <div class="faq-item">
                     <h3>6. Which IDEs are supported?</h3>
-                    <p>Visual Studio Code, Antigravity IDE, Cursor, and VSCodium are fully supported via the official <a href="https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode" target="_blank" style="color: var(--duo-blue); font-weight: 800;">Sanskrit Next VS Code Extension</a> (v2.0.1) featuring TSX/Tailwind-class intelligence, semantic tokens, and inlay hints.</p>
+                    <p>Visual Studio Code, Antigravity IDE, Cursor, and VSCodium are fully supported via the official <a href="https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode" target="_blank" style="color: var(--duo-blue); font-weight: 800;">Sanskrit Next VS Code Extension</a> (v2.0.2) featuring phonetic Romanized typing, file icons, TSX/Tailwind-class intelligence, semantic tokens, and inlay hints.</p>
                 </div>
             </div>
         </div>
@@ -1738,6 +1751,127 @@
         themeToggle.addEventListener('click', () => {
             const current = document.documentElement.getAttribute('data-theme');
             applyTheme(current === 'dark' ? 'light' : 'dark');
+        });
+
+        // =========================================================================
+        // In-Browser Phonetic English Typing & Autocomplete (mudran -> मुद्रण)
+        // =========================================================================
+        const PHONETIC_MAP = {
+            'mudran': 'मुद्रण',
+            'mudra': 'मुद्रण',
+            'mud': 'मुद्रण',
+            'karya': 'कार्य',
+            'kary': 'कार्य',
+            'maan': 'मान',
+            'man': 'मान',
+            'sthir': 'स्थिर',
+            'sthira': 'स्थिर',
+            'yadi': 'यदि',
+            'yad': 'यदि',
+            'anyatha': 'अन्यथा',
+            'yaavat': 'यावत्',
+            'yavat': 'यावत्',
+            'pratyagama': 'प्रत्यागम',
+            'pratyagam': 'प्रत्यागम',
+            'aayaat': 'आयात',
+            'aayat': 'आयात',
+            'vifal': 'विफल',
+            'vifala': 'विफल',
+            'viphal': 'विफल',
+            'viphala': 'विफल',
+            'nishchay': 'निश्चय',
+            'nishchaya': 'निश्चय',
+            'nischay': 'निश्चय',
+            'avakalana': 'अवकलन',
+            'avakalan': 'अवकलन',
+            'pravanata': 'प्रवणता',
+            'purnank': 'पूर्णाङ्क',
+            'poornank': 'पूर्णाङ्क',
+            'purnanka': 'पूर्णाङ्क',
+            'dashamalav': 'दशमलव',
+            'dashamlav': 'दशमलव',
+            'sutra': 'सूत्र',
+            'sutr': 'सूत्र',
+            'tarka': 'तर्क',
+            'tark': 'तर्क',
+            'dish': 'दिश',
+            'disha': 'दिश',
+            'manachitra': 'मानचित्र',
+            'chal': 'चर',
+            'char': 'चर',
+            'varg': 'वर्ग',
+            'varga': 'वर्ग',
+            'nirman': 'निर्माण',
+            'nirmana': 'निर्माण',
+            'swa': 'स्व',
+            'svah': 'स्व',
+            'prayatna': 'प्रयत्न',
+            'pakad': 'पकड़',
+            'antatah': 'अंततः',
+            'phek': 'फेंक',
+            'satyam': 'सत्यम्',
+            'satya': 'सत्यम्',
+            'asatyam': 'असत्यम्',
+            'asatya': 'असत्यम्',
+            'namaste': 'नमस्ते',
+            'sreni': 'श्रेणी',
+            'shreni': 'श्रेणी',
+            'manchitran': 'मानचित्रण',
+            'shodhan': 'शोधन',
+            'sankshep': 'संक्षिप्त',
+            'yog': 'योग',
+            'yoga': 'योग',
+            'samyojan': 'संयोजन',
+            'kramankan': 'क्रमांकन',
+            'krambaddh': 'क्रमबद्ध'
+        };
+
+        const phoneticPill = document.getElementById('phonetic-pill');
+        const phoneticTarget = document.getElementById('phonetic-target');
+        let currentPhonetic = null;
+
+        function checkPhonetic() {
+            if (!phoneticPill || !phoneticTarget) return;
+            const pos = editor.selectionStart;
+            const textBefore = editor.value.substring(0, pos);
+            const match = textBefore.match(/([a-zA-Z]+)$/);
+            if (match) {
+                const word = match[1].toLowerCase();
+                const target = PHONETIC_MAP[word];
+                if (target) {
+                    currentPhonetic = { from: match[1], to: target, start: pos - match[1].length, end: pos };
+                    phoneticTarget.textContent = target;
+                    phoneticPill.style.display = 'inline-flex';
+                    return;
+                }
+            }
+            currentPhonetic = null;
+            phoneticPill.style.display = 'none';
+        }
+
+        function applyPhonetic() {
+            if (!currentPhonetic) return;
+            const val = editor.value;
+            editor.value = val.substring(0, currentPhonetic.start) + currentPhonetic.to + val.substring(currentPhonetic.end);
+            editor.selectionStart = editor.selectionEnd = currentPhonetic.start + currentPhonetic.to.length;
+            currentPhonetic = null;
+            phoneticPill.style.display = 'none';
+            updateCharCount();
+            editor.focus();
+        }
+
+        editor.addEventListener('input', checkPhonetic);
+        editor.addEventListener('keyup', checkPhonetic);
+        editor.addEventListener('click', checkPhonetic);
+        if (phoneticPill) {
+            phoneticPill.addEventListener('click', applyPhonetic);
+        }
+
+        editor.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab' && currentPhonetic) {
+                e.preventDefault();
+                applyPhonetic();
+            }
         });
     </script>
 </body>

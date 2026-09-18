@@ -32,6 +32,17 @@
 
 Sanskrit Next brings the visual clarity and frictionless developer velocity of modern TypeScript/TSX and Tailwind environments directly to Sanskrit:
 
+- **Phonetic Romanized Typing (DX Superpower)**: Type seamlessly on any standard English/QWERTY keyboard without needing a Devanagari input method editor (IME):
+  - Type `mud` or `mudran` ➔ Get instant autocomplete suggestions for `मुद्रण(...args)` with parameter snippets.
+  - Type `karya` ➔ Suggests `कार्य <नाम>(<मापदण्ड>): <प्रकार>`.
+  - Type `yadi` ➔ Suggests `यदि <शर्त>: ... अन्यथा: ...`.
+  - Type `purnank` / `poornank` ➔ Suggests `पूर्णाङ्क` (i32).
+  - Type `sutra` ➔ Suggests `सूत्र` (str).
+  - Type `dish` ➔ Suggests `दिश[dtype, shape]` (Tensor).
+  - **Dynamic Word Transliteration**: Automatic real-time transliteration for arbitrary Sanskrit words and identifier names.
+- **Custom Sanskrit File Icons & Theme**:
+  - Official high-resolution Sanskrit glyph (`सं`) file icon for `.skt` and `.sns` source files.
+  - Integrated `sanskrit-icons` file icon theme for Explorer views and tabs.
 - **Compiler-Grade Semantic Tokens**: Rich semantic coloring distinguishes functions (`कार्य विफल`), parameters (`सन्देश: सूत्र`), types (`तर्क`, `पूर्णाङ्क`, `दिश`), built-ins, and operators across both Devanagari and Latin scripts.
 - **Tailwind-Grade Autocompletion**:
   - Instant context-aware suggestions triggered on `(`, `:`, `[`, `.`, `@`, `!`, letters, and Devanagari characters.

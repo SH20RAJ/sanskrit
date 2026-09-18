@@ -50,6 +50,18 @@ Both Devanagari (`०-९`) and Arabic (`0-9`) numerals are natively supported:
 मुद्रण(10 + 20); // Arabic numerals -> ३०
 ```
 
+### Phonetic Romanized Typing (DX Superpower)
+
+Sanskrit Next tooling (CLI LSP, VS Code Extension, and Online Playground) provides built-in phonetic transliteration. You can write programs on any standard English/QWERTY keyboard without installing a Devanagari keyboard layout:
+
+- Type `mudran` or `mud` ➔ Autocompletes to `मुद्रण(...)`
+- Type `karya` or `kary` ➔ Autocompletes to `कार्य <नाम>(<मापदण्ड>): <प्रकार> :`
+- Type `yadi` ➔ Autocompletes to `यदि <शर्त>:`
+- Type `anyatha` ➔ Autocompletes to `अन्यथा:`
+- Type `dish` ➔ Autocompletes to `दिश[dtype, shape]` (Tensor)
+- Type `purnank` ➔ Autocompletes to `पूर्णाङ्क` (i32)
+- Type `sutra` ➔ Autocompletes to `सूत्र` (str)
+
 ---
 
 ## Variables and Constants

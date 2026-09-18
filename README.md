@@ -219,14 +219,14 @@ For full lexical specifications, consult [docs/design/language-naming.md](docs/d
 
 ---
 
-## 💻 Visual Studio Code Extension
+## 💻 Visual Studio Code Extension (v2.0.2)
 
-Sanskrit Next features a first-class language platform extension for Visual Studio Code:
+Sanskrit Next features an official, first-class language platform extension for Visual Studio Code, Cursor, and Antigravity IDE:
 
 - **Visual Studio Marketplace**: [https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode](https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode)
 - **Extension Identifier**: `sh20raj.sanskrit-vscode`
-- **GitHub Release**: [`vscode-v2.0.0`](https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.0)
-- **Direct VSIX Download**: [Download `sanskrit-vscode-2.0.0.vsix`](https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.0/sanskrit-vscode-2.0.0.vsix)
+- **Latest Release**: [`vscode-v2.0.2`](https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.2)
+- **Direct VSIX Download**: [Download `sanskrit-vscode-2.0.2.vsix`](https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.2/sanskrit-vscode-2.0.2.vsix)
 
 ### Instant Installation
 
@@ -238,19 +238,28 @@ Inside VS Code or Antigravity IDE:
 
 #### Or via Command Line
 ```bash
-# Install via VS Code CLI:
+# Install latest release via VS Code CLI:
 code --install-extension sh20raj.sanskrit-vscode
 
 # Or in Antigravity IDE:
-agy-ide --install-extension sanskrit-vscode-2.0.0.vsix
+agy-ide --install-extension sh20raj.sanskrit-vscode
 ```
 
 ### Key Extension Capabilities
-- **Language Intelligence (LSP 3.17)**: Dual-script Devanagari/ASCII autocompletion, real-time compiler diagnostics, hover cards, and snippets.
-- **Native Test Explorer**: Runs tests with the VS Code Test Controller UI.
-- **Debugger (DAP Protocol)**: Line breakpoints, variable stepping, stack frames, and specialized tensor variable inspection.
-- **Scientific Computing & Tensor Inspector**: Interactive Webview for visualizing multi-dimensional strided tensor slices with gradient heatmaps and automatic differentiation tape graphs.
-- **Toolchain Telemetry**: Real-time Apple Silicon AMX/Metal, NVIDIA CUDA, and CPU SIMD detection with `sanskrit doctor`.
+- **⌨️ Phonetic Romanized English Typing (DX Superpower)**: Type seamlessly using an English/QWERTY keyboard without needing a Sanskrit IME:
+  - `mudran` / `mud` ➔ Autocompletes to `मुद्रण(...args)` with parameter snippet.
+  - `karya` ➔ Autocompletes to `कार्य <नाम>(<मापदण्ड>): <प्रकार>`.
+  - `yadi` ➔ Autocompletes to `यदि <शर्त>: ... अन्यथा: ...`.
+  - `dish` ➔ Autocompletes to `दिश[dtype, shape]` (Tensor).
+  - `purnank` ➔ Autocompletes to `पूर्णाङ्क` (i32).
+  - `sutra` ➔ Autocompletes to `सूत्र` (str).
+  - Real-time phonetic transliteration for any Sanskrit identifier name.
+- **🎨 Custom Sanskrit File Icons & Theme**: High-res Sanskrit glyph (`सं`) file icon and integrated `sanskrit-icons` file icon theme for `.skt` and `.sns` files.
+- **⚡ TSX & Tailwind-Class Language Intelligence**: Semantic tokens across Devanagari and Latin, inlay hints for parameter names and types, signature help tooltips, and document symbol outlines.
+- **🧪 Native Test Explorer**: Discovers and runs tests with the VS Code Test Controller UI.
+- **🐛 Debugger (DAP Protocol)**: Line breakpoints, variable stepping, stack frames, and specialized tensor variable inspection.
+- **🔬 Scientific Computing & Tensor Inspector**: Interactive Webview for visualizing multi-dimensional strided tensor slices with gradient heatmaps and autodiff Wengert tape graphs.
+- **🩺 Toolchain Telemetry**: Real-time Apple Silicon AMX/Metal, NVIDIA CUDA, and CPU SIMD detection with `sanskrit doctor`.
 
 ---
 
