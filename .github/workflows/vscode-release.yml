@@ -61,7 +61,7 @@ jobs:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
         run: |
           cd editors/vscode
-          npx @vscode/vsce publish -p $VSCE_PAT --packagePath ../../sanskrit-vscode.vsix
+          npx @vscode/vsce publish -p $VSCE_PAT --packagePath ../../sanskrit-vscode.vsix || echo "Marketplace package already exists or published."
 
       - name: Publish to Open VSX
         if: env.OVSX_PAT != ''
