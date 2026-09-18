@@ -4,12 +4,16 @@
 
 [![CI](https://github.com/SH20RAJ/sanskrit/actions/workflows/ci.yml/badge.svg)](https://github.com/SH20RAJ/sanskrit/actions/workflows/ci.yml)
 [![Release](https://github.com/SH20RAJ/sanskrit/actions/workflows/release.yml/badge.svg)](https://github.com/SH20RAJ/sanskrit/releases)
+[![VS Code Extension](https://img.shields.io/badge/VS%20Code-v2.0.0--alpha.1-007ACC?logo=visualstudiocode&logoColor=white)](https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.0-alpha.1)
 [![Benchmarks](https://github.com/SH20RAJ/sanskrit/actions/workflows/benchmarks.yml/badge.svg)](https://github.com/SH20RAJ/sanskrit/actions/workflows/benchmarks.yml)
-[![License](https://img.shields.io/badge/License-Apache%202.0%20%2F%20MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Discussions](https://img.shields.io/badge/Discussions-Join-orange?logo=github)](https://github.com/SH20RAJ/sanskrit/discussions)
+[![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+[![Roadmap](https://img.shields.io/badge/Roadmap-View-blueviolet)](ROADMAP.md)
 
 **A safe, extremely fast, scientifically powerful, AI/ML-native systems language with exceptional developer experience and a distinctive Sanskrit identity.**
 
-[Documentation](https://github.com/SH20RAJ/sanskrit/tree/main/docs) • [RFC Catalog](https://github.com/SH20RAJ/sanskrit/tree/main/docs/rfc) • [Benchmarks](https://github.com/SH20RAJ/sanskrit/tree/main/benchmarks) • [Legacy Migration](https://github.com/SH20RAJ/sanskrit/blob/main/docs/migration/legacy-to-next.md)
+[Documentation](https://sh20raj.github.io/sanskrit/) • [VS Code Extension](https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.0-alpha.1) • [RFC Catalog](https://github.com/SH20RAJ/sanskrit/tree/main/docs/rfc) • [Benchmarks](https://github.com/SH20RAJ/sanskrit/tree/main/benchmarks) • [Roadmap](ROADMAP.md) • [Discussions](https://github.com/SH20RAJ/sanskrit/discussions)
 
 </div>
 
@@ -191,6 +195,30 @@ For full lexical specifications, consult [docs/design/language-naming.md](docs/d
 
 ---
 
+## 💻 Visual Studio Code Extension
+
+Sanskrit Next features a first-class language platform extension for Visual Studio Code:
+
+- **Download Release**: [`sanskrit-vscode-2.0.0-alpha.1.vsix`](https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.0-alpha.1)
+- **Direct VSIX Download**: [Download VSIX Archive](https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.0-alpha.1/sanskrit-vscode-2.0.0-alpha.1.vsix)
+- **Extension Marketplace ID**: `sh20raj.sanskrit-vscode`
+
+### Instant Installation
+```bash
+# Download and install into VS Code directly:
+curl -L -O https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.0-alpha.1/sanskrit-vscode-2.0.0-alpha.1.vsix
+code --install-extension sanskrit-vscode-2.0.0-alpha.1.vsix
+```
+
+### Key Extension Capabilities
+- **Language Intelligence (LSP 3.17)**: Dual-script Devanagari/ASCII autocompletion, real-time compiler diagnostics, hover cards, and snippets.
+- **Native Test Explorer**: Runs tests with the VS Code Test Controller UI.
+- **Debugger (DAP Protocol)**: Line breakpoints, variable stepping, stack frames, and specialized tensor variable inspection.
+- **Scientific Computing & Tensor Inspector**: Interactive Webview for visualizing multi-dimensional strided tensor slices with gradient heatmaps and automatic differentiation tape graphs.
+- **Toolchain Telemetry**: Real-time Apple Silicon AMX/Metal, NVIDIA CUDA, and CPU SIMD detection with `sanskrit doctor`.
+
+---
+
 ## 📜 Repository Structure
 
 ```
@@ -211,17 +239,32 @@ For full lexical specifications, consult [docs/design/language-naming.md](docs/d
 │   ├── sanskrit-mlir/          # MLIR dialect emission & lowering adapter
 │   ├── sanskrit-package/       # Native package manager & Sanskrit.toml
 │   └── sanskrit-lsp/           # Language Server Protocol 3.17 daemon
+├── editors/
+│   └── vscode/                 # Official Sanskrit Next VS Code Extension Platform
 ├── docs/                       # Specifications, RFCs, design docs, migration
 ├── std/                        # Standard library (core, math, tensor, linalg, autodiff, io)
 ├── examples/                   # Canonical examples across systems, ML, and math
 ├── benchmarks/                 # Telemetry, microbenchmarks, and competitor reports
-└── .agents/skills/             # 14 Antigravity engineering skills
+└── .agents/skills/             # 22 Antigravity engineering skills
 ```
 
 ---
 
-## 🤝 Contributing & License
+## 🤝 Community & Contributing
 
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) and review our [RFC Process](docs/rfc/).
+We welcome contributions from compiler engineers, linguists, systems programmers, and documentation authors alike!
 
-Dual licensed under [Apache-2.0](LICENSE) or [MIT](LICENSE).
+- 📖 **[Contributing Guide](CONTRIBUTING.md)**: Architecture map, local environment setup, and coding standards.
+- 🎯 **[Good First Issues](docs/contributing/good-first-issues.md)**: Curated starter tasks for new contributors.
+- 📜 **[Code of Conduct](CODE_OF_CONDUCT.md)**: Contributor Covenant v2.1 standards.
+- 🗺️ **[Roadmap](ROADMAP.md)**: Multi-phase engineering roadmap and milestones.
+- 🛡️ **[Security Policy](SECURITY.md)**: Vulnerability disclosure and bug bounty guidelines.
+- 💬 **[GitHub Discussions](https://github.com/SH20RAJ/sanskrit/discussions)**: Community Q&A, design ideas, and show-and-tell.
+- 📄 **[Academic Citation](CITATION.cff)**: How to cite Sanskrit Next in research papers.
+
+---
+
+## 📄 License
+
+Licensed under the [MIT License](LICENSE).
+

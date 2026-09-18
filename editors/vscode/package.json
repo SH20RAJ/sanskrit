@@ -326,7 +326,7 @@
     "build": "node esbuild.config.js --production",
     "watch": "node esbuild.config.js --watch",
     "lint": "tsc --noEmit",
-    "test": "node ./dist/test/runTest.js",
+    "test": "node test/testRunner.js",
     "package": "vsce package --no-git-tag-version"
   },
   "dependencies": {

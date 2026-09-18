@@ -80,6 +80,26 @@ Customize behavior via `Settings -> Extensions -> Sanskrit Next`:
 
 ---
 
+## Installation & Downloads
+
+- **Official Release**: [GitHub Release `vscode-v2.0.0-alpha.1`](https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.0-alpha.1)
+- **Direct VSIX Download**: [Download `sanskrit-vscode-2.0.0-alpha.1.vsix`](https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.0-alpha.1/sanskrit-vscode-2.0.0-alpha.1.vsix)
+- **SHA256**: `c9074d4f7fcebeb2549bea13cd2e7924f9a37d170e74d390952fdd27412e4fa2`
+
+### Install via Command Line
+```bash
+curl -L -O https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.0-alpha.1/sanskrit-vscode-2.0.0-alpha.1.vsix
+code --install-extension sanskrit-vscode-2.0.0-alpha.1.vsix
+```
+
+### Install via VS Code UI
+1. Download the [`.vsix` package](https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.0-alpha.1/sanskrit-vscode-2.0.0-alpha.1.vsix).
+2. Open VS Code and navigate to the **Extensions** view (`Cmd+Shift+X` or `Ctrl+Shift+X`).
+3. Click the **`...`** (More Actions) menu in the top right.
+4. Select **"Install from VSIX..."** and pick the downloaded file.
+
+---
+
 ## Quick Start
 
 1. Install Sanskrit Next compiler on your system:

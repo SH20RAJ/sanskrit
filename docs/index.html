@@ -763,10 +763,11 @@
             </a>
             <ul class="nav-links">
                 <li><a href="#playground">Playground</a></li>
-                <li><a href="#features">Pythonic Features</a></li>
+                <li><a href="#features">Features</a></li>
                 <li><a href="#architecture">Architecture & VM</a></li>
                 <li><a href="#benchmarks">Benchmarks</a></li>
                 <li><a href="#install">Install</a></li>
+                <li><a href="https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.0-alpha.1" target="_blank" style="color: #38bdf8; font-weight: 600;">VS Code Extension 💻</a></li>
                 <li><a href="https://github.com/sh20raj/sanskrit" target="_blank" rel="noreferrer">GitHub ⭐</a></li>
             </ul>
             <div class="nav-actions">
@@ -793,6 +794,7 @@
             </p>
             <div class="hero-cta">
                 <a href="#playground" class="btn btn-primary">⚡ Try in Browser</a>
+                <a href="https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.0-alpha.1" class="btn btn-secondary" target="_blank">💻 VS Code Extension</a>
                 <a href="#install" class="btn btn-secondary">📦 Standalone Install</a>
             </div>
             <div class="stat-badges">
@@ -1045,10 +1047,13 @@
                     <button class="copy-btn" onclick="navigator.clipboard.writeText('curl -fsSL https://raw.githubusercontent.com/SH20RAJ/sanskrit/main/install.sh | bash'); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000)">Copy</button>
                 </div>
 
-                <h4 style="margin-top: 2rem; margin-bottom: 0.5rem; color: var(--text-muted);">Method 2: NPM Global Package</h4>
+                <h4 style="margin-top: 2rem; margin-bottom: 0.5rem; color: var(--text-muted);">Method 2: Visual Studio Code Extension Platform</h4>
                 <div class="install-box">
-                    <code>npm install -g sanskrit-lang</code>
-                    <button class="copy-btn" onclick="navigator.clipboard.writeText('npm install -g sanskrit-lang'); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000)">Copy</button>
+                    <code>code --install-extension https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.0-alpha.1/sanskrit-vscode-2.0.0-alpha.1.vsix</code>
+                    <button class="copy-btn" onclick="navigator.clipboard.writeText('code --install-extension https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.0-alpha.1/sanskrit-vscode-2.0.0-alpha.1.vsix'); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000)">Copy</button>
+                </div>
+                <div style="margin-top: 0.75rem; text-align: right;">
+                    <a href="https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.0-alpha.1" target="_blank" style="color: var(--saffron); font-size: 0.85rem; font-weight: 600;">📦 Download .vsix Package & Release Notes →</a>
                 </div>
             </div>
         </div>
