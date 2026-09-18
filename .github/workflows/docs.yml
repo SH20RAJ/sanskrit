@@ -1,0 +1,22 @@
+name: Documentation
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/**'
+      - '.github/workflows/docs.yml'
+
+jobs:
+  validate-docs:
+    name: Validate Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Markdown Structure
+        run: |
+          find docs -name "*.md" | while read -r file; do
+            echo "Checking $file..."
+            head -n 5 "$file" | grep -q "^---" || head -n 1 "$file" | grep -q "^#" || (echo "Missing heading in $file" && exit 1)
+          done
+          echo "All documentation files validated successfully."

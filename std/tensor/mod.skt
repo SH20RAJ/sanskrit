@@ -1,0 +1,6 @@
+// std.tensor: First-class multi-dimensional array operations
+कार्य शून्य_दिश(आकार: [पूर्णाङ्क६४]) -> दिश[दशमलव३२]:
+    प्रत्यागम tensor.zeros(आकार)
+
+कार्य एकाङ्क_दिश(आकार: [पूर्णाङ्क६४]) -> दिश[दशमलव३२]:
+    प्रत्यागम tensor.ones(आकार)

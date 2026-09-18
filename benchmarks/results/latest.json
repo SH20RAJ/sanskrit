@@ -1,0 +1,13 @@
+{
+  "version": "2.0.0-alpha.1",
+  "target": "aarch64-apple-darwin",
+  "os": "macos",
+  "timestamp": "2026-09-18T21:28:00Z",
+  "benchmarks": {
+    "startup_hello_ms": 1.84,
+    "fibonacci_loop_ms": 0.0005,
+    "gemm_128x128_ms": 125.81,
+    "autodiff_100k_evals_ms": 4.09,
+    "memory_footprint_mb": 3.1
+  }
+}

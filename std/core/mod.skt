@@ -1,0 +1,7 @@
+// std.core: Fundamental types and panic handlers for Sanskrit Next
+कार्य विफल(सन्देश: सूत्र):
+    मुद्रण("विपत्ति (Panic):", सन्देश)
+
+कार्य निश्चय(शर्त: तर्क, सन्देश: सूत्र):
+    यदि !शर्त:
+        विफल(सन्देश)

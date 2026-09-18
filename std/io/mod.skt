@@ -1,0 +1,3 @@
+// std.io: Input/output utilities for Sanskrit Next
+कार्य मुद्रय(सन्देश: सूत्र):
+    मुद्रण(सन्देश)

@@ -1,0 +1,9 @@
+// Fibonacci 40 Benchmark Workload
+कार्य मुख्य():
+    मान a = 0
+    मान b = 1
+    चक्र _ में 0..40:
+        मान tmp = a + b
+        a = b
+        b = tmp
+    मुद्रण("Fibonacci(40):", b)

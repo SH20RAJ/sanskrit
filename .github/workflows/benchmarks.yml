@@ -1,0 +1,23 @@
+name: Benchmarks
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 0' # Weekly Sunday midnight
+
+jobs:
+  bench:
+    name: Run Benchmarks
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Run Sanskrit Benchmark Suite
+        run: |
+          cargo run --release --bin sanskrit -- bench --save benchmarks/results/ci-run.json
+      - name: Archive Benchmark Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: benchmarks/results/ci-run.json

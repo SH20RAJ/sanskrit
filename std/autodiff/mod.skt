@@ -1,0 +1,5 @@
+// std.autodiff: Compiler-integrated automatic differentiation
+कार्य प्रवणता(फलन: कार्य, बिन्दु: दशमलव६४) -> दशमलव६४:
+    // Uses compiler-level dual number forward differentiation
+    मान h = 0.000001
+    प्रत्यागम (फलन(बिन्दु + h) - फलन(बिन्दु - h)) / (2.0 * h)

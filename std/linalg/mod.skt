@@ -1,0 +1,3 @@
+// std.linalg: Linear algebra primitives and matrix operations
+कार्य गुणन(a: दिश[दशमलव३२], b: दिश[दशमलव३२]) -> दिश[दशमलव३२]:
+    प्रत्यागम a @ b

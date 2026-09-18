@@ -1,0 +1,16 @@
+name: Nightly Build
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # Nightly at 02:00 UTC
+  workflow_dispatch:
+
+jobs:
+  nightly:
+    name: Nightly Verification
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@nightly
+      - name: Build with Nightly
+        run: cargo check --workspace

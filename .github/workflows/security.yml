@@ -1,0 +1,17 @@
+name: Security
+
+on:
+  schedule:
+    - cron: '0 0 * * 1' # Weekly Monday
+  push:
+    branches: [ main ]
+
+jobs:
+  security-audit:
+    name: Cargo Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: rustsec/audit-check@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
