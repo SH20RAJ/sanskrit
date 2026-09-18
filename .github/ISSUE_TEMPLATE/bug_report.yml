@@ -1,0 +1,77 @@
+name: Bug Report
+description: Report a compiler crash, parsing error, typechecker bug, VM runtime issue, or extension defect.
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue with **Sanskrit Next**!
+        Please verify that the bug persists in the latest release before submitting.
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear, concise description of what the bug is.
+      placeholder: Describe the problem encountered...
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Affected Component
+      description: Which part of the system does this issue affect?
+      options:
+        - "Lexer / Tokenizer (sanskrit-lexer)"
+        - "Parser / AST (sanskrit-parser)"
+        - "Type Checker / Inference (sanskrit-typeck)"
+        - "Tier-0 Bytecode VM (sanskrit-vm)"
+        - "Tensors / Autodiff (sanskrit-tensor / sanskrit-autodiff)"
+        - "MLIR / Code Generation (sanskrit-mlir)"
+        - "CLI / Package Manager (sanskrit-cli / sanskrit-package)"
+        - "Language Server Protocol (sanskrit-lsp)"
+        - "VS Code Extension (editors/vscode)"
+        - "Other / Documentation"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal Reproducible Example
+      description: |
+        Provide a self-contained Sanskrit Next program (`.skt` or `.sns`) that triggers the issue.
+      placeholder: |
+        fn main(): i32 {
+            let a = Tensor::ones([2, 2]);
+            // Paste code that triggers the bug
+            return 0;
+        }
+      render: sanskrit
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs Actual Behavior
+      description: What did you expect to happen, and what happened instead?
+      placeholder: Expected 0 errors, but received compiler panic...
+    validations:
+      required: true
+  - type: textarea
+    id: telemetry
+    attributes:
+      label: System & Doctor Telemetry
+      description: Run `sanskrit doctor` and paste the output below.
+      placeholder: Paste output of `sanskrit doctor` here...
+      render: shell
+    validations:
+      required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmation
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate.
+          required: true
+        - label: This is a reproducible technical issue, not a general programming question (which belongs in Discussions).
+          required: true

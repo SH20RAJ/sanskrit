@@ -1,0 +1,56 @@
+name: Feature Request
+description: Suggest a new language feature, compiler optimization, standard library module, or tooling enhancement.
+title: "[Feature]: "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for proposing a feature for **Sanskrit Next**!
+        If this is a major architectural or syntax change, please consider opening an RFC in `docs/rfc/` first.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem & Motivation
+      description: Is your feature request related to a problem? What limitations are you facing?
+      placeholder: Describe the motivation or problem...
+    validations:
+      required: true
+  - type: textarea
+    id: proposed_solution
+    attributes:
+      label: Proposed Solution & Syntax Design
+      description: |
+        Describe the feature and provide code examples showing both Devanagari and ASCII forms (dual-script invariance).
+      placeholder: |
+        // ASCII form:
+        fn example(): void { ... }
+
+        // Devanagari form:
+        कार्य उदाहरण(): शून्यम् { ... }
+      render: sanskrit
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Feature Area
+      options:
+        - "Language Syntax & Ergonomics"
+        - "Type System & Inference"
+        - "Standard Library (std/)"
+        - "Tensors & Scientific Computing"
+        - "Automatic Differentiation"
+        - "MLIR Dialect & Backend Codegen"
+        - "Developer Tooling & CLI"
+        - "VS Code Extension"
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives & Prior Art
+      description: What alternative approaches or designs did you consider? How do other languages (e.g. Rust, Mojo, Julia, Python) handle this?
+      placeholder: Describe alternatives or prior art...
+    validations:
+      required: false
