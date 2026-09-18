@@ -1,20 +1,32 @@
 {
   "name": "sanskrit-lang",
-  "version": "0.1.1",
-  "description": "A modern programming language that uses Sanskrit vocabulary and grammar",
-  "main": "src/cli.js",
+  "version": "0.2.0",
+  "description": "A modern programming language combining Sanskrit vocabulary and Devanagari script with contemporary programming constructs",
+  "main": "src/index.js",
   "bin": {
-    "sanskrit": "src/cli.js"
+    "sanskrit": "bin/sanskrit"
   },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
-    "test": "node test/test.js",
-    "start": "node src/cli.js"
+    "test": "node --test test/*.test.js",
+    "start": "node bin/sanskrit repl",
+    "check": "node bin/sanskrit check",
+    "pack:test": "npm pack --dry-run"
   },
   "keywords": [
     "sanskrit",
     "programming-language",
     "devanagari",
     "interpreter",
+    "compiler",
+    "ast",
+    "lexer",
+    "parser",
     "javascript"
   ],
   "author": "Shaswat Raj",
@@ -23,7 +35,7 @@
     "commander": "^8.0.0"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "repository": {
     "type": "git",
