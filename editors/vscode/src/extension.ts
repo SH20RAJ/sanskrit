@@ -18,6 +18,14 @@ import { SanskritProjectExplorerProvider } from './views/projectExplorer';
 import { SanskritBenchmarkProvider } from './views/benchmarkExplorer';
 import { SanskritDoctorProvider } from './views/doctorView';
 import { SanskritStatusBar } from './status/statusBar';
+import { SanskritSemanticTokensProvider, semanticTokensLegend } from './intelligence/semanticTokens';
+import { SanskritCompletionItemProvider } from './intelligence/completions';
+import { SanskritHoverProvider } from './intelligence/hover';
+import { SanskritSignatureHelpProvider } from './intelligence/signatureHelp';
+import { SanskritInlayHintsProvider } from './intelligence/inlayHints';
+import { SanskritDocumentSymbolProvider } from './intelligence/symbols';
+import { SanskritCodeLensProvider } from './intelligence/codeLens';
+import { SanskritCodeActionProvider } from './intelligence/codeActions';
 
 let lspManager: SanskritLspManager | null = null;
 
@@ -70,7 +78,54 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     })
   );
 
-  // 7. Command Registrations
+  // 7. TSX & Tailwind-Class Language Intelligence & Autocomplete
+  context.subscriptions.push(
+    // Compiler Semantic Token Coloring
+    vscode.languages.registerDocumentSemanticTokensProvider(
+      { language: LANGUAGE_ID },
+      new SanskritSemanticTokensProvider(),
+      semanticTokensLegend
+    ),
+    // Rich Autocomplete with snippets & live documentation
+    vscode.languages.registerCompletionItemProvider(
+      { language: LANGUAGE_ID },
+      new SanskritCompletionItemProvider(),
+      '(', ':', '[', '.', ' ', '@', '!', '\n'
+    ),
+    // Etymological & Type Signature Hover
+    vscode.languages.registerHoverProvider(
+      { language: LANGUAGE_ID },
+      new SanskritHoverProvider()
+    ),
+    // Active Parameter Signature Help
+    vscode.languages.registerSignatureHelpProvider(
+      { language: LANGUAGE_ID },
+      new SanskritSignatureHelpProvider(),
+      '(', ','
+    ),
+    // Inline Parameter Names & Type Inlay Hints
+    vscode.languages.registerInlayHintsProvider(
+      { language: LANGUAGE_ID },
+      new SanskritInlayHintsProvider()
+    ),
+    // Outline & Document Symbols Explorer
+    vscode.languages.registerDocumentSymbolProvider(
+      { language: LANGUAGE_ID },
+      new SanskritDocumentSymbolProvider()
+    ),
+    // Interactive CodeLens (Run, Benchmark)
+    vscode.languages.registerCodeLensProvider(
+      { language: LANGUAGE_ID },
+      new SanskritCodeLensProvider()
+    ),
+    // Code Actions & Script Converter (Devanagari <-> Latin)
+    vscode.languages.registerCodeActionsProvider(
+      { language: LANGUAGE_ID },
+      new SanskritCodeActionProvider()
+    )
+  );
+
+  // 8. Command Registrations
   context.subscriptions.push(
     vscode.commands.registerCommand(COMMANDS.RUN, (uri?: vscode.Uri) => runSanskritFile(uri)),
     vscode.commands.registerCommand(COMMANDS.BUILD, (uri?: vscode.Uri) => buildSanskritProject(uri)),
