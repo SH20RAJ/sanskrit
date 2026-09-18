@@ -181,7 +181,7 @@ Launch the REPL with:
 sanskrit repl
 ```
 ```
-संस्कृत (Sanskrit) REPL v0.2.0
+संस्कृत (Sanskrit) REPL v0.3.0
 Type '.help' for commands, or '.exit' to quit.
 
 sanskrit> चर x = १०;
