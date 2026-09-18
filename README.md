@@ -47,7 +47,7 @@ Sanskrit is designed to be an expressive, syntactically coherent language for ge
 
 ## Architecture
 
-The canonical Sanskrit runtime is organized into modular layers:
+The Sanskrit language runtime provides dual execution engines:
 
 ```
 Sanskrit Source (.sns)
@@ -58,11 +58,18 @@ Sanskrit Source (.sns)
           ▼
   [Canonical Parser] ──► Strongly Typed AST (node-types & locations)
           │
-          ▼
- [Runtime Interpreter] ──► Lexical Environments + Structured Signals + Built-ins
-          │
-          ▼
-   Standard Output
+    ┌─────┴───────────────────────────────────┐
+    │                                         │
+    ▼                                         ▼
+[AST Interpreter]                     [Bytecode Compiler]
+(Interactive & Debugging)                      │
+    │                                         ▼
+    │                              [Stack-Based Bytecode VM]
+    │                              (15x-30x Faster Execution)
+    │                                         │
+    └─────────────────┬───────────────────────┘
+                      ▼
+               Standard Output
 ```
 
 ---
@@ -158,7 +165,9 @@ The `sanskrit` CLI includes:
 
 | Command | Description |
 |---|---|
-| `sanskrit run <file>` | Execute a Sanskrit (`.sns`) program |
+| `sanskrit run <file>` | Execute a Sanskrit (`.sns`) program using AST interpreter |
+| `sanskrit run --vm <file>` | Execute using the high-speed Bytecode Virtual Machine (15x-30x faster) |
+| `sanskrit run --vm --disasm <file>` | Disassemble compiled bytecode instructions to console |
 | `sanskrit run -d <file>` | Run with token stream and AST tree debugging |
 | `sanskrit check <file>` | Verify source syntax without executing |
 | `sanskrit repl` | Start the interactive REPL shell |
@@ -263,6 +272,61 @@ Declared with `कार्य` (kārya) and returned with `प्रत्य�
 मुद्रण(व्यक्ति.नाम); // Outputs: सीता
 ```
 
+### Pythonic Advanced Concepts
+
+#### Sequence Slicing (`[start:stop:step]`)
+Sanskrit supports Pythonic slicing on arrays and strings, including step and reverse step:
+
+```sanskrit
+चर संख्याएं = [१०, २०, ३०, ४०, ५०, ६०];
+मुद्रण(संख्याएं[१:४]);   // [२०, ३०, ४०]
+मुद्रण(संख्याएं[:३]);    // [१०, २०, ३०]
+मुद्रण(संख्याएं[::२]);   // [१०, ३०, ५०]
+मुद्रण(संख्याएं[::-१]);  // [६०, ५०, ४०, ३०, २०, १०]
+
+चर पाठ = "संस्कृतभाषा";
+मुद्रण(पाठ[०:७]);       // संस्कृत
+```
+
+#### List Comprehensions
+Transform and filter collections cleanly using `[expr पुनः (item में coll) यदि (cond)]`:
+
+```sanskrit
+चर मूल = [१, २, ३, ४, ५, ६];
+चर वर्ग = [x * x पुनः (x में मूल)];
+मुद्रण(वर्ग); // [१, ४, ९, १६, २५, ३६]
+
+चर सम_द्वि = [x * २ पुनः (x में मूल) यदि (x % २ === ०)];
+मुद्रण(सम_द्वि); // [४, ८, १२]
+```
+
+#### Arrow Functions & Lambdas
+Expressive first-class closures and lambda expressions:
+
+```sanskrit
+// Arrow function with expression body
+चर द्विगुणी = x => x * २;
+चर योग = (क, ख) => क + ख;
+
+// Arrow function with block body
+चर विस्तृत = (क, ख) => {
+    चर परिणाम = क * ख;
+    प्रत्यागम परिणाम + १०;
+};
+
+मुद्रण(योग(५, १०));   // १५
+मुद्रण(द्विगुणी(७));   // १४
+```
+
+#### Conditional Expressions (Pythonic Ternary)
+Evaluate expressions conditionally using `consequent यदि test अन्यथा alternate`:
+
+```sanskrit
+चर आयु = १८;
+चर स्थिति = "वयस्क" यदि (आयु >= १८) अन्यथा "नाबालिग";
+मुद्रण(स्थिति); // वयस्क
+```
+
 ### Classes, Inheritance & OOP
 
 Classes use `वर्ग`, constructors use `निर्माण`, instances use `स्व` (this), parent constructors use `सुपर`, and instantiation uses `नया`:
@@ -332,6 +396,17 @@ Exception handling is implemented with `प्रयत्न` (try), `पकड
 | `गणित_अधिकतम(...args)` | Maximum of arguments | `गणित_अधिकतम(१०, ५)` -> `१०` |
 | `गणित_पूर्णांक(x)` | Integer floor function | `गणित_पूर्णांक(३.७)` -> `३` |
 | `समय()` | Current Unix timestamp (ms) | `समय()` |
+| `श्रेणी(...args)` | Sequence range (start, stop, step) | `श्रेणी(१, ६)` -> `[१, २, ३, ४, ५]` |
+| `मानचित्रण(coll, fn)` | Map items using callable | `मानचित्रण(सूची, x => x * २)` |
+| `शोधन(coll, fn)` | Filter items with predicate | `शोधन(सूची, x => x > २)` |
+| `संक्षिप्त(fn, coll, init)` | Reduce collection to single value | `संक्षिप्त((a, b) => a + b, सूची, ०)` |
+| `योग(coll)` | Sum of all numeric elements | `योग([१, २, ३, ४])` -> `१०` |
+| `सभी(coll)` | Check if all items are truthy | `सभी([सत्य, सत्य])` -> `सत्य` |
+| `कोई(coll)` | Check if any item is truthy | `कोई([असत्य, सत्य])` -> `सत्य` |
+| `उलटा(coll)` | Return reversed copy | `उलटा([१, २, ३])` -> `[३, २, १]` |
+| `क्रमबद्ध(coll, keyFn)` | Return sorted copy of collection | `क्रमबद्ध([३, १, २])` -> `[१, २, ३]` |
+| `संयोजन(...colls)` | Zip multiple collections into tuples | `संयोजन(नाम, अंक)` |
+| `क्रमांकन(coll)` | Enumerate items with index `[idx, item]` | `क्रमांकन(["अ", "ब"])` |
 
 ---
 
@@ -345,9 +420,14 @@ Exception handling is implemented with `प्रयत्न` (try), `पकड
 | **Closures & Lexical Environments** | ✅ **Stable** | Dynamic parent environments |
 | **Control Flow (`यदि`, `यावत्`, `पुनः`, `प्रत्येक`)** | ✅ **Stable** | Conditionals, while, for, foreach, break, continue |
 | **Arrays & Objects** | ✅ **Stable** | Indexing, member access, assignment |
+| **Pythonic Slicing (`[start:stop:step]`)** | ✅ **Stable** | Sequences, strings, negative step reverse |
+| **List Comprehensions** | ✅ **Stable** | `[expr पुनः (x में coll) यदि (cond)]` |
+| **Arrow Functions & Lambdas** | ✅ **Stable** | `(x) => expr` and block closures |
+| **Conditional Expressions (Ternary)** | ✅ **Stable** | `consequent यदि test अन्यथा alternate` |
+| **Functional Standard Library** | ✅ **Stable** | `श्रेणी`, `मानचित्रण`, `शोधन`, `संक्षिप्त`, `योग`, etc. |
 | **Classes (`वर्ग`), Inheritance (`विस्तार`)** | ✅ **Stable** | Constructors, `स्व`, `सुपर`, methods, static methods |
 | **Exception Handling (`प्रयत्न`, `पकड़`, `अंततः`)** | ✅ **Stable** | Throw, catch, finally block execution |
-| **Standard Built-ins** | ✅ **Stable** | `मुद्रण`, `लंबाई`, `प्रकार`, `गणित_*`, type conversions |
+| **Bytecode Virtual Machine (VM)** | ✅ **Stable** | Stack machine, 15x-30x speedup (`--vm`, `--disasm`) |
 | **CLI & REPL** | ✅ **Stable** | `run`, `check`, `repl`, version, help |
 | **LLVM / Native Backend** | 🧪 **Experimental** | Located in `src/compiler/llvm/`, requires native bindings |
 | **Module Import / Export (`आयात` / `निर्यात`)** | 📋 **Planned** | Module system planned for v0.3.0 |

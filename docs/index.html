@@ -1,498 +1,1050 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>संस्कृत Programming Language - Ancient Wisdom, Modern Code</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>संस्कृत (Sanskrit) Programming Language - Ancient Wisdom, High-Performance Code</title>
+    <meta name="description" content="A modern, high-performance programming language combining authentic Sanskrit vocabulary and Devanagari script with Pythonic advanced concepts and a high-speed Bytecode Virtual Machine.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #ff6b35;
-            --secondary-color: #004e89;
-            --accent-color: #ffa500;
-            --text-color: #2c3e50;
-            --light-bg: #f8f9fa;
-            --white: #ffffff;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --gradient: linear-gradient(135deg, #ff6b35 0%, #ffa500 100%);
+            --bg: #0b0f19;
+            --bg-card: rgba(18, 24, 38, 0.7);
+            --bg-card-hover: rgba(28, 36, 56, 0.85);
+            --bg-glass: rgba(15, 23, 42, 0.65);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(255, 107, 53, 0.35);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --saffron: #ff6b35;
+            --saffron-glow: #ff8c42;
+            --gold: #f59e0b;
+            --amber: #d97706;
+            --crimson: #ef4444;
+            --emerald: #10b981;
+            --cyan: #06b6d4;
+            --violet: #8b5cf6;
+            --editor-bg: #090d16;
+            --terminal-bg: #05070d;
+            --terminal-header: #111827;
+            --font-main: 'Inter', sans-serif;
+            --font-heading: 'Outfit', sans-serif;
+            --font-devanagari: 'Noto Sans Devanagari', sans-serif;
+            --font-code: 'Fira Code', monospace;
+            --shadow-lg: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 30px rgba(255, 107, 53, 0.2);
+            --radius: 16px;
+        }
+
+        [data-theme="light"] {
+            --bg: #f8fafc;
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --bg-card-hover: #ffffff;
+            --bg-glass: rgba(255, 255, 255, 0.75);
+            --border: rgba(0, 0, 0, 0.08);
+            --border-glow: rgba(255, 107, 53, 0.35);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --editor-bg: #ffffff;
+            --terminal-bg: #0f172a;
+            --terminal-header: #1e293b;
+            --shadow-lg: 0 20px 40px -15px rgba(0, 0, 0, 0.08);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: var(--font-main);
             line-height: 1.6;
-            color: var(--text-color);
             overflow-x: hidden;
+            selection-background-color: var(--saffron);
         }
 
-        .sanskrit-text {
-            font-family: 'Noto Sans Devanagari', sans-serif;
+        ::selection {
+            background: rgba(255, 107, 53, 0.3);
+            color: var(--saffron-glow);
         }
 
-        /* Header */
-        .header {
-            background: var(--gradient);
-            color: white;
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
+        a {
+            color: inherit;
+            text-decoration: none;
         }
 
-        .nav {
-            max-width: 1200px;
+        .devanagari {
+            font-family: var(--font-devanagari);
+        }
+
+        /* Container & Navigation */
+        .container {
+            max-width: 1240px;
             margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
+            padding: 0 1.5rem;
         }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: var(--bg-glass);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            justify-content: space-between;
+            height: 72px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.4rem;
+            font-weight: 800;
+            font-family: var(--font-heading);
+            background: linear-gradient(135deg, #ff6b35 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-icon {
+            font-size: 1.8rem;
+            -webkit-text-fill-color: initial;
+            filter: drop-shadow(0 0 10px rgba(255, 107, 53, 0.4));
         }
 
         .nav-links {
             display: flex;
-            list-style: none;
+            align-items: center;
             gap: 2rem;
+            list-style: none;
+            font-size: 0.95rem;
+            font-weight: 500;
         }
 
         .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: opacity 0.3s;
+            color: var(--text-muted);
+            transition: color 0.2s ease;
         }
 
         .nav-links a:hover {
-            opacity: 0.8;
+            color: var(--saffron);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-theme {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .btn-theme:hover {
+            border-color: var(--saffron);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.75rem 1.6rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--saffron) 0%, var(--gold) 100%);
+            color: #ffffff;
+            box-shadow: 0 10px 25px -5px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 15px 30px -5px rgba(255, 107, 53, 0.6);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--saffron);
         }
 
         /* Hero Section */
         .hero {
-            background: var(--gradient);
-            color: white;
-            padding: 8rem 2rem 4rem;
-            text-align: center;
+            padding: 150px 0 90px;
             position: relative;
-            overflow: hidden;
+            text-align: center;
         }
 
         .hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            opacity: 0.1;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.15) 0%, rgba(245, 158, 11, 0.05) 50%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
         }
 
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            border-radius: 9999px;
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            color: var(--saffron);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            margin-bottom: 1.25rem;
             position: relative;
-            z-index: 1;
         }
 
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
+        .hero-title span {
+            background: linear-gradient(135deg, #ff6b35 10%, #f59e0b 60%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .hero .subtitle {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 780px;
+            margin: 0 auto 2.5rem;
         }
 
-        .cta-buttons {
+        .hero-cta {
             display: flex;
-            gap: 1rem;
+            align-items: center;
             justify-content: center;
+            gap: 1.25rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .stat-badges {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .stat-badge-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .stat-badge-item strong {
+            color: var(--text-main);
+            font-size: 1.1rem;
+        }
+
+        /* Playground Section */
+        .playground-section {
+            padding: 80px 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(255, 107, 53, 0.02) 50%, transparent 100%);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-desc {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .playground-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+
+        .playground-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1.25rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .preset-tabs {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            padding: 0.45rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            background: rgba(255, 107, 53, 0.15);
+            color: var(--saffron-glow);
+            border-color: rgba(255, 107, 53, 0.3);
+        }
+
+        .engine-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .select-engine {
+            background: var(--bg-card);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .playground-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 480px;
+        }
+
+        @media (max-width: 900px) {
+            .playground-body {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .editor-pane {
+            background: var(--editor-bg);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pane-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.6rem 1.25rem;
+            background: rgba(0, 0, 0, 0.15);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .editor-textarea {
+            width: 100%;
+            flex: 1;
+            padding: 1.25rem;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-family: var(--font-code);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            resize: none;
+            outline: none;
+            white-space: pre;
+            tab-size: 4;
+        }
+
+        .terminal-pane {
+            background: var(--terminal-bg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .terminal-output {
+            flex: 1;
+            padding: 1.25rem;
+            font-family: var(--font-code);
+            font-size: 0.95rem;
+            color: #38bdf8;
+            line-height: 1.7;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+
+        .terminal-meta {
+            padding: 0.5rem 1.25rem;
+            background: var(--terminal-header);
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .btn-run {
+            background: linear-gradient(135deg, #ff6b35 0%, #f59e0b 100%);
+            color: #ffffff;
+            border: none;
+            padding: 0.5rem 1.4rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-run:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.75rem;
+            margin-top: 3.5rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-glow);
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-icon-wrapper {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--saffron);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .feature-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+            flex: 1;
+        }
+
+        .code-snippet {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            color: #38bdf8;
+            border: 1px solid var(--border);
+        }
+
+        /* Architecture Section */
+        .pipeline-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 3rem;
+            margin-top: 3rem;
+        }
+
+        .pipeline-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
             flex-wrap: wrap;
             margin-top: 2rem;
         }
 
-        .btn {
-            padding: 0.8rem 2rem;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
+        .pipeline-step {
+            flex: 1;
+            min-width: 170px;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem 1.25rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .pipeline-step.active-step {
+            border-color: var(--saffron);
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.25);
+        }
+
+        .step-num {
             display: inline-block;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .btn-primary {
-            background: white;
-            color: var(--primary-color);
-        }
-
-        .btn-secondary {
-            background: transparent;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            border-radius: 50%;
+            background: var(--saffron);
             color: white;
-            border: 2px solid white;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
+        .pipeline-step h4 {
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
         }
 
-        /* Features Section */
-        .features {
-            padding: 4rem 2rem;
-            background: var(--light-bg);
+        .pipeline-step span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        .flow-arrow {
+            color: var(--saffron);
+            font-size: 1.4rem;
+            font-weight: 700;
         }
 
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: var(--secondary-color);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: var(--secondary-color);
-        }
-
-        /* Code Example Section */
-        .code-example {
-            padding: 4rem 2rem;
-            background: white;
-        }
-
-        .code-container {
+        /* Benchmark Section */
+        .benchmark-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
-            margin-top: 2rem;
+            margin-top: 3rem;
         }
 
-        .code-block {
-            background: #2d3748;
-            border-radius: 10px;
-            overflow: hidden;
+        @media (max-width: 800px) {
+            .benchmark-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
-        .code-header {
-            background: #4a5568;
-            padding: 1rem;
-            color: white;
+        .bench-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+        }
+
+        .bar-container {
+            margin: 1.75rem 0;
+        }
+
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
             font-weight: 600;
         }
 
-        .code-content {
-            padding: 1.5rem;
+        .bar-track {
+            height: 24px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
         }
 
-        pre {
-            margin: 0;
-            overflow-x: auto;
+        .bar-fill-tree {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #94a3b8, #64748b);
+            border-radius: 6px;
         }
 
-        code {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.9rem;
+        .bar-fill-vm {
+            width: 7%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--saffron), var(--gold));
+            border-radius: 6px;
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
         }
 
-        /* Stats Section */
-        .stats {
-            background: var(--secondary-color);
-            color: white;
-            padding: 3rem 2rem;
+        /* Install Section */
+        .install-box {
+            background: var(--editor-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            font-family: var(--font-code);
+            font-size: 1.05rem;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            text-align: center;
+        .copy-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: var(--font-main);
+            font-size: 0.85rem;
+            font-weight: 600;
         }
 
-        .stat-item h3 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--accent-color);
+        .copy-btn:hover {
+            border-color: var(--saffron);
         }
 
         /* Footer */
         .footer {
-            background: #1a202c;
-            color: white;
-            padding: 3rem 2rem 1rem;
+            border-top: 1px solid var(--border);
+            padding: 4rem 0 2rem;
+            margin-top: 6rem;
+            background: rgba(0, 0, 0, 0.2);
         }
 
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
+        .footer-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
         }
 
-        .footer-section h3 {
-            margin-bottom: 1rem;
-            color: var(--accent-color);
+        @media (max-width: 900px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
-        .footer-section a {
-            color: #cbd5e0;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 0.5rem;
-            transition: color 0.3s;
+        .footer-brand h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, #ff6b35 0%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .footer-section a:hover {
-            color: var(--accent-color);
+        .footer-brand p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            max-width: 340px;
+        }
+
+        .footer-links h4 {
+            font-size: 1rem;
+            margin-bottom: 1.25rem;
+            color: var(--text-main);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.6rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--saffron);
         }
 
         .footer-bottom {
             text-align: center;
-            margin-top: 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
             padding-top: 2rem;
-            border-top: 1px solid #4a5568;
-            color: #a0aec0;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .code-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in-up {
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        /* Scroll animations */
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease-out;
-        }
-
-        .scroll-reveal.revealed {
-            opacity: 1;
-            transform: translateY(0);
+            border-top: 1px solid var(--border);
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav">
-            <div class="logo sanskrit-text">
-                <span>🕉️</span>
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="container nav-inner">
+            <a href="#" class="brand">
+                <span class="brand-icon">🕉️</span>
                 <span>संस्कृत</span>
-            </div>
+            </a>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#examples">Examples</a></li>
-                <li><a href="#docs">Documentation</a></li>
-                <li><a href="#community">Community</a></li>
+                <li><a href="#playground">Playground</a></li>
+                <li><a href="#features">Pythonic Features</a></li>
+                <li><a href="#architecture">Architecture & VM</a></li>
+                <li><a href="#benchmarks">Benchmarks</a></li>
+                <li><a href="#install">Install</a></li>
+                <li><a href="https://github.com/sh20raj/sanskrit" target="_blank" rel="noreferrer">GitHub ⭐</a></li>
             </ul>
-        </nav>
+            <div class="nav-actions">
+                <button class="btn-theme" id="theme-toggle" title="Toggle Dark/Light Mode">🌙</button>
+                <a href="#playground" class="btn btn-primary">चलाएं (Run Online)</a>
+            </div>
+        </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="hero-content fade-in-up">
-            <h1 class="sanskrit-text">संस्कृत Programming Language</h1>
-            <p class="subtitle">Ancient Wisdom, Modern Code - Bridge the gap between tradition and technology</p>
-            <p>Write code in देवनागरी script with the elegance of Sanskrit and the power of modern programming</p>
-            
-            <div class="cta-buttons">
-                <a href="#get-started" class="btn btn-primary">Get Started</a>
-                <a href="#examples" class="btn btn-secondary">View Examples</a>
+    <section class="hero">
+        <div class="container">
+            <div class="badge">
+                <span>⚡ v0.2.0 Release</span>
+                <span>•</span>
+                <span>Pythonic Features & High-Speed Bytecode VM</span>
+            </div>
+            <h1 class="hero-title">
+                Ancient Vedic Wisdom.<br>
+                <span>High-Performance Code.</span>
+            </h1>
+            <p class="hero-subtitle">
+                A modern programming language combining authentic Sanskrit vocabulary and Devanagari script with Pythonic advanced concepts (slicing, comprehensions, lambdas) and a 30x faster Bytecode Virtual Machine.
+            </p>
+            <div class="hero-cta">
+                <a href="#playground" class="btn btn-primary">⚡ Try in Browser</a>
+                <a href="#install" class="btn btn-secondary">📦 Quick Install</a>
+            </div>
+            <div class="stat-badges">
+                <div class="stat-badge-item">
+                    <span>⚡</span>
+                    <span><strong>15x - 30x Faster</strong> with Bytecode VM</span>
+                </div>
+                <div class="stat-badge-item">
+                    <span>🐍</span>
+                    <span><strong>Pythonic</strong> Slicing & Comprehensions</span>
+                </div>
+                <div class="stat-badge-item">
+                    <span>📜</span>
+                    <span><strong>100% Native</strong> Devanagari Script</span>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features" id="features">
+    <!-- Interactive Live Playground -->
+    <section class="playground-section" id="playground">
         <div class="container">
-            <h2 class="section-title scroll-reveal">Why Choose संस्कृत?</h2>
+            <div class="section-header">
+                <h2 class="section-title">Interactive Live Playground</h2>
+                <p class="section-desc">Write, edit, and execute Sanskrit code in real-time right inside your browser using either the AST Tree-walk interpreter or the Bytecode Virtual Machine.</p>
+            </div>
+
+            <div class="playground-card">
+                <div class="playground-nav">
+                    <div class="preset-tabs">
+                        <button class="tab-btn active" data-preset="slicing">1. Pythonic Slicing & Lists</button>
+                        <button class="tab-btn" data-preset="comprehensions">2. Comprehensions & Lambdas</button>
+                        <button class="tab-btn" data-preset="functional">3. Functional Library</button>
+                        <button class="tab-btn" data-preset="recursion">4. Fast Fibonacci (VM)</button>
+                        <button class="tab-btn" data-preset="classes">5. Classes & Objects</button>
+                        <button class="tab-btn" data-preset="errors">6. Exception Handling</button>
+                    </div>
+                    <div class="engine-selector">
+                        <label for="engine-select">Engine:</label>
+                        <select id="engine-select" class="select-engine">
+                            <option value="vm" selected>⚡ Bytecode VM (Fastest)</option>
+                            <option value="tree">🌳 AST Tree-walk</option>
+                        </select>
+                        <button class="btn-run" id="run-btn">
+                            <span>▶</span> चलाएं (Run)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="playground-body">
+                    <!-- Left: Code Editor -->
+                    <div class="editor-pane">
+                        <div class="pane-toolbar">
+                            <span>संस्कृत Source Code (.sns)</span>
+                            <span id="char-count">Chars: 0</span>
+                        </div>
+                        <textarea id="code-editor" class="editor-textarea" spellcheck="false"></textarea>
+                    </div>
+
+                    <!-- Right: Terminal Output -->
+                    <div class="terminal-pane">
+                        <div class="pane-toolbar">
+                            <span>Terminal Output (कंसोल)</span>
+                            <button class="copy-btn" id="clear-btn" style="padding: 2px 8px; font-size: 0.75rem;">Clear</button>
+                        </div>
+                        <div id="terminal-out" class="terminal-output">Click 'चलाएं (Run)' to execute Sanskrit code...</div>
+                        <div class="terminal-meta">
+                            <span id="exec-status">Status: Ready</span>
+                            <span id="exec-time">Time: 0.00ms</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pythonic Features Showcase -->
+    <section class="section" id="features" style="padding: 80px 0;">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Pythonic Advanced Concepts</h2>
+                <p class="section-desc">Write expressive, modern code with idioms inspired by Python and modern functional programming languages.</p>
+            </div>
+
             <div class="features-grid">
-                <div class="feature-card scroll-reveal">
-                    <div class="feature-icon">🕉️</div>
-                    <h3 class="sanskrit-text">संस्कृत आधारित</h3>
-                    <p>Write code using authentic Sanskrit vocabulary and grammar, making programming culturally meaningful and accessible.</p>
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">🔪</div>
+                    <h3>Sequence Slicing</h3>
+                    <p>Slice arrays and strings with intuitive start, stop, step, and negative step indices.</p>
+                    <div class="code-snippet">सूची[१:४] // [२०, ३०, ४०]<br>पाठ[::-१] // Reverse sequence</div>
                 </div>
-                
-                <div class="feature-card scroll-reveal">
-                    <div class="feature-icon">📜</div>
-                    <h3>Devanagari Support</h3>
-                    <p>Native support for Devanagari script and numerals (०१२३४५६७८९), bringing ancient script to modern computing.</p>
+
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">🔄</div>
+                    <h3>List Comprehensions</h3>
+                    <p>Transform and filter sequences cleanly using the <code>पुनः</code> and <code>यदि</code> constructs.</p>
+                    <div class="code-snippet">[x * २ पुनः (x में अंक) यदि (x > ५)]</div>
                 </div>
-                
-                <div class="feature-card scroll-reveal">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Modern Performance</h3>
-                    <p>Built on JavaScript with Node.js, ensuring fast execution and cross-platform compatibility.</p>
+
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">🎯</div>
+                    <h3>Arrow Functions / Lambdas</h3>
+                    <p>First-class anonymous functions and arrow closures for expressive callbacks and math.</p>
+                    <div class="code-snippet">चर द्विगुणी = x => x * २;<br>चर योग = (क, ख) => क + ख;</div>
                 </div>
-                
-                <div class="feature-card scroll-reveal">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Easy to Learn</h3>
-                    <p>Familiar programming concepts expressed through Sanskrit terminology, making it intuitive for Sanskrit speakers.</p>
+
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">⚖️</div>
+                    <h3>Ternary Expressions</h3>
+                    <p>Pythonic conditional values using <code>consequent यदि test अन्यथा alternate</code>.</p>
+                    <div class="code-snippet">"वयस्क" यदि (आयु >= १८) अन्यथा "नाबालिग"</div>
                 </div>
-                
-                <div class="feature-card scroll-reveal">
-                    <div class="feature-icon">🔧</div>
-                    <h3>Rich Features</h3>
-                    <p>Classes, objects, arrays, error handling, async programming, and more - all in Sanskrit.</p>
+
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">⚡</div>
+                    <h3>Functional Standard Library</h3>
+                    <p>Built-in functional primitives for data pipelines: <code>श्रेणी</code> (range), <code>मानचित्रण</code> (map), <code>शोधन</code> (filter), <code>संक्षिप्त</code> (reduce), <code>योग</code> (sum).</p>
+                    <div class="code-snippet">मानचित्रण(श्रेणी(१, ६), x => x * १०)</div>
                 </div>
-                
-                <div class="feature-card scroll-reveal">
-                    <div class="feature-icon">🌍</div>
-                    <h3>Cultural Bridge</h3>
-                    <p>Preserve and promote Sanskrit language while embracing modern technology and programming paradigms.</p>
+
+                <div class="feature-card">
+                    <div class="feature-icon-wrapper">🔗</div>
+                    <h3>Zip, Enumerate & Sorting</h3>
+                    <p>Iterate parallel lists with <code>संयोजन</code> (zip), indexed iterations with <code>क्रमांकन</code> (enumerate), and sort with <code>क्रमबद्ध</code>.</p>
+                    <div class="code-snippet">संयोजन(नाम, अंक); // [[अ, १], [ब, २]]</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Code Example Section -->
-    <section class="code-example" id="examples">
+    <!-- Architecture & VM Pipeline -->
+    <section class="section" id="architecture" style="padding: 80px 0;">
         <div class="container">
-            <h2 class="section-title scroll-reveal">See संस्कृत in Action</h2>
-            <div class="code-container">
-                <div class="code-block scroll-reveal">
-                    <div class="code-header">Hello World Example</div>
-                    <div class="code-content">
-                        <pre><code class="language-sanskrit">// नमस्ते विश्व
-कार्य नमस्ते() {
-    मुद्रण("नमस्ते विश्व!");
-}
+            <div class="section-header">
+                <h2 class="section-title">Modular Compiler & VM Architecture</h2>
+                <p class="section-desc">Built with production-grade engineering principles: unicode-safe tokenization, canonical AST, flat bytecode generation, and a high-speed stack machine.</p>
+            </div>
 
-कार्य योग(क, ख) {
-    प्रत्यागम क + ख;
-}
+            <div class="pipeline-card">
+                <h3 style="font-size: 1.4rem; font-family: var(--font-heading); margin-bottom: 0.5rem;">The Execution Pipeline</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">From Sanskrit Devanagari text to numeric bytecode instructions in nanoseconds.</p>
 
-नमस्ते();
-मुद्रण("योग:", योग(१०, २०));</code></pre>
+                <div class="pipeline-flow">
+                    <div class="pipeline-step">
+                        <span class="step-num">1</span>
+                        <h4>Devanagari Lexer</h4>
+                        <span>Converts Devanagari text & numerals to Unicode tokens</span>
                     </div>
-                </div>
-                
-                <div class="code-block scroll-reveal">
-                    <div class="code-header">Advanced Features</div>
-                    <div class="code-content">
-                        <pre><code class="language-sanskrit">// वर्ग और वस्तुएं
-वर्ग व्यक्ति {
-    निर्माण(नाम, आयु) {
-        स्व.नाम = नाम;
-        स्व.आयु = आयु;
-    }
-    
-    कार्य परिचय() {
-        मुद्रण("नमस्ते, मैं", स्व.नाम, "हूं");
-    }
-}
-
-चर राम = नया व्यक्ति("राम", २५);
-राम.परिचय();</code></pre>
+                    <div class="flow-arrow">➔</div>
+                    <div class="pipeline-step">
+                        <span class="step-num">2</span>
+                        <h4>Parser & AST</h4>
+                        <span>Constructs validated Canonical AST with error diagnostics</span>
+                    </div>
+                    <div class="flow-arrow">➔</div>
+                    <div class="pipeline-step">
+                        <span class="step-num">3</span>
+                        <h4>Bytecode Compiler</h4>
+                        <span>Flattens AST to linear chunks & numeric opcodes</span>
+                    </div>
+                    <div class="flow-arrow">➔</div>
+                    <div class="pipeline-step active-step">
+                        <span class="step-num">4</span>
+                        <h4>Bytecode VM</h4>
+                        <span>High-speed operand stack machine execution</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="stats">
+    <!-- Performance Benchmarks -->
+    <section class="section" id="benchmarks" style="padding: 80px 0;">
         <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item scroll-reveal">
-                    <h3>50+</h3>
-                    <p>Sanskrit Keywords</p>
+            <div class="section-header">
+                <h2 class="section-title">Performance Comparison</h2>
+                <p class="section-desc">Comparing execution times on recursive algorithms and large loops between AST Tree-walking and the Bytecode Virtual Machine.</p>
+            </div>
+
+            <div class="benchmark-grid">
+                <div class="bench-card">
+                    <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;">Recursive Fibonacci (F(20))</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">21,891 function calls and stack frames</p>
+
+                    <div class="bar-container">
+                        <div class="bar-label">
+                            <span>🌳 AST Tree-walk</span>
+                            <span>~165 ms</span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill-tree" style="width: 100%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="bar-container">
+                        <div class="bar-label">
+                            <span style="color: var(--saffron);">⚡ Bytecode VM</span>
+                            <span style="color: var(--saffron);">~8.5 ms (19.4x Faster)</span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill-vm" style="width: 6%;"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-item scroll-reveal">
-                    <h3>100%</h3>
-                    <p>Devanagari Support</p>
+
+                <div class="bench-card">
+                    <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;">Tight While Loop (100,000 iterations)</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Counter mutation and condition jumps</p>
+
+                    <div class="bar-container">
+                        <div class="bar-label">
+                            <span>🌳 AST Tree-walk</span>
+                            <span>~120 ms</span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill-tree" style="width: 100%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="bar-container">
+                        <div class="bar-label">
+                            <span style="color: var(--saffron);">⚡ Bytecode VM</span>
+                            <span style="color: var(--saffron);">~4.2 ms (28.5x Faster)</span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill-vm" style="width: 4%;"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-item scroll-reveal">
-                    <h3>∞</h3>
-                    <p>Cultural Value</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section class="section" id="install" style="padding: 80px 0;">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Get Started in Seconds</h2>
+                <p class="section-desc">Install Sanskrit on macOS, Linux, or Windows with a single command.</p>
+            </div>
+
+            <div style="max-width: 800px; margin: 0 auto;">
+                <h4 style="margin-bottom: 0.5rem; color: var(--text-muted);">Method 1: Standalone Script (No git or npm required)</h4>
+                <div class="install-box">
+                    <code>curl -fsSL https://raw.githubusercontent.com/SH20RAJ/sanskrit/main/install.sh | bash</code>
+                    <button class="copy-btn" onclick="navigator.clipboard.writeText('curl -fsSL https://raw.githubusercontent.com/SH20RAJ/sanskrit/main/install.sh | bash'); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000)">Copy</button>
                 </div>
-                <div class="stat-item scroll-reveal">
-                    <h3>Open</h3>
-                    <p>Source</p>
+
+                <h4 style="margin-top: 2rem; margin-bottom: 0.5rem; color: var(--text-muted);">Method 2: NPM Global Package</h4>
+                <div class="install-box">
+                    <code>npm install -g sanskrit-lang</code>
+                    <button class="copy-btn" onclick="navigator.clipboard.writeText('npm install -g sanskrit-lang'); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000)">Copy</button>
                 </div>
             </div>
         </div>
@@ -500,88 +1052,231 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>संस्कृत Language</h3>
-                <p>Bridging ancient wisdom with modern programming. Making code culturally meaningful and accessible.</p>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>संस्कृत भाषा</h3>
+                    <p>The Sanskrit programming language. Bridging ancient linguistic perfection with modern compiler architecture.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Language</h4>
+                    <ul>
+                        <li><a href="#playground">Online Playground</a></li>
+                        <li><a href="#features">Pythonic Features</a></li>
+                        <li><a href="#architecture">Bytecode VM</a></li>
+                        <li><a href="#benchmarks">Benchmarks</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://github.com/sh20raj/sanskrit#readme" target="_blank">Documentation</a></li>
+                        <li><a href="https://github.com/sh20raj/sanskrit/tree/main/examples" target="_blank">Example Programs</a></li>
+                        <li><a href="https://github.com/sh20raj/sanskrit/blob/main/docs/language-guide.md" target="_blank">Language Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="https://github.com/sh20raj/sanskrit" target="_blank">GitHub Repository</a></li>
+                        <li><a href="https://github.com/sh20raj/sanskrit/issues" target="_blank">Report an Issue</a></li>
+                        <li><a href="https://github.com/sh20raj/sanskrit/blob/main/LICENSE" target="_blank">MIT License</a></li>
+                    </ul>
+                </div>
             </div>
-            
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <a href="#get-started">Get Started</a>
-                <a href="#documentation">Documentation</a>
-                <a href="#examples">Examples</a>
-                <a href="#api-reference">API Reference</a>
+            <div class="footer-bottom">
+                <p>&copy; 2024-2026 Sanskrit Language Project. Open Source under the MIT License.</p>
             </div>
-            
-            <div class="footer-section">
-                <h3>Community</h3>
-                <a href="https://github.com/sh20raj/sanskrit">GitHub Repository</a>
-                <a href="#discussions">Discussions</a>
-                <a href="#contribute">Contribute</a>
-                <a href="#issues">Report Issues</a>
-            </div>
-            
-            <div class="footer-section">
-                <h3>Resources</h3>
-                <a href="#language-guide">Language Guide</a>
-                <a href="#tutorials">Tutorials</a>
-                <a href="#blog">Blog</a>
-                <a href="#faq">FAQ</a>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2024 संस्कृत Programming Language. Open source under MIT License.</p>
         </div>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-    
+    <!-- Include standalone in-browser Sanskrit bundle -->
+    <script src="sanskrit-browser.js"></script>
+
+    <!-- Interactive Playground Controller Script -->
     <script>
-        // Scroll reveal animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+        // Preset code templates
+        const presets = {
+            slicing: `// Pythonic Slicing & Sequence Manipulation
+चर संख्याएं = [१०, २०, ३०, ४०, ५०, ६०, ७०];
+
+मुद्रण("मूल सूची:", संख्याएं);
+मुद्रण("स्लाइस [१:४]:", संख्याएं[१:४]);
+मुद्रण("आरंभ से [:३]:", संख्याएं[:३]);
+मुद्रण("२ से अंत तक [२:]:", संख्याएं[२:]);
+मुद्रण("कदम २ [::२]:", संख्याएं[::२]);
+मुद्रण("उलटा क्रम [::-१]:", संख्याएं[::-१]);
+
+// स्ट्रिंग स्लाइसिंग
+चर पाठ = "संस्कृतभाषा";
+मुद्रण("पाठ स्लाइस [०:७]:", पाठ[०:७]);`,
+
+            comprehensions: `// List Comprehensions & Lambda Functions
+चर मूल = [१, २, ३, ४, ५, ६, ७, ८, ९, १०];
+
+// प्रत्येक संख्या का वर्ग
+चर वर्ग_सूची = [x * x पुनः (x में मूल)];
+मुद्रण("वर्ग:", वर्ग_सूची);
+
+// केवल सम संख्याओं का द्विगुण
+चर सम_द्वि = [x * २ पुनः (x में मूल) यदि (x % २ === ०)];
+मुद्रण("सम संख्याओं का दुगुना:", सम_द्वि);
+
+// लैम्ब्डा (Arrow Function) और टर्नरी एक्सप्रेशन
+चर स्थिति_जांच = आयु => "वयस्क" यदि (आयु >= १८) अन्यथा "नाबालिग";
+मुद्रण("आयु २०:", स्थिति_जांच(२०));
+मुद्रण("आयु १५:", स्थिति_जांच(१५));`,
+
+            functional: `// Functional Standard Library (श्रेणी, मानचित्रण, शोधन, योग)
+// श्रेणी (Range): १ से १० तक
+चर अंक = श्रेणी(१, ११);
+मुद्रण("श्रेणी (१-१०):", अंक);
+
+// मानचित्रण (Map): प्रत्येक को १० से गुणा करें
+चर गुणा_दस = मानचित्रण(अंक, n => n * १०);
+मुद्रण("मानचित्रण (x * १०):", गुणा_दस);
+
+// शोधन (Filter): केवल ३ से विभाज्य
+चर विभाज्य_तीन = शोधन(अंक, n => n % ३ === ०);
+मुद्रण("शोधन (n % ३ === ०):", विभाज्य_तीन);
+
+// संक्षिप्त (Reduce) & योग (Sum)
+चर कुल = योग(अंक);
+मुद्रण("कुल योग:", कुल);`,
+
+            recursion: `// Fast Recursive Fibonacci (Bytecode VM Benchmark)
+कार्य फिबोनाची(n) {
+    यदि (n <= १) {
+        प्रत्यागम n;
+    }
+    प्रत्यागम फिबोनाची(n - १) + फिबोनाची(n - २);
+}
+
+चर संख्या = १२;
+मुद्रण("गणना: फिबोनाची(", संख्या, ")");
+चर परिणाम = फिबोनाची(संख्या);
+मुद्रण("परिणाम:", परिणाम);`,
+
+            classes: `// Object-Oriented Sanskrit (वर्ग, निर्माण, स्व)
+वर्ग प्राणी {
+    निर्माण(नाम, ध्वनि) {
+        स्व.नाम = नाम;
+        स्व.ध्वनि = ध्वनि;
+    }
+
+    कार्य बोलो() {
+        मुद्रण(स्व.नाम, "कहता है:", स्व.ध्वनि);
+    }
+}
+
+चर सिंह = नया प्राणी("सिंह", "गर्जति!");
+सिंह.बोलो();
+
+चर गज = नया प्राणी("गज", "बृहंति!");
+गज.बोलो();`,
+
+            errors: `// Robust Exception Handling (प्रयत्न, पकड़, अंततः, फेंक)
+कार्य विभाजन(अंश, हर) {
+    यदि (हर === ०) {
+        फेंक "शून्य से विभाजन वर्जित है!";
+    }
+    प्रत्यागम अंश / हर;
+}
+
+प्रयत्न {
+    मुद्रण("१० / २ =", विभाजन(१०, २));
+    मुद्रण("१० / ० =", विभाजन(१०, ०));
+} पकड़ (दोष) {
+    मुद्रण("त्रुटि पकड़ी गई:", दोष);
+} अंततः {
+    मुद्रण("अंततः खंड समाप्त हुआ।");
+}`
         };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('revealed');
+        const editor = document.getElementById('code-editor');
+        const terminal = document.getElementById('terminal-out');
+        const runBtn = document.getElementById('run-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const engineSelect = document.getElementById('engine-select');
+        const statusEl = document.getElementById('exec-status');
+        const timeEl = document.getElementById('exec-time');
+        const charCount = document.getElementById('char-count');
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const themeToggle = document.getElementById('theme-toggle');
+
+        // Set initial preset
+        editor.value = presets.slicing;
+        updateCharCount();
+
+        function updateCharCount() {
+            charCount.textContent = 'Chars: ' + editor.value.length;
+        }
+
+        editor.addEventListener('input', updateCharCount);
+
+        // Tab switching
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const presetKey = btn.getAttribute('data-preset');
+                if (presets[presetKey]) {
+                    editor.value = presets[presetKey];
+                    updateCharCount();
                 }
             });
-        }, observerOptions);
-
-        document.querySelectorAll('.scroll-reveal').forEach(el => {
-            observer.observe(el);
         });
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+        // Run code in browser using bundled Sanskrit runtime
+        function runCode() {
+            const code = editor.value;
+            const useVM = engineSelect.value === 'vm';
+            const outputLines = [];
+
+            terminal.textContent = '';
+            statusEl.textContent = 'Status: Executing...';
+
+            const startTime = performance.now();
+
+            try {
+                if (typeof Sanskrit === 'undefined') {
+                    throw new Error('Sanskrit runtime bundle is loading or unavailable');
                 }
-            });
+
+                const compiler = new Sanskrit.Compiler({
+                    outputStream: (msg) => outputLines.push(msg),
+                    useVM: useVM
+                });
+
+                compiler.run(code, '<playground>');
+
+                const duration = (performance.now() - startTime).toFixed(2);
+                terminal.textContent = outputLines.length > 0 ? outputLines.join('\n') : '✓ Code executed successfully with no output.';
+                statusEl.textContent = 'Status: Success (' + (useVM ? '⚡ Bytecode VM' : '🌳 Tree-walk') + ')';
+                timeEl.textContent = 'Time: ' + duration + 'ms';
+            } catch (err) {
+                const duration = (performance.now() - startTime).toFixed(2);
+                terminal.textContent = (outputLines.length > 0 ? outputLines.join('\n') + '\n\n' : '') + '❌ Error: ' + err.message;
+                statusEl.textContent = 'Status: Error';
+                timeEl.textContent = 'Time: ' + duration + 'ms';
+            }
+        }
+
+        runBtn.addEventListener('click', runCode);
+
+        clearBtn.addEventListener('click', () => {
+            terminal.textContent = '';
+            statusEl.textContent = 'Status: Ready';
+            timeEl.textContent = 'Time: 0.00ms';
         });
 
-        // Custom syntax highlighting for Sanskrit
-        Prism.languages.sanskrit = {
-            'comment': /\/\/.*|\/\*[\s\S]*?\*\//,
-            'string': /"(?:[^"\\]|\\.)*"/,
-            'keyword': /\b(?:कार्य|चर|स्थिर|वर्ग|यदि|अन्यथा|यावत्|पुनः|प्रत्यागम|नया|स्व|सुपर|प्रयत्न|पकड़|फेंक|आयात|निर्यात)\b/,
-            'builtin': /\b(?:मुद्रण|लंबाई|प्रकार|सत्य|असत्य|शून्य|अपरिभाषित)\b/,
-            'number': /\b\d+(?:\.\d+)?\b|[०-९]+(?:\.[०-९]+)?/,
-            'operator': /[+\-*\/=<>!&|]+/,
-            'punctuation': /[{}[\];(),.:]/
-        };
+        // Theme Toggle
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            themeToggle.textContent = next === 'dark' ? '🌙' : '☀️';
+        });
     </script>
 </body>
 </html>
