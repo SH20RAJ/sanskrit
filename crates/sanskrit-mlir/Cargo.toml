@@ -1,0 +1,11 @@
+[package]
+name = "sanskrit-mlir"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+sanskrit-ir = { path = "../sanskrit-ir" }
+sanskrit-typeck = { path = "../sanskrit-typeck" }
+serde = { version = "1.0", features = ["derive"] }

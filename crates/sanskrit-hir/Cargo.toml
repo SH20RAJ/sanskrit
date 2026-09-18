@@ -1,0 +1,11 @@
+[package]
+name = "sanskrit-hir"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+sanskrit-diagnostics = { path = "../sanskrit-diagnostics" }
+sanskrit-ast = { path = "../sanskrit-ast" }
+serde = { version = "1.0", features = ["derive"] }

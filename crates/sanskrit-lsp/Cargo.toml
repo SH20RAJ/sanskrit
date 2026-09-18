@@ -1,0 +1,14 @@
+[package]
+name = "sanskrit-lsp"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+sanskrit-lexer = { path = "../sanskrit-lexer" }
+sanskrit-parser = { path = "../sanskrit-parser" }
+sanskrit-hir = { path = "../sanskrit-hir" }
+sanskrit-typeck = { path = "../sanskrit-typeck" }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"

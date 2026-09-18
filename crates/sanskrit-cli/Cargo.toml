@@ -1,0 +1,30 @@
+[package]
+name = "sanskrit-cli"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "sanskrit"
+path = "src/main.rs"
+
+[dependencies]
+sanskrit-diagnostics = { path = "../sanskrit-diagnostics" }
+sanskrit-lexer = { path = "../sanskrit-lexer" }
+sanskrit-ast = { path = "../sanskrit-ast" }
+sanskrit-parser = { path = "../sanskrit-parser" }
+sanskrit-hir = { path = "../sanskrit-hir" }
+sanskrit-typeck = { path = "../sanskrit-typeck" }
+sanskrit-ir = { path = "../sanskrit-ir" }
+sanskrit-vm = { path = "../sanskrit-vm" }
+sanskrit-tensor = { path = "../sanskrit-tensor" }
+sanskrit-autodiff = { path = "../sanskrit-autodiff" }
+sanskrit-mlir = { path = "../sanskrit-mlir" }
+sanskrit-package = { path = "../sanskrit-package" }
+sanskrit-lsp = { path = "../sanskrit-lsp" }
+
+clap = { version = "4.4", features = ["derive"] }
+colored = "2.1"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"

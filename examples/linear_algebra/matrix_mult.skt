@@ -1,0 +1,7 @@
+// Sanskrit Next: Linear Algebra & Matrix Multiplication
+// Demonstrates first-class tensor creation and GEMM operator (@)
+कार्य मुख्य():
+    मान A = tensor.ones([64, 64], dtype=F32)
+    मान B = tensor.ones([64, 64], dtype=F32)
+    मान C = A @ B
+    मुद्रण("Matrix multiplication computed successfully:", C)

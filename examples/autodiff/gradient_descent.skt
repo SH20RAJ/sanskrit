@@ -1,0 +1,10 @@
+// Sanskrit Next: Automatic Differentiation & Gradient Optimization
+कार्य हानि_फलन(x: दशमलव६४) -> दशमलव६४:
+    // f(x) = (x - 3)^2
+    मान अन्तर = x - 3.0
+    प्रत्यागम अन्तर * अन्तर
+
+कार्य मुख्य():
+    मान x = 10.0
+    मुद्रण("Initial parameter:", x)
+    मुद्रण("Calculated loss:", हानि_फलन(x))

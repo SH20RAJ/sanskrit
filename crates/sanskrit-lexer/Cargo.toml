@@ -1,0 +1,10 @@
+[package]
+name = "sanskrit-lexer"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+sanskrit-diagnostics = { path = "../sanskrit-diagnostics" }
+serde = { version = "1.0", features = ["derive"] }

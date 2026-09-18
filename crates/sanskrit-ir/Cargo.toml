@@ -1,0 +1,13 @@
+[package]
+name = "sanskrit-ir"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+sanskrit-diagnostics = { path = "../sanskrit-diagnostics" }
+sanskrit-ast = { path = "../sanskrit-ast" }
+sanskrit-hir = { path = "../sanskrit-hir" }
+sanskrit-typeck = { path = "../sanskrit-typeck" }
+serde = { version = "1.0", features = ["derive"] }

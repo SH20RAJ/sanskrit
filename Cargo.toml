@@ -1,0 +1,34 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/sanskrit-diagnostics",
+    "crates/sanskrit-lexer",
+    "crates/sanskrit-ast",
+    "crates/sanskrit-parser",
+    "crates/sanskrit-hir",
+    "crates/sanskrit-typeck",
+    "crates/sanskrit-ir",
+    "crates/sanskrit-vm",
+    "crates/sanskrit-tensor",
+    "crates/sanskrit-autodiff",
+    "crates/sanskrit-mlir",
+    "crates/sanskrit-package",
+    "crates/sanskrit-lsp",
+    "crates/sanskrit-cli",
+]
+
+[workspace.package]
+version = "2.0.0-alpha.1"
+edition = "2021"
+authors = ["Sanskrit Language Architecture Team <team@sanskrit.dev>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/SH20RAJ/sanskrit"
+homepage = "https://sanskrit.dev"
+documentation = "https://docs.sanskrit.dev"
+readme = "README.md"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+panic = "abort"

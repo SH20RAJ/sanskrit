@@ -1,0 +1,5 @@
+// Sanskrit Next: Canonical Hello World
+// Dual-script Devanagari syntax
+कार्य मुख्य():
+    मान सन्देश = "नमस्ते, संस्कृत विश्वम्! Welcome to Sanskrit Next."
+    मुद्रण(सन्देश)

@@ -1,0 +1,10 @@
+[package]
+name = "sanskrit-autodiff"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+sanskrit-tensor = { path = "../sanskrit-tensor" }
+serde = { version = "1.0", features = ["derive"] }
