@@ -1,0 +1,184 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Sanskrit Next",
+  "scopeName": "source.sanskrit",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#constants" },
+    { "include": "#builtins" },
+    { "include": "#numbers" },
+    { "include": "#operators" },
+    { "include": "#function-declarations" },
+    { "include": "#function-calls" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.sanskrit",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.line.number-sign.sanskrit",
+          "match": "#.*$"
+        },
+        {
+          "name": "comment.block.sanskrit",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.sanskrit",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.sanskrit",
+              "match": "\\\\(?:[nrt\\\\\"'0]|u\\{[0-9a-fA-F]+\\}|x[0-9a-fA-F]{2})"
+            }
+          ]
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.sanskrit",
+          "match": "\\b(यदि|अन्यथा|यावत्|प्रत्येक|प्रत्यागम|if|else|while|for|in|return|break|continue|match|case)\\b"
+        },
+        {
+          "name": "keyword.declaration.sanskrit",
+          "match": "\\b(कार्य|मान|स्थिर|प्रकार|गुण|प्रयोजयतु|fn|let|const|mut|struct|trait|impl|type|enum)\\b"
+        },
+        {
+          "name": "keyword.other.sanskrit",
+          "match": "\\b(आयात|निर्यातः|संकुल|import|export|mod|use|as|from|pub|extern)\\b"
+        },
+        {
+          "name": "keyword.control.async.sanskrit",
+          "match": "\\b(अतुल्यकालिक|प्रतीक्षते|async|await|spawn|channel)\\b"
+        },
+        {
+          "name": "variable.language.sanskrit",
+          "match": "\\b(आत्मा|self|Self)\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "entity.name.type.primitive.sanskrit",
+          "match": "\\b(पूर्णाङ्क|दशमलव|तर्क|अक्षर|सूत्र|शून्यम्|i8|i16|i32|i64|u8|u16|u32|u64|f32|f64|bool|char|str|void)\\b"
+        },
+        {
+          "name": "entity.name.type.tensor.sanskrit",
+          "match": "\\b(दिश|Tensor|Dual|Grad|Tape|Matrix|Vector)\\b"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.sanskrit",
+          "match": "\\b(सत्यम्|असत्यम्|true|false)\\b"
+        },
+        {
+          "name": "constant.language.null.sanskrit",
+          "match": "\\b(शून्यम्|null|nil|None|Some)\\b"
+        }
+      ]
+    },
+    "builtins": {
+      "patterns": [
+        {
+          "name": "support.function.builtin.sanskrit",
+          "match": "\\b(मुद्रण|print|println|diff|grad|zeros|ones|randn|eye|matmul|transpose|reshape|sum|mean|assert|panic)\\b"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.devanagari.sanskrit",
+          "match": "[०-९]+(?:\\.[०-९]+)?"
+        },
+        {
+          "name": "constant.numeric.hex.sanskrit",
+          "match": "\\b0x[0-9a-fA-F]+\\b"
+        },
+        {
+          "name": "constant.numeric.binary.sanskrit",
+          "match": "\\b0b[01]+\\b"
+        },
+        {
+          "name": "constant.numeric.float.sanskrit",
+          "match": "\\b\\d+\\.\\d+(?:[eE][+-]?\\d+)?\\b"
+        },
+        {
+          "name": "constant.numeric.integer.sanskrit",
+          "match": "\\b\\d+\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.tensor.sanskrit",
+          "match": "@"
+        },
+        {
+          "name": "keyword.operator.comparison.sanskrit",
+          "match": "==|!=|<=|>=|<|>"
+        },
+        {
+          "name": "keyword.operator.logical.sanskrit",
+          "match": "&&|\\|\\||!"
+        },
+        {
+          "name": "keyword.operator.assignment.sanskrit",
+          "match": "\\+=|-=|\\*=|/=|="
+        },
+        {
+          "name": "keyword.operator.arithmetic.sanskrit",
+          "match": "\\+|-|\\*|/|%"
+        },
+        {
+          "name": "keyword.operator.arrow.sanskrit",
+          "match": "->|=>"
+        },
+        {
+          "name": "keyword.operator.namespace.sanskrit",
+          "match": "::"
+        }
+      ]
+    },
+    "function-declarations": {
+      "patterns": [
+        {
+          "match": "\\b(कार्य|fn)\\s+([a-zA-Z_\\p{Script=Devanagari}][a-zA-Z0-9_\\p{Script=Devanagari}]*)",
+          "captures": {
+            "1": { "name": "keyword.declaration.sanskrit" },
+            "2": { "name": "entity.name.function.sanskrit" }
+          }
+        }
+      ]
+    },
+    "function-calls": {
+      "patterns": [
+        {
+          "match": "([a-zA-Z_\\p{Script=Devanagari}][a-zA-Z0-9_\\p{Script=Devanagari}]*)\\s*(?=\\()",
+          "captures": {
+            "1": { "name": "entity.name.function.call.sanskrit" }
+          }
+        }
+      ]
+    }
+  }
+}

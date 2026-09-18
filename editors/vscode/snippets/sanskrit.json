@@ -1,0 +1,140 @@
+{
+  "Function Declaration (Devanagari)": {
+    "prefix": ["कार्य", "fn-dev"],
+    "body": [
+      "कार्य ${1:मुख्य}(${2:मापदण्ड}): ${3:पूर्णाङ्क} {",
+      "    ${0:// शरीरम्}",
+      "    प्रत्यागम ०;",
+      "}"
+    ],
+    "description": "Declares a Sanskrit function in Devanagari script."
+  },
+  "Function Declaration (ASCII)": {
+    "prefix": ["fn", "func"],
+    "body": [
+      "fn ${1:main}(${2:args}): ${3:i32} {",
+      "    ${0:// body}",
+      "    return 0;",
+      "}"
+    ],
+    "description": "Declares a Sanskrit function in ASCII script."
+  },
+  "Variable Binding (Devanagari)": {
+    "prefix": ["मान", "let-dev"],
+    "body": [
+      "मान ${1:चर} = ${2:मूल्य};"
+    ],
+    "description": "Declare a variable binding in Devanagari."
+  },
+  "Variable Binding (ASCII)": {
+    "prefix": ["let"],
+    "body": [
+      "let ${1:x} = ${2:value};"
+    ],
+    "description": "Declare a variable binding in ASCII."
+  },
+  "Constant Declaration (Devanagari)": {
+    "prefix": ["स्थिर", "const-dev"],
+    "body": [
+      "स्थिर ${1:नाम} = ${2:मूल्य};"
+    ],
+    "description": "Declare an immutable constant in Devanagari."
+  },
+  "Constant Declaration (ASCII)": {
+    "prefix": ["const"],
+    "body": [
+      "const ${1:NAME} = ${2:value};"
+    ],
+    "description": "Declare an immutable constant in ASCII."
+  },
+  "Tensor Allocation": {
+    "prefix": ["दिश", "tensor"],
+    "body": [
+      "let ${1:tensor} = Tensor::ones([${2:128}, ${3:128}]);"
+    ],
+    "description": "Allocate a new strided tensor in Sanskrit Next."
+  },
+  "Matrix Multiplication": {
+    "prefix": ["matmul", "gemm"],
+    "body": [
+      "let ${1:c} = ${2:a} @ ${3:b};"
+    ],
+    "description": "Compute tensor matrix multiplication using the @ operator."
+  },
+  "Automatic Differentiation Dual": {
+    "prefix": ["diff", "autodiff"],
+    "body": [
+      "let ${1:df} = diff(|x: Dual| ${2:x * x + 2.0 * x}, ${3:1.5});"
+    ],
+    "description": "Evaluate derivative via automatic differentiation."
+  },
+  "Print Statement (Devanagari)": {
+    "prefix": ["मुद्रण", "print-dev"],
+    "body": [
+      "मुद्रण(\"${1:नमस्ते विश्वम्!}\");"
+    ],
+    "description": "Print to standard output in Devanagari."
+  },
+  "Print Statement (ASCII)": {
+    "prefix": ["print", "println"],
+    "body": [
+      "print(\"${1:Hello, Sanskrit Next!}\");"
+    ],
+    "description": "Print to standard output in ASCII."
+  },
+  "If Conditional (Devanagari)": {
+    "prefix": ["यदि", "if-dev"],
+    "body": [
+      "यदि (${1:प्रतिबन्ध}) {",
+      "    ${0}",
+      "}"
+    ],
+    "description": "If conditional branch in Devanagari."
+  },
+  "If Conditional (ASCII)": {
+    "prefix": ["if"],
+    "body": [
+      "if (${1:condition}) {",
+      "    ${0}",
+      "}"
+    ],
+    "description": "If conditional branch in ASCII."
+  },
+  "While Loop (Devanagari)": {
+    "prefix": ["यावत्", "while-dev"],
+    "body": [
+      "यावत् (${1:प्रतिबन्ध}) {",
+      "    ${0}",
+      "}"
+    ],
+    "description": "While loop in Devanagari."
+  },
+  "While Loop (ASCII)": {
+    "prefix": ["while"],
+    "body": [
+      "while (${1:condition}) {",
+      "    ${0}",
+      "}"
+    ],
+    "description": "While loop in ASCII."
+  },
+  "Struct Declaration": {
+    "prefix": ["प्रकार", "struct"],
+    "body": [
+      "struct ${1:Point} {",
+      "    ${2:x}: f64,",
+      "    ${3:y}: f64,",
+      "}"
+    ],
+    "description": "Define a structured record type."
+  },
+  "Trait Declaration": {
+    "prefix": ["गुण", "trait"],
+    "body": [
+      "trait ${1:Describable} {",
+      "    fn describe(&self): str;",
+      "}"
+    ],
+    "description": "Define a trait contract."
+  }
+}

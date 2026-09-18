@@ -1,0 +1,140 @@
+:root {
+  --bg-primary: var(--vscode-editor-background);
+  --fg-primary: var(--vscode-editor-foreground);
+  --border-color: var(--vscode-panel-border, rgba(255, 255, 255, 0.1));
+  --accent-saffron: #FF5722;
+  --accent-pink: #E91E63;
+  --accent-cyan: #00E5FF;
+  --cell-bg: var(--vscode-editorGroupHeader-tabsBackground, #1e1e1e);
+}
+
+body {
+  font-family: var(--vscode-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  color: var(--fg-primary);
+  background-color: var(--bg-primary);
+  margin: 0;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.title-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sanskrit-symbol {
+  font-size: 1.8rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, var(--accent-saffron), var(--accent-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.metadata-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.meta-card {
+  background: var(--vscode-editorWidget-background, #252526);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.85rem;
+}
+
+.meta-card .label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--vscode-descriptionForeground, #888);
+  margin-bottom: 0.35rem;
+}
+
+.meta-card .value {
+  font-size: 1.15rem;
+  font-weight: 600;
+  font-family: var(--vscode-editor-font-family, monospace);
+  color: var(--accent-cyan);
+}
+
+.slice-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--vscode-editorWidget-background, #252526);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+}
+
+.tensor-matrix-view {
+  overflow-x: auto;
+  background: var(--vscode-editorWidget-background, #252526);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+table.tensor-table {
+  border-collapse: collapse;
+  margin: 0 auto;
+  font-family: var(--vscode-editor-font-family, monospace);
+  font-size: 0.85rem;
+}
+
+table.tensor-table th, table.tensor-table td {
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--border-color);
+  text-align: right;
+}
+
+table.tensor-table th {
+  background: var(--vscode-editorGroupHeader-tabsBackground, #1e1e1e);
+  color: var(--vscode-descriptionForeground, #aaa);
+}
+
+td.cell-val {
+  transition: background-color 0.2s ease;
+}
+
+td.cell-val:hover {
+  outline: 2px solid var(--accent-saffron);
+}
+
+.autodiff-card {
+  margin-top: 1.5rem;
+  background: var(--vscode-editorWidget-background, #252526);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.gradient-tape {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+}
+
+.tape-node {
+  background: var(--vscode-badge-background, #333);
+  color: var(--vscode-badge-foreground, #fff);
+  padding: 0.5rem 0.85rem;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}

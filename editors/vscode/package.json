@@ -1,0 +1,344 @@
+{
+  "name": "sanskrit-vscode",
+  "displayName": "Sanskrit Next",
+  "description": "Comprehensive language platform for Sanskrit Next: Language intelligence, compiler integration, debugger, test explorer, benchmark runner, and tensor inspector.",
+  "version": "2.0.0-alpha.1",
+  "publisher": "sh20raj",
+  "author": {
+    "name": "Shaswat Raj",
+    "url": "https://github.com/SH20RAJ"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SH20RAJ/sanskrit"
+  },
+  "bugs": {
+    "url": "https://github.com/SH20RAJ/sanskrit/issues"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Formatters",
+    "Debuggers",
+    "Testing"
+  ],
+  "keywords": [
+    "sanskrit",
+    "compiler",
+    "systems",
+    "ai",
+    "tensor",
+    "autodiff",
+    "devanagari",
+    "mlir"
+  ],
+  "icon": "media/icon.png",
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onLanguage:sanskrit",
+    "workspaceContains:**/*.skt",
+    "workspaceContains:**/*.sns",
+    "onCommand:sanskrit.run",
+    "onCommand:sanskrit.build",
+    "onCommand:sanskrit.check",
+    "onCommand:sanskrit.bench",
+    "onCommand:sanskrit.doctor",
+    "onCommand:sanskrit.env",
+    "onCommand:sanskrit.repl",
+    "onCommand:sanskrit.new",
+    "onCommand:sanskrit.fmt",
+    "onCommand:sanskrit.openTensorInspector",
+    "onCommand:sanskrit.restartLsp",
+    "onView:sanskritProjectExplorer",
+    "onView:sanskritBenchmarks",
+    "onView:sanskritDoctor"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "Language syntax highlighting is available, but running compiler commands and executing scripts is disabled in untrusted workspaces."
+    },
+    "virtualWorkspaces": {
+      "supported": false,
+      "description": "Sanskrit Next requires local toolchain and process execution."
+    }
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "sanskrit",
+        "aliases": [
+          "Sanskrit",
+          "Sanskrit Next",
+          "skt",
+          "sns"
+        ],
+        "extensions": [
+          ".skt",
+          ".sns"
+        ],
+        "configuration": "./syntaxes/sanskrit-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "sanskrit",
+        "scopeName": "source.sanskrit",
+        "path": "./syntaxes/sanskrit.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "sanskrit",
+        "path": "./snippets/sanskrit.json"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "sanskrit-platform",
+          "title": "Sanskrit Next",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "sanskrit-platform": [
+        {
+          "id": "sanskritProjectExplorer",
+          "name": "Project & Targets",
+          "icon": "$(folder-library)"
+        },
+        {
+          "id": "sanskritBenchmarks",
+          "name": "Benchmarks & Performance",
+          "icon": "$(graph)"
+        },
+        {
+          "id": "sanskritDoctor",
+          "name": "Toolchain & Accelerators",
+          "icon": "$(pulse)"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "sanskrit.run",
+        "title": "Run File",
+        "category": "Sanskrit",
+        "icon": "$(play)"
+      },
+      {
+        "command": "sanskrit.build",
+        "title": "Build / Emit MLIR",
+        "category": "Sanskrit",
+        "icon": "$(package)"
+      },
+      {
+        "command": "sanskrit.check",
+        "title": "Check Syntax & Types",
+        "category": "Sanskrit",
+        "icon": "$(check)"
+      },
+      {
+        "command": "sanskrit.bench",
+        "title": "Run Performance Benchmarks",
+        "category": "Sanskrit",
+        "icon": "$(dashboard)"
+      },
+      {
+        "command": "sanskrit.doctor",
+        "title": "Doctor: Inspect Toolchain & GPU",
+        "category": "Sanskrit",
+        "icon": "$(pulse)"
+      },
+      {
+        "command": "sanskrit.env",
+        "title": "Show Environment & Tier Info",
+        "category": "Sanskrit",
+        "icon": "$(info)"
+      },
+      {
+        "command": "sanskrit.repl",
+        "title": "Start Interactive REPL",
+        "category": "Sanskrit",
+        "icon": "$(terminal)"
+      },
+      {
+        "command": "sanskrit.new",
+        "title": "New Sanskrit Project",
+        "category": "Sanskrit",
+        "icon": "$(new-folder)"
+      },
+      {
+        "command": "sanskrit.fmt",
+        "title": "Format Document",
+        "category": "Sanskrit",
+        "icon": "$(symbol-operator)"
+      },
+      {
+        "command": "sanskrit.openTensorInspector",
+        "title": "Open Tensor & Autodiff Inspector",
+        "category": "Sanskrit",
+        "icon": "$(database)"
+      },
+      {
+        "command": "sanskrit.restartLsp",
+        "title": "Restart Language Server",
+        "category": "Sanskrit",
+        "icon": "$(refresh)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "sanskrit.run",
+          "when": "resourceLangId == sanskrit",
+          "group": "navigation@1"
+        },
+        {
+          "command": "sanskrit.check",
+          "when": "resourceLangId == sanskrit",
+          "group": "navigation@2"
+        },
+        {
+          "command": "sanskrit.openTensorInspector",
+          "when": "resourceLangId == sanskrit",
+          "group": "navigation@3"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "sanskrit.run",
+          "when": "resourceLangId == sanskrit",
+          "group": "sanskrit@1"
+        },
+        {
+          "command": "sanskrit.check",
+          "when": "resourceLangId == sanskrit",
+          "group": "sanskrit@2"
+        },
+        {
+          "command": "sanskrit.openTensorInspector",
+          "when": "resourceLangId == sanskrit",
+          "group": "sanskrit@3"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "sanskrit.doctor",
+          "when": "view == sanskritDoctor",
+          "group": "navigation"
+        },
+        {
+          "command": "sanskrit.bench",
+          "when": "view == sanskritBenchmarks",
+          "group": "navigation"
+        }
+      ]
+    },
+    "debuggers": [
+      {
+        "type": "sanskrit-debug",
+        "label": "Sanskrit Next Debugger",
+        "languages": [
+          "sanskrit"
+        ],
+        "configurationAttributes": {
+          "launch": {
+            "required": [
+              "program"
+            ],
+            "properties": {
+              "program": {
+                "type": "string",
+                "description": "Path to the .skt or .sns file to execute",
+                "default": "${file}"
+              },
+              "stopOnEntry": {
+                "type": "boolean",
+                "description": "Automatically stop after launching",
+                "default": false
+              },
+              "tier0": {
+                "type": "boolean",
+                "description": "Execute with Tier-0 Bytecode VM",
+                "default": true
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "type": "sanskrit-debug",
+            "name": "Sanskrit: Debug Current File",
+            "request": "launch",
+            "program": "${file}",
+            "stopOnEntry": false,
+            "tier0": true
+          }
+        ]
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Sanskrit Next",
+      "properties": {
+        "sanskrit.compilerPath": {
+          "type": "string",
+          "default": "",
+          "description": "Custom path to the sanskrit compiler executable. Defaults to locating on PATH or ~/.sanskrit/bin."
+        },
+        "sanskrit.trace.server": {
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "Traces communication between VS Code and the Sanskrit Language Server."
+        },
+        "sanskrit.formatOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically format Sanskrit files on save."
+        },
+        "sanskrit.tier0": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run files using the high-performance Tier-0 Bytecode VM."
+        },
+        "sanskrit.tensorInspectorAutoOpen": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically open Tensor Inspector when debugging tensor operations."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "node esbuild.config.js --production",
+    "watch": "node esbuild.config.js --watch",
+    "lint": "tsc --noEmit",
+    "test": "node ./dist/test/runTest.js",
+    "package": "vsce package --no-git-tag-version"
+  },
+  "dependencies": {
+    "@vscode/debugadapter": "^1.65.0",
+    "@vscode/debugprotocol": "^1.65.0",
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.24.0",
+    "esbuild": "^0.20.0",
+    "typescript": "^5.3.3"
+  }
+}
