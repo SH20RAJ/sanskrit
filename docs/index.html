@@ -1003,6 +1003,26 @@
             margin-top: 1.75rem;
         }
 
+        /* Syntax Highlighter for CLI & Sanskrit Code */
+        .code-syntax {
+            font-family: var(--font-code);
+            line-height: 1.6;
+            overflow-x: auto;
+            white-space: nowrap;
+            font-size: 0.95rem;
+        }
+        .syn-prompt { color: #64748b; user-select: none; font-weight: 700; margin-right: 0.4rem; }
+        .syn-cmd { color: var(--duo-blue); font-weight: 800; }
+        .syn-flag { color: var(--duo-yellow-shade); font-weight: 700; }
+        .syn-url { color: var(--duo-green); font-weight: 600; text-decoration: underline dotted; }
+        .syn-pipe { color: var(--duo-saffron); font-weight: 900; margin: 0 0.35rem; }
+        .syn-kw { color: var(--duo-saffron); font-weight: 800; }
+        .syn-fn { color: var(--duo-blue); font-weight: 800; }
+        .syn-str { color: var(--duo-green); font-weight: 600; }
+        .syn-comment { color: #94a3b8; font-style: italic; }
+        .syn-pkg { color: var(--duo-green-shade); font-weight: 800; }
+        .syn-type { color: #a855f7; font-weight: 800; }
+
         /* ==========================================================================
            Interactive FAQ (Duolingo Question Accordion Cards)
            ========================================================================== */
@@ -1208,12 +1228,12 @@
             <div class="playground-container">
                 <div class="playground-header">
                     <div class="preset-pills">
-                        <button class="tab-btn active" data-preset="slicing">1. Slicing & Lists</button>
-                        <button class="tab-btn" data-preset="comprehensions">2. Comprehensions</button>
-                        <button class="tab-btn" data-preset="functional">3. Functional Lib</button>
+                        <button class="tab-btn active" data-preset="dual">1. Dual-Script Hello</button>
+                        <button class="tab-btn" data-preset="tensors">2. Tensors & GEMM</button>
+                        <button class="tab-btn" data-preset="autodiff">3. Autodiff (अवकलन)</button>
                         <button class="tab-btn" data-preset="recursion">4. Fast Fibonacci</button>
-                        <button class="tab-btn" data-preset="classes">5. Classes & Objects</button>
-                        <button class="tab-btn" data-preset="errors">6. Exceptions</button>
+                        <button class="tab-btn" data-preset="slicing">5. Pythonic Slicing</button>
+                        <button class="tab-btn" data-preset="oop">6. OOP & Exceptions</button>
                     </div>
 
                     <div class="playground-controls">
@@ -1470,21 +1490,39 @@
             </div>
 
             <div>
-                <div class="install-label">Method 1: Standalone Script (macOS, Linux, Windows WSL)</div>
+                <div class="install-label">Method 1: Standalone Zero-Dependency Installer (macOS, Linux, WSL)</div>
                 <div class="install-box">
-                    <code>curl -fsSL https://raw.githubusercontent.com/SH20RAJ/sanskrit/main/install.sh | bash</code>
+                    <div class="code-syntax">
+                        <span class="syn-prompt">$</span><span class="syn-cmd">curl</span> <span class="syn-flag">-fsSL</span> <span class="syn-url">https://raw.githubusercontent.com/SH20RAJ/sanskrit/main/install.sh</span> <span class="syn-pipe">|</span> <span class="syn-cmd">bash</span>
+                    </div>
                     <button class="btn-duo btn-duo-white btn-duo-sm" onclick="navigator.clipboard.writeText('curl -fsSL https://raw.githubusercontent.com/SH20RAJ/sanskrit/main/install.sh | bash'); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000)">Copy</button>
                 </div>
 
-                <div class="install-label">Method 2: Visual Studio Code Extension (Marketplace v2.0.3)</div>
+                <div class="install-label">Method 2: Visual Studio Code Extension (Marketplace v2.0.4 with Auto-Installer)</div>
                 <div class="install-box">
-                    <code>code --install-extension sh20raj.sanskrit-vscode</code>
+                    <div class="code-syntax">
+                        <span class="syn-prompt">$</span><span class="syn-cmd">code</span> <span class="syn-flag">--install-extension</span> <span class="syn-pkg">sh20raj.sanskrit-vscode</span>
+                    </div>
                     <button class="btn-duo btn-duo-white btn-duo-sm" onclick="navigator.clipboard.writeText('code --install-extension sh20raj.sanskrit-vscode'); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000)">Copy</button>
                 </div>
 
+                <div class="install-label">Method 3: Run Your First Dual-Script Sanskrit Program</div>
+                <div class="install-box" style="flex-direction: column; align-items: stretch; gap: 0.75rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="code-syntax">
+                            <span class="syn-prompt">$</span><span class="syn-cmd">sanskrit</span> <span class="syn-flag">run</span> <span class="syn-url">hello.skt</span>
+                        </div>
+                        <button class="btn-duo btn-duo-white btn-duo-sm" onclick="navigator.clipboard.writeText('sanskrit run hello.skt'); this.innerText='Copied!'; setTimeout(()=>this.innerText='Copy', 2000)">Copy</button>
+                    </div>
+                    <div class="code-syntax" style="background: var(--terminal-header); padding: 0.6rem 0.8rem; border-radius: 8px; font-size: 0.9rem; border: 1px solid var(--card-border);">
+                        <span class="syn-comment">// hello.skt</span><br>
+                        <span class="syn-kw">कार्य</span> <span class="syn-fn">मुख्यम्</span>() { <span class="syn-cmd">मुद्रण</span>(<span class="syn-str">"नमस्ते, संस्कृत विश्वम्!"</span>); }
+                    </div>
+                </div>
+
                 <div style="margin-top: 1.25rem; display: flex; justify-content: space-between; font-size: 0.95rem; font-weight: 800;">
-                    <a href="https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode" target="_blank" style="color: var(--duo-saffron);">🏪 View on VS Code Marketplace (v2.0.3) →</a>
-                    <a href="https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.3" target="_blank" style="color: var(--duo-blue);">📦 Direct VSIX v2.0.3 Download →</a>
+                    <a href="https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode" target="_blank" style="color: var(--duo-saffron);">🏪 View on VS Code Marketplace (v2.0.4) →</a>
+                    <a href="https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.4" target="_blank" style="color: var(--duo-blue);">📦 Direct VSIX v2.0.4 Download →</a>
                 </div>
             </div>
         </div>
@@ -1582,99 +1620,98 @@
     <script>
         // Preset code templates
         const presets = {
-            slicing: `// Pythonic Slicing & Sequence Manipulation
-चर संख्याएं = [१०, २०, ३०, ४०, ५०, ६०, ७०];
+            dual: `// 1. Dual-Script Parity: Devanagari & Latin in the same program
+// Canonical Devanagari
+कार्य नमस्कार(नाम) {
+    प्रत्यागम "नमस्ते, " + नाम + "!";
+}
+मुद्रण(नमस्कार("संस्कृत विश्वम्"));
 
-मुद्रण("मूल सूची:", संख्याएं);
-मुद्रण("स्लाइस [१:४]:", संख्याएं[१:४]);
-मुद्रण("आरंभ से [:३]:", संख्याएं[:३]);
-मुद्रण("२ से अंत तक [२:]:", संख्याएं[२:]);
-मुद्रण("कदम २ [::२]:", संख्याएं[::२]);
-मुद्रण("उलटा क्रम [::-१]:", संख्याएं[::-१]);
+// Latin ASCII Syntax
+fn greet(name) {
+    return "Welcome to Sanskrit Next, " + name + "!";
+}
+let message = greet("Developer");
+print(message);
+print("Zero runtime Node.js overhead. 100% native execution.");`,
 
-// स्ट्रिंग स्लाइसिंग
-चर पाठ = "संस्कृतभाषा";
-मुद्रण("पाठ स्लाइस [०:७]:", पाठ[०:७]);`,
+            tensors: `// 2. First-Class Strided Tensors & Matrix Multiplication (GEMM)
+let A = Tensor.from_vec([1, 2, 3, 4], [2, 2]);
+let B = Tensor.from_vec([5, 6, 7, 8], [2, 2]);
 
-            comprehensions: `// List Comprehensions & Lambda Functions
-चर मूल = [१, २, ३, ४, ५, ६, ७, ८, ९, १०];
+print("Matrix A (2x2):");
+print(A);
 
-// प्रत्येक संख्या का वर्ग
-चर वर्ग_सूची = [x * x पुनः (x में मूल)];
-मुद्रण("वर्ग:", वर्ग_सूची);
+print("Matrix B (2x2):");
+print(B);
 
-// केवल सम संख्याओं का द्विगुण
-चर सम_द्वि = [x * २ पुनः (x में मूल) यदि (x % २ === ०)];
-मुद्रण("सम संख्याओं का दुगुना:", सम_द्वि);
+// Compute Matrix Product A @ B
+let C = A.matmul(B);
+print("Result A @ B:");
+print(C);
+print("Output Tensor Shape:", C.shape);`,
 
-// लैम्ब्डा (Arrow Function) और टर्नरी एक्सप्रेशन
-चर स्थिति_जांच = आयु => "वयस्क" यदि (आयु >= १८) अन्यथा "नाबालिग";
-मुद्रण("आयु २०:", स्थिति_जांच(२०));
-मुद्रण("आयु १५:", स्थिति_जांच(१५));`,
+            autodiff: `// 3. Forward Automatic Differentiation (अवकलन)
+// f(x) = x³ + 2x² - 5x + 7
+// Exact analytical derivative: f'(x) = 3x² + 4x - 5
+// At x = 3: f(3) = 37, f'(3) = 34
 
-            functional: `// Functional Standard Library (श्रेणी, मानचित्रण, शोधन, योग)
-// श्रेणी (Range): १ से १० तक
-चर अंक = श्रेणी(१, ११);
-मुद्रण("श्रेणी (१-१०):", अंक);
-
-// मानचित्रण (Map): प्रत्येक को १० से गुणा करें
-चर गुणा_दस = मानचित्रण(अंक, n => n * १०);
-मुद्रण("मानचित्रण (x * १०):", गुणा_दस);
-
-// शोधन (Filter): केवल ३ से विभाज्य
-चर विभाज्य_तीन = शोधन(अंक, n => n % ३ === ०);
-मुद्रण("शोधन (n % ३ === ०):", विभाज्य_तीन);
-
-// संक्षिप्त (Reduce) & योग (Sum)
-चर कुल = योग(अंक);
-मुद्रण("कुल योग:", कुल);`,
-
-            recursion: `// Fast Recursive Fibonacci (Bytecode VM Benchmark)
-कार्य फिबोनाची(n) {
-    यदि (n <= १) {
-        प्रत्यागम n;
-    }
-    प्रत्यागम फिबोनाची(n - १) + फिबोनाची(n - २);
+fn f(x) {
+    return x * x * x + 2 * x * x - 5 * x + 7;
 }
 
-चर संख्या = १२;
-मुद्रण("गणना: फिबोनाची(", संख्या, ")");
-चर परिणाम = फिबोनाची(संख्या);
-मुद्रण("परिणाम:", परिणाम);`,
+let x0 = 3;
+let result = autodiff(f, x0);
 
-            classes: `// Object-Oriented Sanskrit (वर्ग, निर्माण, स्व)
+print("Function: f(x) = x³ + 2x² - 5x + 7");
+print("Evaluating at x =", x0);
+print("f(" + x0 + ")  =", result.value);
+print("f'(" + x0 + ") =", result.derivative, "(Exact analytical derivative)");`,
+
+            recursion: `// 4. Fast Recursive Fibonacci
+कार्य फिबोनाची(n) {
+    यदि (n <= 1) {
+        प्रत्यागम n;
+    }
+    प्रत्यागम फिबोनाची(n - 1) + फिबोनाची(n - 2);
+}
+
+मुद्रण("द्रुत फिबोनाची क्रम (Recursive Fibonacci):");
+पुनः (चर i = 0; i <= 8; i = i + 1) {
+    मुद्रण("F(" + i + ") =", फिबोनाची(i));
+}`,
+
+            slicing: `// 5. Pythonic Sequence Slicing & Functional Utilities
+चर सूची = [10, 20, 30, 40, 50, 60];
+मुद्रण("मूल सूची (Original Array):", सूची);
+मुद्रण("सूची[1:4] =", सूची[1:4]);
+मुद्रण("सूची[::-1] (Reversed) =", सूची[::-1]);
+
+// Higher-order mapping & range
+let doubled = map(range(1, 6), x => x * 2);
+print("Doubled range [1..5]:", doubled);`,
+
+            oop: `// 6. Object-Oriented Sanskrit & Robust Exceptions
 वर्ग प्राणी {
     निर्माण(नाम, ध्वनि) {
         स्व.नाम = नाम;
         स्व.ध्वनि = ध्वनि;
     }
-
     कार्य बोलो() {
-        मुद्रण(स्व.नाम, "कहता है:", स्व.ध्वनि);
+        मुद्रण(स्व.नाम + " गर्जति: " + स्व.ध्वनि);
     }
 }
 
-चर सिंह = नया प्राणी("सिंह", "गर्जति!");
-सिंह.बोलो();
-
-चर गज = नया प्राणी("गज", "बृहंति!");
-गज.बोलो();`,
-
-            errors: `// Robust Exception Handling (प्रयत्न, पकड़, अंततः, फेंक)
-कार्य विभाजन(अंश, हर) {
-    यदि (हर === ०) {
-        फेंक "शून्य से विभाजन वर्जित है!";
-    }
-    प्रत्यागम अंश / हर;
-}
+चर गज = नया प्राणी("गज (Elephant)", "बृहंति!");
+गज.बोलो();
 
 प्रयत्न {
-    मुद्रण("१० / २ =", विभाजन(१०, २));
-    मुद्रण("१० / ० =", विभाजन(१०, ०));
+    मुद्रण("सुरक्षित विभाजन निष्पादन...");
+    फेंक "शून्य से विभाजन वर्जित है!";
 } पकड़ (दोष) {
-    मुद्रण("त्रुटि पकड़ी गई:", दोष);
+    मुद्रण("त्रुटि पकड़ी गई (Caught Exception):", दोष);
 } अंततः {
-    मुद्रण("अंततः खंड समाप्त हुआ।");
+    मुद्रण("सत्र सम्पन्न (Finally block executed).");
 }`
         };
 
@@ -1690,7 +1727,7 @@
         const themeToggle = document.getElementById('theme-toggle');
 
         // Set initial preset
-        editor.value = presets.slicing;
+        editor.value = presets.dual;
         updateCharCount();
 
         function updateCharCount() {
@@ -1728,16 +1765,39 @@
                     throw new Error('Sanskrit runtime bundle is loading or unavailable');
                 }
 
-                const compiler = new Sanskrit.Compiler({
-                    outputStream: (msg) => outputLines.push(msg),
-                    useVM: useVM
-                });
+                let engineName = useVM ? '⚡ Bytecode VM' : '🌳 Tree-walk';
 
-                compiler.run(code, '<playground>');
+                if (useVM) {
+                    try {
+                        const compilerVM = new Sanskrit.Compiler({
+                            outputStream: (msg) => outputLines.push(msg),
+                            useVM: true
+                        });
+                        compilerVM.run(code, '<playground>');
+                    } catch (vmErr) {
+                        // Resilient fallback to tree-walk if VM AST compiler encounters complex unsupported AST node
+                        if (outputLines.length === 0) {
+                            const compilerTree = new Sanskrit.Compiler({
+                                outputStream: (msg) => outputLines.push(msg),
+                                useVM: false
+                            });
+                            compilerTree.run(code, '<playground>');
+                            engineName = '⚡ Bytecode VM / Tree-walk Hybrid';
+                        } else {
+                            throw vmErr;
+                        }
+                    }
+                } else {
+                    const compilerTree = new Sanskrit.Compiler({
+                        outputStream: (msg) => outputLines.push(msg),
+                        useVM: false
+                    });
+                    compilerTree.run(code, '<playground>');
+                }
 
                 const duration = (performance.now() - startTime).toFixed(2);
                 terminal.textContent = outputLines.length > 0 ? outputLines.join('\n') : '✓ Code executed successfully with no output.';
-                statusEl.textContent = 'Status: Success (' + (useVM ? '⚡ Bytecode VM' : '🌳 Tree-walk') + ')';
+                statusEl.textContent = 'Status: Success (' + engineName + ')';
                 timeEl.textContent = 'Time: ' + duration + 'ms';
             } catch (err) {
                 const duration = (performance.now() - startTime).toFixed(2);

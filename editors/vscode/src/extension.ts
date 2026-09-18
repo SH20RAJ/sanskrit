@@ -31,12 +31,20 @@ import { SanskritInlayHintsProvider } from './intelligence/inlayHints';
 import { SanskritDocumentSymbolProvider } from './intelligence/symbols';
 import { SanskritCodeLensProvider } from './intelligence/codeLens';
 import { SanskritCodeActionProvider } from './intelligence/codeActions';
+import { ToolchainManager } from './toolchain';
 
 let lspManager: SanskritLspManager | null = null;
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
   const outputChannel = vscode.window.createOutputChannel('Sanskrit Next');
   outputChannel.appendLine('[Extension] Activating Sanskrit Next Extension Platform...');
+
+  // 0. Auto-verify & auto-install Sanskrit toolchain in system if not present
+  try {
+    await ToolchainManager.ensureToolchainInstalled(context, outputChannel);
+  } catch (err) {
+    outputChannel.appendLine(`[Toolchain] Auto-install check encountered: ${err}`);
+  }
 
   // 1. Language Server Protocol (LSP)
   lspManager = new SanskritLspManager();
@@ -155,6 +163,9 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
         await lspManager.restart();
       }
     }),
+    vscode.commands.registerCommand(COMMANDS.INSTALL_LANGUAGE, () =>
+      ToolchainManager.installToolchain(true, outputChannel)
+    ),
     vscode.commands.registerCommand('sanskrit.statusMenu', () => SanskritStatusBar.showQuickMenu())
   );
 

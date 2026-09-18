@@ -2,7 +2,7 @@
   "name": "sanskrit-vscode",
   "displayName": "Sanskrit Next",
   "description": "Comprehensive language platform for Sanskrit Next: Language intelligence, compiler integration, Sanskrit VM terminal execution, debugger, test explorer, benchmark runner, and tensor inspector.",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "publisher": "sh20raj",
   "author": {
     "name": "Shaswat Raj",
@@ -141,6 +141,12 @@
       ]
     },
     "commands": [
+      {
+        "command": "sanskrit.installLanguage",
+        "title": "Install Sanskrit Language in System",
+        "category": "Sanskrit",
+        "icon": "$(cloud-download)"
+      },
       {
         "command": "sanskrit.runInTerminal",
         "title": "Run in Sanskrit VM (Terminal)",
@@ -345,6 +351,11 @@
       "type": "object",
       "title": "Sanskrit Next",
       "properties": {
+        "sanskrit.autoInstallLanguage": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically download and install Sanskrit Next language toolchain in the system (~/.sanskrit/bin) if not found during extension activation."
+        },
         "sanskrit.execution.runInTerminal": {
           "type": "boolean",
           "default": true,

@@ -25,9 +25,11 @@
 ---
 
 <p align="center">
-  <img src="media/sanskrit-demo.gif" alt="Sanskrit Next Terminal Live Demo" width="940" style="max-width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);" />
+  <a href="https://raw.githubusercontent.com/SH20RAJ/sanskrit/main/assets/sanskrit-demo.mp4">
+    <img src="https://raw.githubusercontent.com/SH20RAJ/sanskrit/main/media/sanskrit-demo.gif" alt="Sanskrit Next Terminal Live Demo" width="940" style="max-width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);" />
+  </a>
   <br>
-  <em>⚡ <b>Live Terminal Execution</b>: Sub-2ms cold boot, dual-script execution, linear algebra tensors, compiler doctor & benchmarks.</em>
+  <em>⚡ <b>Live Terminal Execution</b>: Sub-2ms cold boot, dual-script execution, linear algebra tensors, compiler doctor & benchmarks. <a href="https://raw.githubusercontent.com/SH20RAJ/sanskrit/main/assets/sanskrit-demo.mp4"><b>[📹 Download Full HD MP4 Video]</b></a></em>
 </p>
 
 ---
@@ -40,6 +42,10 @@
 
 Sanskrit Next brings the visual clarity and frictionless developer velocity of modern TypeScript/TSX and Tailwind environments directly to Sanskrit:
 
+- **Zero-Touch Automatic Language Toolchain Auto-Installer**:
+  - Automatically verifies and installs the native Sanskrit Next language compiler (`~/.sanskrit/bin/sanskrit`) in your system upon extension installation!
+  - Dynamically updates your environment `PATH` and shell profiles (`~/.zshrc`, `~/.bashrc`) with zero manual configuration required.
+  - Manual installation command `Sanskrit: Install Sanskrit Language in System` available in Command Palette (<kbd>Ctrl+Shift+P</kbd> / <kbd>Cmd+Shift+P</kbd>).
 - **Interactive Sanskrit VM Terminal Runner**:
   - Run `.skt` and `.sns` files directly in an interactive VS Code integrated terminal (`Sanskrit VM`) with sub-2ms startup!
   - 1-click execution via the **Play button** (`$(play)`) in the editor title bar.

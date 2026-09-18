@@ -17,9 +17,13 @@ export const COMMANDS = {
   FMT: 'sanskrit.fmt',
   OPEN_TENSOR_INSPECTOR: 'sanskrit.openTensorInspector',
   RESTART_LSP: 'sanskrit.restartLsp',
+  INSTALL_LANGUAGE: 'sanskrit.installLanguage',
 } as const;
 
 export const CONFIG_KEYS = {
+  // Toolchain & Installer Configuration
+  AUTO_INSTALL_LANGUAGE: 'sanskrit.autoInstallLanguage',
+
   // Legacy & Compatibility Keys
   COMPILER_PATH: 'sanskrit.compilerPath',
   TRACE_SERVER: 'sanskrit.trace.server',
