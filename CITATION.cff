@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use Sanskrit Next in your academic or research work, please cite it as below."
+authors:
+  - family-names: "Raj"
+    given-names: "Shaswat"
+    affiliation: "Sanskrit Next Project"
+title: "Sanskrit Next: Safe, Fast, AI/ML-Native Systems Programming Language"
+version: 2.0.0-alpha.1
+date-released: 2026-09-18
+url: "https://github.com/SH20RAJ/sanskrit"
+repository-code: "https://github.com/SH20RAJ/sanskrit"
+keywords:
+  - "programming-language"
+  - "compiler"
+  - "mlir"
+  - "systems-programming"
+  - "tensors"
+  - "automatic-differentiation"
+  - "sanskrit"
+  - "devanagari"
+license: "MIT"
