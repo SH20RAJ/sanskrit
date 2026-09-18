@@ -170,14 +170,22 @@ impl VirtualMachine {
                     match (a, b) {
                         (Value::Int(x), Value::Int(y)) => self.stack.push(Value::Int(x + y)),
                         (Value::Float(x), Value::Float(y)) => self.stack.push(Value::Float(x + y)),
-                        (Value::Int(x), Value::Float(y)) => self.stack.push(Value::Float(x as f64 + y)),
-                        (Value::Float(x), Value::Int(y)) => self.stack.push(Value::Float(x + y as f64)),
-                        (Value::Str(x), Value::Str(y)) => self.stack.push(Value::Str(format!("{}{}", x, y))),
+                        (Value::Int(x), Value::Float(y)) => {
+                            self.stack.push(Value::Float(x as f64 + y))
+                        }
+                        (Value::Float(x), Value::Int(y)) => {
+                            self.stack.push(Value::Float(x + y as f64))
+                        }
+                        (Value::Str(x), Value::Str(y)) => {
+                            self.stack.push(Value::Str(format!("{}{}", x, y)))
+                        }
                         (Value::Tensor(x), Value::Tensor(y)) => {
                             let res = x.add(&y)?;
                             self.stack.push(Value::Tensor(res));
                         }
-                        (other_a, other_b) => return Err(format!("Cannot add {:?} and {:?}", other_a, other_b)),
+                        (other_a, other_b) => {
+                            return Err(format!("Cannot add {:?} and {:?}", other_a, other_b))
+                        }
                     }
                 }
                 x if x == OpCode::Sub as u8 => {
@@ -186,9 +194,15 @@ impl VirtualMachine {
                     match (a, b) {
                         (Value::Int(x), Value::Int(y)) => self.stack.push(Value::Int(x - y)),
                         (Value::Float(x), Value::Float(y)) => self.stack.push(Value::Float(x - y)),
-                        (Value::Int(x), Value::Float(y)) => self.stack.push(Value::Float(x as f64 - y)),
-                        (Value::Float(x), Value::Int(y)) => self.stack.push(Value::Float(x - y as f64)),
-                        (other_a, other_b) => return Err(format!("Cannot sub {:?} and {:?}", other_a, other_b)),
+                        (Value::Int(x), Value::Float(y)) => {
+                            self.stack.push(Value::Float(x as f64 - y))
+                        }
+                        (Value::Float(x), Value::Int(y)) => {
+                            self.stack.push(Value::Float(x - y as f64))
+                        }
+                        (other_a, other_b) => {
+                            return Err(format!("Cannot sub {:?} and {:?}", other_a, other_b))
+                        }
                     }
                 }
                 x if x == OpCode::Mul as u8 => {
@@ -197,9 +211,15 @@ impl VirtualMachine {
                     match (a, b) {
                         (Value::Int(x), Value::Int(y)) => self.stack.push(Value::Int(x * y)),
                         (Value::Float(x), Value::Float(y)) => self.stack.push(Value::Float(x * y)),
-                        (Value::Int(x), Value::Float(y)) => self.stack.push(Value::Float(x as f64 * y)),
-                        (Value::Float(x), Value::Int(y)) => self.stack.push(Value::Float(x * y as f64)),
-                        (other_a, other_b) => return Err(format!("Cannot mul {:?} and {:?}", other_a, other_b)),
+                        (Value::Int(x), Value::Float(y)) => {
+                            self.stack.push(Value::Float(x as f64 * y))
+                        }
+                        (Value::Float(x), Value::Int(y)) => {
+                            self.stack.push(Value::Float(x * y as f64))
+                        }
+                        (other_a, other_b) => {
+                            return Err(format!("Cannot mul {:?} and {:?}", other_a, other_b))
+                        }
                     }
                 }
                 x if x == OpCode::Div as u8 => {
@@ -207,13 +227,21 @@ impl VirtualMachine {
                     let a = self.stack.pop().unwrap_or(Value::Int(0));
                     match (a, b) {
                         (Value::Int(x), Value::Int(y)) => {
-                            if y == 0 { return Err("Division by zero".to_string()); }
+                            if y == 0 {
+                                return Err("Division by zero".to_string());
+                            }
                             self.stack.push(Value::Int(x / y));
                         }
                         (Value::Float(x), Value::Float(y)) => self.stack.push(Value::Float(x / y)),
-                        (Value::Int(x), Value::Float(y)) => self.stack.push(Value::Float(x as f64 / y)),
-                        (Value::Float(x), Value::Int(y)) => self.stack.push(Value::Float(x / y as f64)),
-                        (other_a, other_b) => return Err(format!("Cannot div {:?} and {:?}", other_a, other_b)),
+                        (Value::Int(x), Value::Float(y)) => {
+                            self.stack.push(Value::Float(x as f64 / y))
+                        }
+                        (Value::Float(x), Value::Int(y)) => {
+                            self.stack.push(Value::Float(x / y as f64))
+                        }
+                        (other_a, other_b) => {
+                            return Err(format!("Cannot div {:?} and {:?}", other_a, other_b))
+                        }
                     }
                 }
                 x if x == OpCode::MatMul as u8 => {
@@ -288,7 +316,8 @@ impl VirtualMachine {
                         // e.g. "ones:1024,1024" or "zeros:512,512"
                         let parts: Vec<&str> = spec.split(':').collect();
                         let kind = parts[0];
-                        let dims: Vec<usize> = parts[1].split(',').filter_map(|s| s.parse().ok()).collect();
+                        let dims: Vec<usize> =
+                            parts[1].split(',').filter_map(|s| s.parse().ok()).collect();
                         let tensor = match kind {
                             "ones" => Tensor::ones(dims),
                             _ => Tensor::zeros(dims),
@@ -335,6 +364,12 @@ fn is_falsey(val: &Value) -> bool {
 pub struct BytecodeCompiler {
     chunk: Chunk,
     functions: HashMap<String, FunctionDef>,
+}
+
+impl Default for BytecodeCompiler {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl BytecodeCompiler {
@@ -471,7 +506,15 @@ impl BytecodeCompiler {
                 }
             }
             Expr::TensorConstructor { kind, shape, .. } => {
-                let spec = format!("{}:{}", kind, shape.iter().map(|d| d.to_string()).collect::<Vec<_>>().join(","));
+                let spec = format!(
+                    "{}:{}",
+                    kind,
+                    shape
+                        .iter()
+                        .map(|d| d.to_string())
+                        .collect::<Vec<_>>()
+                        .join(",")
+                );
                 let idx = self.chunk.add_constant(Value::Str(spec));
                 self.chunk.write_op(OpCode::TensorAlloc, 1);
                 self.chunk.write_byte(idx as u8, 1);

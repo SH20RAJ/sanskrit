@@ -11,11 +11,21 @@ pub struct Span {
 
 impl Span {
     pub fn new(start: usize, end: usize, line: usize, column: usize) -> Self {
-        Self { start, end, line, column }
+        Self {
+            start,
+            end,
+            line,
+            column,
+        }
     }
 
     pub fn dummy() -> Self {
-        Self { start: 0, end: 0, line: 1, column: 1 }
+        Self {
+            start: 0,
+            end: 0,
+            line: 1,
+            column: 1,
+        }
     }
 
     pub fn merge(&self, other: &Span) -> Self {
@@ -137,7 +147,7 @@ impl Diagnostic {
                     line_str
                 ));
 
-                let col_offset = if span.column > 1 { span.column - 1 } else { 0 };
+                let col_offset = span.column.saturating_sub(1);
                 let width = if span.end > span.start {
                     (span.end - span.start).max(1)
                 } else {

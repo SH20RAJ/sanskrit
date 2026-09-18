@@ -44,9 +44,7 @@ enum Commands {
         output: Option<PathBuf>,
     },
     /// Perform lexical, syntactic, and type analysis without execution
-    Check {
-        file: PathBuf,
-    },
+    Check { file: PathBuf },
     /// Execute unit, integration, and diagnostic tests
     Test {
         #[arg(default_value = ".")]
@@ -61,13 +59,9 @@ enum Commands {
     /// Start interactive REPL
     Repl,
     /// Create a new Sanskrit Next project
-    New {
-        name: String,
-    },
+    New { name: String },
     /// Format Sanskrit source code
-    Fmt {
-        file: Option<PathBuf>,
-    },
+    Fmt { file: Option<PathBuf> },
     /// Diagnose system toolchains, GPU accelerators, and compiler health
     Doctor,
     /// Print Sanskrit Next environment and runtime details
@@ -84,10 +78,18 @@ fn main() {
     let cli = Cli::parse();
 
     match cli.command {
-        Commands::Run { file, tier0: _, release: _ } => {
+        Commands::Run {
+            file,
+            tier0: _,
+            release: _,
+        } => {
             handle_run(&file);
         }
-        Commands::Build { file, emit_mlir, output } => {
+        Commands::Build {
+            file,
+            emit_mlir,
+            output,
+        } => {
             handle_build(&file, emit_mlir, output);
         }
         Commands::Check { file } => {
@@ -99,7 +101,12 @@ fn main() {
             println!("  [2/4] Pratt Parser & AST validation: PASS");
             println!("  [3/4] Type checker & Tensor dimension check: PASS");
             println!("  [4/4] Tier-0 Bytecode VM GEMM execution: PASS");
-            println!("{}", "\nAll tests passed successfully (4/4 suites).".green().bold());
+            println!(
+                "{}",
+                "\nAll tests passed successfully (4/4 suites)."
+                    .green()
+                    .bold()
+            );
         }
         Commands::Bench { save } => {
             handle_bench(save);
@@ -107,18 +114,24 @@ fn main() {
         Commands::Repl => {
             handle_repl();
         }
-        Commands::New { name } => {
-            match sanskrit_package::create_project(&name, Path::new(".")) {
-                Ok(path) => {
-                    println!("{} created new Sanskrit project `{}` at {}", "Success:".green().bold(), name, path.display());
-                    println!("To get started:\n  cd {}\n  sanskrit run src/main.skt", name);
-                }
-                Err(e) => {
-                    eprintln!("{}: {}", "Error".red().bold(), e);
-                    std::process::exit(1);
-                }
+        Commands::New { name } => match sanskrit_package::create_project(&name, Path::new(".")) {
+            Ok(path) => {
+                println!(
+                    "{} created new Sanskrit project `{}` at {}",
+                    "Success:".green().bold(),
+                    name,
+                    path.display()
+                );
+                println!(
+                    "To get started:\n  cd {}\n  sanskrit run src/main.skt",
+                    name
+                );
             }
-        }
+            Err(e) => {
+                eprintln!("{}: {}", "Error".red().bold(), e);
+                std::process::exit(1);
+            }
+        },
         Commands::Fmt { file } => {
             if let Some(f) = file {
                 println!("Formatted {}", f.display());
@@ -145,7 +158,12 @@ fn handle_run(file: &Path) {
     let source = match fs::read_to_string(file) {
         Ok(s) => s,
         Err(e) => {
-            eprintln!("{}: Could not read '{}': {}", "Error".red().bold(), file.display(), e);
+            eprintln!(
+                "{}: Could not read '{}': {}",
+                "Error".red().bold(),
+                file.display(),
+                e
+            );
             std::process::exit(1);
         }
     };
@@ -184,7 +202,10 @@ fn handle_run(file: &Path) {
     let mut tc = TypeChecker::new();
     if let Err(diags) = tc.check_module(&hir) {
         for diag in diags {
-            eprintln!("{}", diag.render_terminal(&source, file.to_str().unwrap_or("source.skt")));
+            eprintln!(
+                "{}",
+                diag.render_terminal(&source, file.to_str().unwrap_or("source.skt"))
+            );
         }
         std::process::exit(1);
     }
@@ -216,7 +237,12 @@ fn handle_check(file: &Path) {
     let source = match fs::read_to_string(file) {
         Ok(s) => s,
         Err(e) => {
-            eprintln!("{}: Could not read '{}': {}", "Error".red().bold(), file.display(), e);
+            eprintln!(
+                "{}: Could not read '{}': {}",
+                "Error".red().bold(),
+                file.display(),
+                e
+            );
             std::process::exit(1);
         }
     };
@@ -250,12 +276,19 @@ fn handle_check(file: &Path) {
     let mut tc = TypeChecker::new();
     if let Err(diags) = tc.check_module(&hir) {
         for diag in diags {
-            eprintln!("{}", diag.render_terminal(&source, file.to_str().unwrap_or("source.skt")));
+            eprintln!(
+                "{}",
+                diag.render_terminal(&source, file.to_str().unwrap_or("source.skt"))
+            );
         }
         std::process::exit(1);
     }
 
-    println!("{}: No syntax or type errors found in {}", "Success".green().bold(), file.display());
+    println!(
+        "{}: No syntax or type errors found in {}",
+        "Success".green().bold(),
+        file.display()
+    );
 }
 
 fn handle_build(file: &Path, emit_mlir: bool, output: Option<PathBuf>) {
@@ -271,14 +304,27 @@ fn handle_build(file: &Path, emit_mlir: bool, output: Option<PathBuf>) {
         let mlir = sanskrit_mlir::MlirEmitter::emit_mlir(&sir);
         let out_path = output.unwrap_or_else(|| file.with_extension("mlir"));
         fs::write(&out_path, &mlir.raw_mlir_text).expect("Failed to write MLIR");
-        println!("{} emitted MLIR to {}", "Success:".green().bold(), out_path.display());
+        println!(
+            "{} emitted MLIR to {}",
+            "Success:".green().bold(),
+            out_path.display()
+        );
     } else {
-        println!("{} built native target for {}", "Success:".green().bold(), file.display());
+        println!(
+            "{} built native target for {}",
+            "Success:".green().bold(),
+            file.display()
+        );
     }
 }
 
 fn handle_bench(save: Option<PathBuf>) {
-    println!("{}", "Executing Sanskrit Next Performance Benchmark Suite...".cyan().bold());
+    println!(
+        "{}",
+        "Executing Sanskrit Next Performance Benchmark Suite..."
+            .cyan()
+            .bold()
+    );
 
     // 1. Recursive Fibonacci Microbenchmark
     let fib_start = Instant::now();
@@ -300,7 +346,8 @@ fn handle_bench(save: Option<PathBuf>) {
 
     // 3. Automatic Differentiation Benchmark
     let ad_start = Instant::now();
-    let f = |x: sanskrit_autodiff::Dual| x.powi(4) + sanskrit_autodiff::Dual::constant(3.0) * x.powi(2);
+    let f =
+        |x: sanskrit_autodiff::Dual| x.powi(4) + sanskrit_autodiff::Dual::constant(3.0) * x.powi(2);
     for _ in 0..100_000 {
         let _ = sanskrit_autodiff::diff(f, 2.5);
     }
@@ -309,9 +356,21 @@ fn handle_bench(save: Option<PathBuf>) {
     println!("\n┌────────────────────────────┬──────────────┬───────────────────┐");
     println!("│ Benchmark Workload         │ Latency      │ Status            │");
     println!("├────────────────────────────┼──────────────┼───────────────────┤");
-    println!("│ Fibonacci Loop (N=40)      │ {:>8.4} ms │ {}              │", fib_time, "OPTIMAL".green());
-    println!("│ GEMM Tensor (128x128 F32)  │ {:>8.4} ms │ {}              │", gemm_time, "OPTIMAL".green());
-    println!("│ Autodiff (100k dual evals) │ {:>8.4} ms │ {}              │", ad_time, "OPTIMAL".green());
+    println!(
+        "│ Fibonacci Loop (N=40)      │ {:>8.4} ms │ {}              │",
+        fib_time,
+        "OPTIMAL".green()
+    );
+    println!(
+        "│ GEMM Tensor (128x128 F32)  │ {:>8.4} ms │ {}              │",
+        gemm_time,
+        "OPTIMAL".green()
+    );
+    println!(
+        "│ Autodiff (100k dual evals) │ {:>8.4} ms │ {}              │",
+        ad_time,
+        "OPTIMAL".green()
+    );
     println!("└────────────────────────────┴──────────────┴───────────────────┘");
 
     let report = serde_json::json!({
@@ -333,28 +392,59 @@ fn handle_bench(save: Option<PathBuf>) {
 }
 
 fn handle_doctor() {
-    println!("{}", "Sanskrit Next Doctor: Toolchain & Accelerator Inspection".cyan().bold());
+    println!(
+        "{}",
+        "Sanskrit Next Doctor: Toolchain & Accelerator Inspection"
+            .cyan()
+            .bold()
+    );
     println!("---------------------------------------------------------");
-    println!("Sanskrit Version : {}", "2.0.0-alpha.1 (Native Rust Workspace)".green());
+    println!(
+        "Sanskrit Version : {}",
+        "2.0.0-alpha.1 (Native Rust Workspace)".green()
+    );
     println!("Operating System : {}", std::env::consts::OS);
     println!("CPU Architecture : {}", std::env::consts::ARCH);
-    println!("Primary Backend  : {}", "Tier-0 Bytecode VM (<1ms startup)".green());
-    println!("Native Codegen   : {}", "MLIR Dialect Pipeline (Ready)".green());
+    println!(
+        "Primary Backend  : {}",
+        "Tier-0 Bytecode VM (<1ms startup)".green()
+    );
+    println!(
+        "Native Codegen   : {}",
+        "MLIR Dialect Pipeline (Ready)".green()
+    );
 
     let has_metal = cfg!(target_os = "macos");
     let has_cuda = std::env::var("CUDA_HOME").is_ok() || Path::new("/usr/local/cuda").exists();
 
     if has_metal {
-        println!("Metal GPU Driver : {}", "Available (Apple Silicon AMX / Metal)".green());
+        println!(
+            "Metal GPU Driver : {}",
+            "Available (Apple Silicon AMX / Metal)".green()
+        );
     } else if has_cuda {
-        println!("CUDA GPU Driver  : {}", "Available (NVIDIA CUDA Toolkit)".green());
+        println!(
+            "CUDA GPU Driver  : {}",
+            "Available (NVIDIA CUDA Toolkit)".green()
+        );
     } else {
-        println!("GPU Accelerators : {}", "CPU Fallback (SIMD Vectorization Active)".yellow());
+        println!(
+            "GPU Accelerators : {}",
+            "CPU Fallback (SIMD Vectorization Active)".yellow()
+        );
     }
 
-    println!("Package Cache    : {}", "~/.sanskrit/cache/ (Active)".green());
+    println!(
+        "Package Cache    : {}",
+        "~/.sanskrit/cache/ (Active)".green()
+    );
     println!("---------------------------------------------------------");
-    println!("{}", "Result: All essential core subsystems are operational.".green().bold());
+    println!(
+        "{}",
+        "Result: All essential core subsystems are operational."
+            .green()
+            .bold()
+    );
 }
 
 fn handle_env(json: bool) {
@@ -382,7 +472,12 @@ fn handle_env(json: bool) {
 }
 
 fn handle_repl() {
-    println!("{}", "Sanskrit Next Interactive REPL v2.0.0-alpha.1".cyan().bold());
+    println!(
+        "{}",
+        "Sanskrit Next Interactive REPL v2.0.0-alpha.1"
+            .cyan()
+            .bold()
+    );
     println!("Type Sanskrit expressions or Devanagari keywords. Press Ctrl+C or Ctrl+D to exit.\n");
 
     let rl = std::io::stdin();

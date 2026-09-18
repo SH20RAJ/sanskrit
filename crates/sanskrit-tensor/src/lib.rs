@@ -63,7 +63,10 @@ impl Tensor<f64> {
         let n = other.shape[1];
 
         if k1 != k2 {
-            return Err(format!("Matrix multiplication shape mismatch: [{}x{}] @ [{}x{}]", m, k1, k2, n));
+            return Err(format!(
+                "Matrix multiplication shape mismatch: [{}x{}] @ [{}x{}]",
+                m, k1, k2, n
+            ));
         }
 
         let mut out = Tensor::zeros(vec![m, n]);
@@ -106,7 +109,10 @@ impl Tensor<f64> {
             return Ok(out);
         }
 
-        Err(format!("Broadcasting not supported between {:?} and {:?}", self.shape, other.shape))
+        Err(format!(
+            "Broadcasting not supported between {:?} and {:?}",
+            self.shape, other.shape
+        ))
     }
 }
 
@@ -130,7 +136,7 @@ mod tests {
 
         let c = a.matmul(&b).unwrap();
         assert_eq!(c.shape, vec![2, 2]);
-        assert_eq!(c.get_2d(0, 0), 1.0*7.0 + 2.0*9.0 + 3.0*2.0); // 7 + 18 + 6 = 31
-        assert_eq!(c.get_2d(0, 1), 1.0*8.0 + 2.0*1.0 + 3.0*3.0); // 8 + 2 + 9 = 19
+        assert_eq!(c.get_2d(0, 0), 1.0 * 7.0 + 2.0 * 9.0 + 3.0 * 2.0); // 7 + 18 + 6 = 31
+        assert_eq!(c.get_2d(0, 1), 1.0 * 8.0 + 2.0 * 1.0 + 3.0 * 3.0); // 8 + 2 + 9 = 19
     }
 }

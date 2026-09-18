@@ -26,17 +26,55 @@ pub struct SirBlock {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum SirInstruction {
-    ConstInt { id: ValueId, val: i64 },
-    ConstFloat { id: ValueId, val: f64 },
-    ConstString { id: ValueId, val: String },
-    ConstBool { id: ValueId, val: bool },
-    AllocTensor { id: ValueId, shape: Vec<usize>, dtype: Type },
-    TensorMatMul { id: ValueId, lhs: ValueId, rhs: ValueId },
-    TensorAdd { id: ValueId, lhs: ValueId, rhs: ValueId },
-    BinaryOp { id: ValueId, op: String, lhs: ValueId, rhs: ValueId },
-    Call { id: ValueId, callee: String, args: Vec<ValueId> },
-    Print { args: Vec<ValueId> },
-    Copy { id: ValueId, src: ValueId },
+    ConstInt {
+        id: ValueId,
+        val: i64,
+    },
+    ConstFloat {
+        id: ValueId,
+        val: f64,
+    },
+    ConstString {
+        id: ValueId,
+        val: String,
+    },
+    ConstBool {
+        id: ValueId,
+        val: bool,
+    },
+    AllocTensor {
+        id: ValueId,
+        shape: Vec<usize>,
+        dtype: Type,
+    },
+    TensorMatMul {
+        id: ValueId,
+        lhs: ValueId,
+        rhs: ValueId,
+    },
+    TensorAdd {
+        id: ValueId,
+        lhs: ValueId,
+        rhs: ValueId,
+    },
+    BinaryOp {
+        id: ValueId,
+        op: String,
+        lhs: ValueId,
+        rhs: ValueId,
+    },
+    Call {
+        id: ValueId,
+        callee: String,
+        args: Vec<ValueId>,
+    },
+    Print {
+        args: Vec<ValueId>,
+    },
+    Copy {
+        id: ValueId,
+        src: ValueId,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -65,12 +103,15 @@ pub fn lower_hir_to_sir(module: &HirModule) -> Result<SirModule, String> {
 
         for stmt in &func.body {
             match stmt {
-                sanskrit_ast::Stmt::Let { name, init, .. } => {
-                    if let Some(expr) = init {
-                        let val = lower_expr(expr, &mut block, &mut val_counter, &var_map);
-                        var_map.insert(name.clone(), val);
-                    }
+                sanskrit_ast::Stmt::Let {
+                    name,
+                    init: Some(expr),
+                    ..
+                } => {
+                    let val = lower_expr(expr, &mut block, &mut val_counter, &var_map);
+                    var_map.insert(name.clone(), val);
                 }
+                sanskrit_ast::Stmt::Let { init: None, .. } => {}
                 sanskrit_ast::Stmt::Assign { target, value, .. } => {
                     let val = lower_expr(value, &mut block, &mut val_counter, &var_map);
                     var_map.insert(target.clone(), val);
@@ -80,10 +121,14 @@ pub fn lower_hir_to_sir(module: &HirModule) -> Result<SirModule, String> {
                     for a in args {
                         arg_ids.push(lower_expr(a, &mut block, &mut val_counter, &var_map));
                     }
-                    block.instructions.push(SirInstruction::Print { args: arg_ids });
+                    block
+                        .instructions
+                        .push(SirInstruction::Print { args: arg_ids });
                 }
                 sanskrit_ast::Stmt::Return { value, .. } => {
-                    let ret_id = value.as_ref().map(|v| lower_expr(v, &mut block, &mut val_counter, &var_map));
+                    let ret_id = value
+                        .as_ref()
+                        .map(|v| lower_expr(v, &mut block, &mut val_counter, &var_map));
                     block.terminator = SirTerminator::Return(ret_id);
                 }
                 sanskrit_ast::Stmt::Expr(e) => {
@@ -116,24 +161,35 @@ fn lower_expr(
 
     match expr {
         sanskrit_ast::Expr::Int(v, _) => {
-            block.instructions.push(SirInstruction::ConstInt { id, val: *v });
+            block
+                .instructions
+                .push(SirInstruction::ConstInt { id, val: *v });
             id
         }
         sanskrit_ast::Expr::Float(v, _) => {
-            block.instructions.push(SirInstruction::ConstFloat { id, val: *v });
+            block
+                .instructions
+                .push(SirInstruction::ConstFloat { id, val: *v });
             id
         }
         sanskrit_ast::Expr::Str(s, _) => {
-            block.instructions.push(SirInstruction::ConstString { id, val: s.clone() });
+            block
+                .instructions
+                .push(SirInstruction::ConstString { id, val: s.clone() });
             id
         }
         sanskrit_ast::Expr::Bool(b, _) => {
-            block.instructions.push(SirInstruction::ConstBool { id, val: *b });
+            block
+                .instructions
+                .push(SirInstruction::ConstBool { id, val: *b });
             id
         }
         sanskrit_ast::Expr::Ident(name, _) => {
             if let Some(&existing_id) = var_map.get(name) {
-                block.instructions.push(SirInstruction::Copy { id, src: existing_id });
+                block.instructions.push(SirInstruction::Copy {
+                    id,
+                    src: existing_id,
+                });
                 id
             } else {
                 id
@@ -144,7 +200,11 @@ fn lower_expr(
             let r_id = lower_expr(rhs, block, counter, var_map);
 
             if *op == sanskrit_ast::BinaryOp::MatMul {
-                block.instructions.push(SirInstruction::TensorMatMul { id, lhs: l_id, rhs: r_id });
+                block.instructions.push(SirInstruction::TensorMatMul {
+                    id,
+                    lhs: l_id,
+                    rhs: r_id,
+                });
             } else {
                 let op_str = match op {
                     sanskrit_ast::BinaryOp::Add => "+",
@@ -209,19 +269,17 @@ mod tests {
                 canonical_name: "main".to_string(),
                 params: Vec::new(),
                 return_type: None,
-                body: vec![
-                    sanskrit_ast::Stmt::Let {
-                        name: "A".to_string(),
-                        ty: None,
-                        init: Some(sanskrit_ast::Expr::TensorConstructor {
-                            kind: "ones".to_string(),
-                            shape: vec![16, 16],
-                            dtype: None,
-                            span: sanskrit_diagnostics::Span::dummy(),
-                        }),
+                body: vec![sanskrit_ast::Stmt::Let {
+                    name: "A".to_string(),
+                    ty: None,
+                    init: Some(sanskrit_ast::Expr::TensorConstructor {
+                        kind: "ones".to_string(),
+                        shape: vec![16, 16],
+                        dtype: None,
                         span: sanskrit_diagnostics::Span::dummy(),
-                    },
-                ],
+                    }),
+                    span: sanskrit_diagnostics::Span::dummy(),
+                }],
                 span: sanskrit_diagnostics::Span::dummy(),
             }],
             structs: Vec::new(),

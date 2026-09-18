@@ -20,6 +20,12 @@ pub struct LspCompletionItem {
 
 pub struct SanskritLanguageServer;
 
+impl Default for SanskritLanguageServer {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl SanskritLanguageServer {
     pub fn new() -> Self {
         Self
@@ -57,7 +63,9 @@ impl SanskritLanguageServer {
                 label: "कार्य".to_string(),
                 detail: "Function declaration (Devanagari)".to_string(),
                 documentation: "कार्य मुख्य(): पूर्णाङ्क { प्रत्यागम ०; }".to_string(),
-                insert_text: Some("कार्य ${1:name}(${2:params}): ${3:पूर्णाङ्क} {\n    ${0}\n}".to_string()),
+                insert_text: Some(
+                    "कार्य ${1:name}(${2:params}): ${3:पूर्णाङ्क} {\n    ${0}\n}".to_string(),
+                ),
             },
             LspCompletionItem {
                 label: "fn".to_string(),
@@ -166,7 +174,10 @@ impl SanskritLanguageServer {
         if let Err(type_diags) = tc.check_module(&hir) {
             for td in type_diags {
                 let (line, col) = if let Some(sp) = td.primary_span {
-                    (sp.line.saturating_sub(1) as u32, sp.column.saturating_sub(1) as u32)
+                    (
+                        sp.line.saturating_sub(1) as u32,
+                        sp.column.saturating_sub(1) as u32,
+                    )
                 } else {
                     (0, 0)
                 };
@@ -266,8 +277,14 @@ impl SanskritLanguageServer {
                 }
                 "textDocument/didChange" => {
                     if let Some(params) = msg.get("params") {
-                        let uri = params.get("textDocument").and_then(|td| td.get("uri")).and_then(|u| u.as_str()).unwrap_or("");
-                        if let Some(changes) = params.get("contentChanges").and_then(|c| c.as_array()) {
+                        let uri = params
+                            .get("textDocument")
+                            .and_then(|td| td.get("uri"))
+                            .and_then(|u| u.as_str())
+                            .unwrap_or("");
+                        if let Some(changes) =
+                            params.get("contentChanges").and_then(|c| c.as_array())
+                        {
                             if let Some(last) = changes.last() {
                                 if let Some(text) = last.get("text").and_then(|t| t.as_str()) {
                                     let diags = self.check_document(text);
@@ -293,18 +310,21 @@ impl SanskritLanguageServer {
                 }
                 "textDocument/completion" => {
                     let items = self.get_completions();
-                    let lsp_items: Vec<Value> = items.into_iter().map(|item| {
-                        json!({
-                            "label": item.label,
-                            "detail": item.detail,
-                            "documentation": {
-                                "kind": "markdown",
-                                "value": item.documentation
-                            },
-                            "insertText": item.insert_text.unwrap_or(item.label.clone()),
-                            "insertTextFormat": 2 // Snippet
+                    let lsp_items: Vec<Value> = items
+                        .into_iter()
+                        .map(|item| {
+                            json!({
+                                "label": item.label,
+                                "detail": item.detail,
+                                "documentation": {
+                                    "kind": "markdown",
+                                    "value": item.documentation
+                                },
+                                "insertText": item.insert_text.unwrap_or(item.label.clone()),
+                                "insertTextFormat": 2 // Snippet
+                            })
                         })
-                    }).collect();
+                        .collect();
 
                     let res = json!({
                         "jsonrpc": "2.0",
@@ -351,23 +371,35 @@ pub struct DiagnosticInfo {
 
 fn send_lsp_response<W: Write>(writer: &mut W, val: &Value) -> io::Result<()> {
     let payload = serde_json::to_string(val)?;
-    write!(writer, "Content-Length: {}\r\n\r\n{}", payload.len(), payload)?;
+    write!(
+        writer,
+        "Content-Length: {}\r\n\r\n{}",
+        payload.len(),
+        payload
+    )?;
     writer.flush()?;
     Ok(())
 }
 
-fn publish_diagnostics<W: Write>(writer: &mut W, uri: &str, diags: Vec<DiagnosticInfo>) -> io::Result<()> {
-    let lsp_diags: Vec<Value> = diags.into_iter().map(|d| {
-        json!({
-            "range": {
-                "start": { "line": d.line, "character": d.col },
-                "end": { "line": d.line, "character": d.col + 5 }
-            },
-            "severity": 1, // Error
-            "source": "sanskrit-next",
-            "message": d.message
+fn publish_diagnostics<W: Write>(
+    writer: &mut W,
+    uri: &str,
+    diags: Vec<DiagnosticInfo>,
+) -> io::Result<()> {
+    let lsp_diags: Vec<Value> = diags
+        .into_iter()
+        .map(|d| {
+            json!({
+                "range": {
+                    "start": { "line": d.line, "character": d.col },
+                    "end": { "line": d.line, "character": d.col + 5 }
+                },
+                "severity": 1, // Error
+                "source": "sanskrit-next",
+                "message": d.message
+            })
         })
-    }).collect();
+        .collect();
 
     let notification = json!({
         "jsonrpc": "2.0",

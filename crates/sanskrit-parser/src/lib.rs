@@ -122,7 +122,11 @@ impl Parser {
                 self.advance();
                 break;
             }
-            if !has_brace && (self.peek_kind() == TokenKind::Fn || self.peek_kind() == TokenKind::Struct || self.peek_kind() == TokenKind::Eof) {
+            if !has_brace
+                && (self.peek_kind() == TokenKind::Fn
+                    || self.peek_kind() == TokenKind::Struct
+                    || self.peek_kind() == TokenKind::Eof)
+            {
                 break;
             }
 
@@ -219,14 +223,23 @@ impl Parser {
                 self.advance();
                 break;
             }
-            if !has_brace && (self.peek_kind() == TokenKind::Fn || self.peek_kind() == TokenKind::Struct || self.peek_kind() == TokenKind::Else || self.peek_kind() == TokenKind::Eof) {
+            if !has_brace
+                && (self.peek_kind() == TokenKind::Fn
+                    || self.peek_kind() == TokenKind::Struct
+                    || self.peek_kind() == TokenKind::Else
+                    || self.peek_kind() == TokenKind::Eof)
+            {
                 break;
             }
 
             let stmt = self.parse_stmt()?;
             stmts.push(stmt);
 
-            if !has_brace && (self.peek_kind() == TokenKind::Fn || self.peek_kind() == TokenKind::Struct || self.peek_kind() == TokenKind::Else) {
+            if !has_brace
+                && (self.peek_kind() == TokenKind::Fn
+                    || self.peek_kind() == TokenKind::Struct
+                    || self.peek_kind() == TokenKind::Else)
+            {
                 break;
             }
         }
@@ -319,7 +332,10 @@ impl Parser {
             TokenKind::Return => {
                 let ret_tok = self.advance();
                 let mut val = None;
-                if self.peek_kind() != TokenKind::Newline && self.peek_kind() != TokenKind::Semicolon && !self.is_eof() {
+                if self.peek_kind() != TokenKind::Newline
+                    && self.peek_kind() != TokenKind::Semicolon
+                    && !self.is_eof()
+                {
                     val = Some(self.parse_expr(Precedence::Lowest)?);
                 }
                 let span = ret_tok.span;
@@ -389,7 +405,8 @@ impl Parser {
                 // Check for tensor constructor: tensor.zeros(...), tensor.ones(...)
                 if (name == "tensor" || name == "दिश") && self.peek_kind() == TokenKind::Dot {
                     self.advance(); // consume '.'
-                    let kind_tok = self.consume_ident("Expected constructor name (zeros, ones, randn)")?;
+                    let kind_tok =
+                        self.consume_ident("Expected constructor name (zeros, ones, randn)")?;
                     self.consume(TokenKind::LParen, "Expected '('")?;
 
                     let mut shape = Vec::new();
@@ -466,7 +483,10 @@ impl Parser {
                     span: tok.span.merge(&end_tok.span),
                 })
             }
-            other => Err(format!("Unexpected prefix token in expression: {:?}", other)),
+            other => Err(format!(
+                "Unexpected prefix token in expression: {:?}",
+                other
+            )),
         }
     }
 
@@ -499,7 +519,8 @@ impl Parser {
                         }
                     }
                 }
-                let end_tok = self.consume(TokenKind::RParen, "Expected ')' after call arguments")?;
+                let end_tok =
+                    self.consume(TokenKind::RParen, "Expected ')' after call arguments")?;
                 let span = lhs.span().merge(&end_tok.span);
                 return Ok(Expr::Call {
                     callee: Box::new(lhs),
@@ -516,25 +537,28 @@ impl Parser {
 
                 if self.peek_kind() == TokenKind::Colon {
                     self.advance(); // consume ':'
-                    if self.peek_kind() != TokenKind::Colon && self.peek_kind() != TokenKind::RBracket {
+                    if self.peek_kind() != TokenKind::Colon
+                        && self.peek_kind() != TokenKind::RBracket
+                    {
                         stop = Some(Box::new(self.parse_expr(Precedence::Lowest)?));
                     }
-                    if self.match_kind(TokenKind::Colon) {
-                        if self.peek_kind() != TokenKind::RBracket {
-                            step = Some(Box::new(self.parse_expr(Precedence::Lowest)?));
-                        }
+                    if self.match_kind(TokenKind::Colon) && self.peek_kind() != TokenKind::RBracket
+                    {
+                        step = Some(Box::new(self.parse_expr(Precedence::Lowest)?));
                     }
                 } else {
                     let first_expr = self.parse_expr(Precedence::Lowest)?;
                     if self.match_kind(TokenKind::Colon) {
                         start = Some(Box::new(first_expr));
-                        if self.peek_kind() != TokenKind::Colon && self.peek_kind() != TokenKind::RBracket {
+                        if self.peek_kind() != TokenKind::Colon
+                            && self.peek_kind() != TokenKind::RBracket
+                        {
                             stop = Some(Box::new(self.parse_expr(Precedence::Lowest)?));
                         }
-                        if self.match_kind(TokenKind::Colon) {
-                            if self.peek_kind() != TokenKind::RBracket {
-                                step = Some(Box::new(self.parse_expr(Precedence::Lowest)?));
-                            }
+                        if self.match_kind(TokenKind::Colon)
+                            && self.peek_kind() != TokenKind::RBracket
+                        {
+                            step = Some(Box::new(self.parse_expr(Precedence::Lowest)?));
                         }
                     } else {
                         let end_tok = self.consume(TokenKind::RBracket, "Expected ']'")?;
@@ -576,9 +600,13 @@ impl Parser {
             TokenKind::Or => Precedence::Or,
             TokenKind::And => Precedence::And,
             TokenKind::EqEq | TokenKind::NotEq => Precedence::Equality,
-            TokenKind::Lt | TokenKind::LtEq | TokenKind::Gt | TokenKind::GtEq => Precedence::Comparison,
+            TokenKind::Lt | TokenKind::LtEq | TokenKind::Gt | TokenKind::GtEq => {
+                Precedence::Comparison
+            }
             TokenKind::Plus | TokenKind::Minus => Precedence::Term,
-            TokenKind::Star | TokenKind::Slash | TokenKind::Percent | TokenKind::MatMul => Precedence::Factor,
+            TokenKind::Star | TokenKind::Slash | TokenKind::Percent | TokenKind::MatMul => {
+                Precedence::Factor
+            }
             TokenKind::LParen | TokenKind::LBracket => Precedence::Call,
             _ => Precedence::Lowest,
         }
@@ -644,14 +672,24 @@ impl Parser {
         if self.peek_kind() == kind {
             Ok(self.advance())
         } else {
-            Err(format!("{} (found {:?} at {:?})", err, self.peek_kind(), self.peek_span()))
+            Err(format!(
+                "{} (found {:?} at {:?})",
+                err,
+                self.peek_kind(),
+                self.peek_span()
+            ))
         }
     }
 
     fn consume_ident(&mut self, err: &str) -> Result<Token, String> {
         match self.peek_kind() {
             TokenKind::Ident(_) => Ok(self.advance()),
-            other => Err(format!("{} (found {:?} at {:?})", err, other, self.peek_span())),
+            other => Err(format!(
+                "{} (found {:?} at {:?})",
+                err,
+                other,
+                self.peek_span()
+            )),
         }
     }
 }

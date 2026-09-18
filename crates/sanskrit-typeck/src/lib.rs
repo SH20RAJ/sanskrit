@@ -36,6 +36,12 @@ pub struct TypeChecker {
     pub diagnostics: Vec<Diagnostic>,
 }
 
+impl Default for TypeChecker {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl TypeChecker {
     pub fn new() -> Self {
         let mut tc = Self {
@@ -45,14 +51,10 @@ impl TypeChecker {
         };
 
         // Built-in functions
-        tc.function_signatures.insert(
-            "print".to_string(),
-            (vec![Type::String], Type::Void),
-        );
-        tc.function_signatures.insert(
-            "मुद्रण".to_string(),
-            (vec![Type::String], Type::Void),
-        );
+        tc.function_signatures
+            .insert("print".to_string(), (vec![Type::String], Type::Void));
+        tc.function_signatures
+            .insert("मुद्रण".to_string(), (vec![Type::String], Type::Void));
 
         tc
     }
@@ -73,18 +75,25 @@ impl TypeChecker {
                 None => Type::Void,
             };
 
-            self.function_signatures.insert(func.name.clone(), (param_types.clone(), ret_ty.clone()));
-            self.function_signatures.insert(func.canonical_name.clone(), (param_types, ret_ty));
+            self.function_signatures
+                .insert(func.name.clone(), (param_types.clone(), ret_ty.clone()));
+            self.function_signatures
+                .insert(func.canonical_name.clone(), (param_types, ret_ty));
         }
 
         // Type check each function body
         for func in &module.functions {
             self.enter_scope();
-            let param_bindings: Vec<(String, Type)> = if let Some((param_types, _)) = self.function_signatures.get(&func.name) {
-                func.params.iter().zip(param_types.iter()).map(|(p, ty)| (p.name.clone(), ty.clone())).collect()
-            } else {
-                Vec::new()
-            };
+            let param_bindings: Vec<(String, Type)> =
+                if let Some((param_types, _)) = self.function_signatures.get(&func.name) {
+                    func.params
+                        .iter()
+                        .zip(param_types.iter())
+                        .map(|(p, ty)| (p.name.clone(), ty.clone()))
+                        .collect()
+                } else {
+                    Vec::new()
+                };
             for (name, ty) in param_bindings {
                 self.insert_binding(&name, ty);
             }
@@ -104,16 +113,27 @@ impl TypeChecker {
 
     fn check_stmt(&mut self, stmt: &Stmt) {
         match stmt {
-            Stmt::Let { name, ty, init, span } => {
+            Stmt::Let {
+                name,
+                ty,
+                init,
+                span,
+            } => {
                 let expected_ty = ty.as_ref().map(|t| self.resolve_type_annot(t));
                 let inferred_ty = if let Some(init_expr) = init {
                     let actual_ty = self.check_expr(init_expr);
                     if let Some(expected) = &expected_ty {
                         if &actual_ty != expected && actual_ty != Type::Void {
                             self.diagnostics.push(
-                                Diagnostic::error("S1002", format!("mismatched types: expected `{:?}`, found `{:?}`", expected, actual_ty))
-                                    .with_span(*span)
-                                    .with_help("ensure the initializer matches the annotated type"),
+                                Diagnostic::error(
+                                    "S1002",
+                                    format!(
+                                        "mismatched types: expected `{:?}`, found `{:?}`",
+                                        expected, actual_ty
+                                    ),
+                                )
+                                .with_span(*span)
+                                .with_help("ensure the initializer matches the annotated type"),
                             );
                         }
                     }
@@ -125,26 +145,47 @@ impl TypeChecker {
                 let final_ty = expected_ty.unwrap_or(inferred_ty);
                 self.insert_binding(name, final_ty);
             }
-            Stmt::Const { name, ty, value, span } => {
+            Stmt::Const {
+                name,
+                ty,
+                value,
+                span,
+            } => {
                 let actual_ty = self.check_expr(value);
                 if let Some(annot) = ty {
                     let expected = self.resolve_type_annot(annot);
                     if actual_ty != expected {
                         self.diagnostics.push(
-                            Diagnostic::error("S1003", format!("constant type mismatch: expected `{:?}`, found `{:?}`", expected, actual_ty))
-                                .with_span(*span),
+                            Diagnostic::error(
+                                "S1003",
+                                format!(
+                                    "constant type mismatch: expected `{:?}`, found `{:?}`",
+                                    expected, actual_ty
+                                ),
+                            )
+                            .with_span(*span),
                         );
                     }
                 }
                 self.insert_binding(name, actual_ty);
             }
-            Stmt::Assign { target, value, span } => {
+            Stmt::Assign {
+                target,
+                value,
+                span,
+            } => {
                 let val_ty = self.check_expr(value);
                 if let Some(target_ty) = self.lookup_binding(target) {
                     if target_ty != val_ty && val_ty != Type::Void {
                         self.diagnostics.push(
-                            Diagnostic::error("S1004", format!("cannot assign `{:?}` to variable `{}` of type `{:?}`", val_ty, target, target_ty))
-                                .with_span(*span),
+                            Diagnostic::error(
+                                "S1004",
+                                format!(
+                                    "cannot assign `{:?}` to variable `{}` of type `{:?}`",
+                                    val_ty, target, target_ty
+                                ),
+                            )
+                            .with_span(*span),
                         );
                     }
                 } else {
@@ -154,12 +195,23 @@ impl TypeChecker {
                     );
                 }
             }
-            Stmt::If { cond, then_branch, else_branch, span } => {
+            Stmt::If {
+                cond,
+                then_branch,
+                else_branch,
+                span,
+            } => {
                 let cond_ty = self.check_expr(cond);
                 if cond_ty != Type::Bool {
                     self.diagnostics.push(
-                        Diagnostic::error("S1005", format!("if condition must evaluate to `Bool`, found `{:?}`", cond_ty))
-                            .with_span(*span),
+                        Diagnostic::error(
+                            "S1005",
+                            format!(
+                                "if condition must evaluate to `Bool`, found `{:?}`",
+                                cond_ty
+                            ),
+                        )
+                        .with_span(*span),
                     );
                 }
                 self.enter_scope();
@@ -176,7 +228,12 @@ impl TypeChecker {
                     self.exit_scope();
                 }
             }
-            Stmt::For { var, iterable, body, .. } => {
+            Stmt::For {
+                var,
+                iterable,
+                body,
+                ..
+            } => {
                 let iter_ty = self.check_expr(iterable);
                 self.enter_scope();
                 let elem_ty = match iter_ty {
@@ -230,23 +287,46 @@ impl TypeChecker {
                 let r_ty = self.check_expr(rhs);
 
                 match op {
-                    BinaryOp::Add | BinaryOp::Sub | BinaryOp::Mul | BinaryOp::Div | BinaryOp::Mod => {
+                    BinaryOp::Add
+                    | BinaryOp::Sub
+                    | BinaryOp::Mul
+                    | BinaryOp::Div
+                    | BinaryOp::Mod => {
                         // Tensor arithmetic or scalar arithmetic
-                        if let (Type::Tensor { elem: l_elem, shape: l_shape }, Type::Tensor { elem: r_elem, shape: _r_shape }) = (&l_ty, &r_ty) {
+                        if let (
+                            Type::Tensor {
+                                elem: l_elem,
+                                shape: l_shape,
+                            },
+                            Type::Tensor {
+                                elem: r_elem,
+                                shape: _r_shape,
+                            },
+                        ) = (&l_ty, &r_ty)
+                        {
                             if l_elem != r_elem {
                                 self.diagnostics.push(
                                     Diagnostic::error("S1008", format!("cannot operate on tensors with different element types `{:?}` and `{:?}`", l_elem, r_elem))
                                         .with_span(*span),
                                 );
                             }
-                            return Type::Tensor { elem: l_elem.clone(), shape: l_shape.clone() };
+                            return Type::Tensor {
+                                elem: l_elem.clone(),
+                                shape: l_shape.clone(),
+                            };
                         }
 
                         if l_ty != r_ty && l_ty != Type::Void && r_ty != Type::Void {
                             self.diagnostics.push(
-                                Diagnostic::error("S1007", format!("cannot apply binary operator `{:?}` to `{:?}` and `{:?}`", op, l_ty, r_ty))
-                                    .with_span(*span)
-                                    .with_help("ensure both operands have compatible numerical types"),
+                                Diagnostic::error(
+                                    "S1007",
+                                    format!(
+                                        "cannot apply binary operator `{:?}` to `{:?}` and `{:?}`",
+                                        op, l_ty, r_ty
+                                    ),
+                                )
+                                .with_span(*span)
+                                .with_help("ensure both operands have compatible numerical types"),
                             );
                         }
                         l_ty
@@ -266,33 +346,55 @@ impl TypeChecker {
                                                     .with_span(*span),
                                             );
                                         } else {
-                                            out_shape = Some(vec![shape1[0], shape2[shape2.len() - 1]]);
+                                            out_shape =
+                                                Some(vec![shape1[0], shape2[shape2.len() - 1]]);
                                         }
                                     }
                                 }
-                                Type::Tensor { elem: elem.clone(), shape: out_shape }
+                                Type::Tensor {
+                                    elem: elem.clone(),
+                                    shape: out_shape,
+                                }
                             }
                             _ => {
                                 self.diagnostics.push(
-                                    Diagnostic::error("S1009", "operator `@` is only valid on `Tensor` operands")
-                                        .with_span(*span),
+                                    Diagnostic::error(
+                                        "S1009",
+                                        "operator `@` is only valid on `Tensor` operands",
+                                    )
+                                    .with_span(*span),
                                 );
                                 Type::Void
                             }
                         }
                     }
-                    BinaryOp::Eq | BinaryOp::NotEq | BinaryOp::Lt | BinaryOp::LtEq | BinaryOp::Gt | BinaryOp::GtEq => Type::Bool,
+                    BinaryOp::Eq
+                    | BinaryOp::NotEq
+                    | BinaryOp::Lt
+                    | BinaryOp::LtEq
+                    | BinaryOp::Gt
+                    | BinaryOp::GtEq => Type::Bool,
                     BinaryOp::And | BinaryOp::Or => Type::Bool,
                 }
             }
             Expr::Unary { op: _, operand, .. } => self.check_expr(operand),
             Expr::Call { callee, args, span } => {
                 if let Expr::Ident(name, _) = &**callee {
-                    if let Some((param_types, ret_ty)) = self.function_signatures.get(name).cloned() {
-                        if name != "print" && name != "मुद्रण" && args.len() != param_types.len() {
+                    if let Some((param_types, ret_ty)) = self.function_signatures.get(name).cloned()
+                    {
+                        if name != "print" && name != "मुद्रण" && args.len() != param_types.len()
+                        {
                             self.diagnostics.push(
-                                Diagnostic::error("S1006", format!("function `{}` expected {} arguments, found {}", name, param_types.len(), args.len()))
-                                    .with_span(*span),
+                                Diagnostic::error(
+                                    "S1006",
+                                    format!(
+                                        "function `{}` expected {} arguments, found {}",
+                                        name,
+                                        param_types.len(),
+                                        args.len()
+                                    ),
+                                )
+                                .with_span(*span),
                             );
                         }
                         return ret_ty;
@@ -311,10 +413,22 @@ impl TypeChecker {
                     _ => Type::Void,
                 }
             }
-            Expr::Slice { target, start, stop, step, .. } => {
-                if let Some(s) = start { self.check_expr(s); }
-                if let Some(s) = stop { self.check_expr(s); }
-                if let Some(s) = step { self.check_expr(s); }
+            Expr::Slice {
+                target,
+                start,
+                stop,
+                step,
+                ..
+            } => {
+                if let Some(s) = start {
+                    self.check_expr(s);
+                }
+                if let Some(s) = stop {
+                    self.check_expr(s);
+                }
+                if let Some(s) = step {
+                    self.check_expr(s);
+                }
                 self.check_expr(target)
             }
             Expr::TensorLit { elements, .. } => {
@@ -450,14 +564,12 @@ mod tests {
                 canonical_name: "main".to_string(),
                 params: Vec::new(),
                 return_type: None,
-                body: vec![
-                    Stmt::Let {
-                        name: "x".to_string(),
-                        ty: Some(TypeAnnotation::I64),
-                        init: Some(Expr::Str("invalid".to_string(), Span::dummy())),
-                        span: Span::dummy(),
-                    },
-                ],
+                body: vec![Stmt::Let {
+                    name: "x".to_string(),
+                    ty: Some(TypeAnnotation::I64),
+                    init: Some(Expr::Str("invalid".to_string(), Span::dummy())),
+                    span: Span::dummy(),
+                }],
                 span: Span::dummy(),
             }],
             structs: Vec::new(),

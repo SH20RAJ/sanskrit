@@ -43,7 +43,7 @@ pub fn create_project(name: &str, target_dir: &Path) -> Result<PathBuf, String> 
     fs::create_dir_all(proj_dir.join("examples")).map_err(|e| e.to_string())?;
 
     let manifest_content = format!(
-r#"[package]
+        r#"[package]
 name = "{}"
 version = "0.1.0"
 authors = ["Sanskrit Developer"]
@@ -76,7 +76,8 @@ pub fn load_manifest(dir: &Path) -> Result<Manifest, String> {
         return Err(format!("Could not find Sanskrit.toml in {}", dir.display()));
     }
     let content = fs::read_to_string(&manifest_path).map_err(|e| e.to_string())?;
-    let manifest: Manifest = toml::from_str(&content).map_err(|e| format!("Invalid Sanskrit.toml: {}", e))?;
+    let manifest: Manifest =
+        toml::from_str(&content).map_err(|e| format!("Invalid Sanskrit.toml: {}", e))?;
     Ok(manifest)
 }
 

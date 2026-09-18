@@ -26,10 +26,17 @@ impl MlirEmitter {
                             out.push_str(&format!("    %{} = arith.constant {} : i64\n", id, val));
                         }
                         SirInstruction::ConstFloat { id, val } => {
-                            out.push_str(&format!("    %{} = arith.constant {:.6} : f64\n", id, val));
+                            out.push_str(&format!(
+                                "    %{} = arith.constant {:.6} : f64\n",
+                                id, val
+                            ));
                         }
                         SirInstruction::AllocTensor { id, shape, dtype } => {
-                            let shape_str = shape.iter().map(|d| d.to_string()).collect::<Vec<_>>().join("x");
+                            let shape_str = shape
+                                .iter()
+                                .map(|d| d.to_string())
+                                .collect::<Vec<_>>()
+                                .join("x");
                             let dt_str = match dtype {
                                 sanskrit_typeck::Type::F64 => "f64",
                                 _ => "f32",
@@ -53,10 +60,17 @@ impl MlirEmitter {
                                 "/" => "arith.divsi",
                                 _ => "arith.addi",
                             };
-                            out.push_str(&format!("    %{} = {} %{}, %{} : i64\n", id, arith_op, lhs, rhs));
+                            out.push_str(&format!(
+                                "    %{} = {} %{}, %{} : i64\n",
+                                id, arith_op, lhs, rhs
+                            ));
                         }
                         SirInstruction::Print { args } => {
-                            let args_str = args.iter().map(|a| format!("%{}", a)).collect::<Vec<_>>().join(", ");
+                            let args_str = args
+                                .iter()
+                                .map(|a| format!("%{}", a))
+                                .collect::<Vec<_>>()
+                                .join(", ");
                             out.push_str(&format!("    sanskrit.print {}\n", args_str));
                         }
                         _ => {}
@@ -71,9 +85,7 @@ impl MlirEmitter {
 
         out.push_str("}\n");
 
-        MlirModule {
-            raw_mlir_text: out,
-        }
+        MlirModule { raw_mlir_text: out }
     }
 }
 

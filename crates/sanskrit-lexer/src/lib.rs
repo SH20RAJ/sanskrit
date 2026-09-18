@@ -4,25 +4,25 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum TokenKind {
     // Keywords (Normalized from Devanagari & ASCII)
-    Fn,         // कार्य / fn
-    Let,        // मान / let / var
-    Const,      // स्थिर / const
-    Struct,     // संरचना / struct
-    Trait,      // लक्षण / trait
-    Enum,       // गणना / enum
-    Import,     // आयात / import
-    Export,     // निर्यात / export
-    If,         // यदि / if
-    Else,       // अन्यथा / else
-    For,        // चक्र / for / loop
-    In,         // में / in
-    Return,     // प्रत्यागम / return
-    Async,      // असमकाल / async
-    Await,      // प्रतीक्षा / await
-    Move,       // त्याग / move
-    Mut,        // परिवर्तन / mut
-    Read,       // पठन / read
-    Print,      // मुद्रण / print
+    Fn,     // कार्य / fn
+    Let,    // मान / let / var
+    Const,  // स्थिर / const
+    Struct, // संरचना / struct
+    Trait,  // लक्षण / trait
+    Enum,   // गणना / enum
+    Import, // आयात / import
+    Export, // निर्यात / export
+    If,     // यदि / if
+    Else,   // अन्यथा / else
+    For,    // चक्र / for / loop
+    In,     // में / in
+    Return, // प्रत्यागम / return
+    Async,  // असमकाल / async
+    Await,  // प्रतीक्षा / await
+    Move,   // त्याग / move
+    Mut,    // परिवर्तन / mut
+    Read,   // पठन / read
+    Print,  // मुद्रण / print
 
     // Literals
     Int(i64),
@@ -46,42 +46,42 @@ pub enum TokenKind {
     TypeVector,
 
     // Operators
-    Plus,       // +
-    Minus,      // -
-    Star,       // *
-    Slash,      // /
-    Percent,    // %
-    MatMul,     // @
-    Eq,         // =
-    EqEq,       // ==
-    NotEq,      // !=
-    Lt,         // <
-    LtEq,       // <=
-    Gt,         // >
-    GtEq,       // >=
-    Arrow,      // ->
-    FatArrow,   // =>
-    PlusEq,     // +=
-    MinusEq,    // -=
-    StarEq,     // *=
-    SlashEq,    // /=
-    And,        // && or &
-    Or,         // || or |
-    Not,        // !
+    Plus,     // +
+    Minus,    // -
+    Star,     // *
+    Slash,    // /
+    Percent,  // %
+    MatMul,   // @
+    Eq,       // =
+    EqEq,     // ==
+    NotEq,    // !=
+    Lt,       // <
+    LtEq,     // <=
+    Gt,       // >
+    GtEq,     // >=
+    Arrow,    // ->
+    FatArrow, // =>
+    PlusEq,   // +=
+    MinusEq,  // -=
+    StarEq,   // *=
+    SlashEq,  // /=
+    And,      // && or &
+    Or,       // || or |
+    Not,      // !
 
     // Punctuation & Delimiters
-    LParen,     // (
-    RParen,     // )
-    LBracket,   // [
-    RBracket,   // ]
-    LBrace,     // {
-    RBrace,     // }
-    Colon,      // :
-    DoubleColon,// ::
-    Comma,      // ,
-    Dot,        // .
-    Semicolon,  // ;
-    Newline,    // \n
+    LParen,      // (
+    RParen,      // )
+    LBracket,    // [
+    RBracket,    // ]
+    LBrace,      // {
+    RBrace,      // }
+    Colon,       // :
+    DoubleColon, // ::
+    Comma,       // ,
+    Dot,         // .
+    Semicolon,   // ;
+    Newline,     // \n
 
     // End of file
     Eof,
@@ -270,7 +270,12 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    fn lex_string(&mut self, quote: char, start_line: usize, start_col: usize) -> Result<TokenKind, String> {
+    fn lex_string(
+        &mut self,
+        quote: char,
+        start_line: usize,
+        start_col: usize,
+    ) -> Result<TokenKind, String> {
         let mut s = String::new();
         while !self.is_eof() {
             let ch = self.advance();
@@ -295,7 +300,10 @@ impl<'a> Lexer<'a> {
                 s.push(ch);
             }
         }
-        Err(format!("Unterminated string literal starting at line {}, column {}", start_line, start_col))
+        Err(format!(
+            "Unterminated string literal starting at line {}, column {}",
+            start_line, start_col
+        ))
     }
 
     fn lex_number(&mut self, _first: char, start_byte: usize) -> Result<TokenKind, String> {
@@ -305,7 +313,13 @@ impl<'a> Lexer<'a> {
             if let Some(ch) = self.peek_curr() {
                 if ch.is_ascii_digit() || is_devanagari_digit(ch) || ch == '_' {
                     self.advance();
-                } else if ch == '.' && !is_float && self.peek().map(|c| c.is_ascii_digit() || is_devanagari_digit(c)).unwrap_or(false) {
+                } else if ch == '.'
+                    && !is_float
+                    && self
+                        .peek()
+                        .map(|c| c.is_ascii_digit() || is_devanagari_digit(c))
+                        .unwrap_or(false)
+                {
                     is_float = true;
                     self.advance();
                 } else {
@@ -319,7 +333,12 @@ impl<'a> Lexer<'a> {
         // Check for typed suffixes like _f32, _i64, etc.
         if self.peek_curr() == Some('_') {
             self.advance();
-            while !self.is_eof() && self.peek_curr().map(|c| c.is_ascii_alphanumeric()).unwrap_or(false) {
+            while !self.is_eof()
+                && self
+                    .peek_curr()
+                    .map(|c| c.is_ascii_alphanumeric())
+                    .unwrap_or(false)
+            {
                 self.advance();
             }
         }
@@ -333,10 +352,14 @@ impl<'a> Lexer<'a> {
             .collect();
 
         if is_float {
-            let val: f64 = cleaned.parse().map_err(|e| format!("Invalid float literal '{}': {}", raw, e))?;
+            let val: f64 = cleaned
+                .parse()
+                .map_err(|e| format!("Invalid float literal '{}': {}", raw, e))?;
             Ok(TokenKind::Float(val))
         } else {
-            let val: i64 = cleaned.parse().map_err(|e| format!("Invalid integer literal '{}': {}", raw, e))?;
+            let val: i64 = cleaned
+                .parse()
+                .map_err(|e| format!("Invalid integer literal '{}': {}", raw, e))?;
             Ok(TokenKind::Int(val))
         }
     }
