@@ -82,21 +82,27 @@ Customize behavior via `Settings -> Extensions -> Sanskrit Next`:
 
 ## Installation & Downloads
 
-- **Official Release**: [GitHub Release `vscode-v2.0.0-alpha.1`](https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.0-alpha.1)
-- **Direct VSIX Download**: [Download `sanskrit-vscode-2.0.0-alpha.1.vsix`](https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.0-alpha.1/sanskrit-vscode-2.0.0-alpha.1.vsix)
-- **SHA256**: `c9074d4f7fcebeb2549bea13cd2e7924f9a37d170e74d390952fdd27412e4fa2`
+- **Visual Studio Marketplace**: [https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode](https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode)
+- **Extension Identifier**: `sh20raj.sanskrit-vscode`
+- **Official GitHub Release**: [GitHub Release `vscode-v2.0.0`](https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.0)
+- **Direct VSIX Download**: [Download `sanskrit-vscode-2.0.0.vsix`](https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.0/sanskrit-vscode-2.0.0.vsix)
+- **SHA256**: `3c2398b75e3975bcc84b3f319d65d51e632f58b3c0e28f09d2f1debf8e9a933d`
+
+### Install from VS Code Marketplace
+In VS Code or Antigravity IDE:
+1. Open Extensions (`Cmd+Shift+X` or `Ctrl+Shift+X`).
+2. Search for **Sanskrit Next** (`sh20raj.sanskrit-vscode`).
+3. Click **Install**.
 
 ### Install via Command Line
 ```bash
-curl -L -O https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.0-alpha.1/sanskrit-vscode-2.0.0-alpha.1.vsix
-code --install-extension sanskrit-vscode-2.0.0-alpha.1.vsix
-```
+# Direct from Marketplace
+code --install-extension sh20raj.sanskrit-vscode
 
-### Install via VS Code UI
-1. Download the [`.vsix` package](https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.0-alpha.1/sanskrit-vscode-2.0.0-alpha.1.vsix).
-2. Open VS Code and navigate to the **Extensions** view (`Cmd+Shift+X` or `Ctrl+Shift+X`).
-3. Click the **`...`** (More Actions) menu in the top right.
-4. Select **"Install from VSIX..."** and pick the downloaded file.
+# Or from downloaded VSIX
+curl -L -O https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.0/sanskrit-vscode-2.0.0.vsix
+code --install-extension sanskrit-vscode-2.0.0.vsix
+```
 
 ---
 

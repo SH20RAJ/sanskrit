@@ -4,7 +4,7 @@
 
 [![CI](https://github.com/SH20RAJ/sanskrit/actions/workflows/ci.yml/badge.svg)](https://github.com/SH20RAJ/sanskrit/actions/workflows/ci.yml)
 [![Release](https://github.com/SH20RAJ/sanskrit/actions/workflows/release.yml/badge.svg)](https://github.com/SH20RAJ/sanskrit/releases)
-[![VS Code Extension](https://img.shields.io/badge/VS%20Code-v2.0.0--alpha.1-007ACC?logo=visualstudiocode&logoColor=white)](https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.0-alpha.1)
+[![Visual Studio Marketplace](https://img.shields.io/badge/VS%20Marketplace-v2.0.0-007ACC?logo=visualstudiocode&logoColor=white)](https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode)
 [![Benchmarks](https://github.com/SH20RAJ/sanskrit/actions/workflows/benchmarks.yml/badge.svg)](https://github.com/SH20RAJ/sanskrit/actions/workflows/benchmarks.yml)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Discussions](https://img.shields.io/badge/Discussions-Join-orange?logo=github)](https://github.com/SH20RAJ/sanskrit/discussions)
@@ -13,7 +13,7 @@
 
 **A safe, extremely fast, scientifically powerful, AI/ML-native systems language with exceptional developer experience and a distinctive Sanskrit identity.**
 
-[Documentation](https://sh20raj.github.io/sanskrit/) • [VS Code Extension](https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.0-alpha.1) • [RFC Catalog](https://github.com/SH20RAJ/sanskrit/tree/main/docs/rfc) • [Benchmarks](https://github.com/SH20RAJ/sanskrit/tree/main/benchmarks) • [Roadmap](ROADMAP.md) • [Discussions](https://github.com/SH20RAJ/sanskrit/discussions)
+[Documentation](https://sh20raj.github.io/sanskrit/) • [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode) • [RFC Catalog](https://github.com/SH20RAJ/sanskrit/tree/main/docs/rfc) • [Benchmarks](https://github.com/SH20RAJ/sanskrit/tree/main/benchmarks) • [Roadmap](ROADMAP.md) • [Discussions](https://github.com/SH20RAJ/sanskrit/discussions)
 
 </div>
 
@@ -199,15 +199,26 @@ For full lexical specifications, consult [docs/design/language-naming.md](docs/d
 
 Sanskrit Next features a first-class language platform extension for Visual Studio Code:
 
-- **Download Release**: [`sanskrit-vscode-2.0.0-alpha.1.vsix`](https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.0-alpha.1)
-- **Direct VSIX Download**: [Download VSIX Archive](https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.0-alpha.1/sanskrit-vscode-2.0.0-alpha.1.vsix)
-- **Extension Marketplace ID**: `sh20raj.sanskrit-vscode`
+- **Visual Studio Marketplace**: [https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode](https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode)
+- **Extension Identifier**: `sh20raj.sanskrit-vscode`
+- **GitHub Release**: [`vscode-v2.0.0`](https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.0)
+- **Direct VSIX Download**: [Download `sanskrit-vscode-2.0.0.vsix`](https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.0/sanskrit-vscode-2.0.0.vsix)
 
 ### Instant Installation
+
+#### From Visual Studio Marketplace
+Inside VS Code or Antigravity IDE:
+1. Open Extensions (`Ctrl+Shift+X` or `Cmd+Shift+X`).
+2. Search for **Sanskrit Next** (`sh20raj.sanskrit-vscode`).
+3. Click **Install**.
+
+#### Or via Command Line
 ```bash
-# Download and install into VS Code directly:
-curl -L -O https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.0-alpha.1/sanskrit-vscode-2.0.0-alpha.1.vsix
-code --install-extension sanskrit-vscode-2.0.0-alpha.1.vsix
+# Install via VS Code CLI:
+code --install-extension sh20raj.sanskrit-vscode
+
+# Or in Antigravity IDE:
+agy-ide --install-extension sanskrit-vscode-2.0.0.vsix
 ```
 
 ### Key Extension Capabilities
