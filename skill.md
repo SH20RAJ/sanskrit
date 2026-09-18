@@ -189,3 +189,15 @@ The `sanskrit` CLI is a single self-contained native binary:
     मान W_नव = पग(X, y, W, 0.01)
     मुद्रण("अद्यतन भार आकार:", W_नव.shape)
 ```
+
+---
+
+## 8. VS Code Platform & Developer Experience (v2.0.3)
+
+The official **Sanskrit Next VS Code Extension** (`sh20raj.sanskrit-vscode`):
+- **Interactive Sanskrit VM Terminal Runner**: 1-click execution (<kbd>Ctrl+Alt+N</kbd>) in dedicated integrated `Sanskrit VM` terminal.
+- **Run Selection in Terminal**: Highlight code block and execute immediately (<kbd>Ctrl+Alt+S</kbd>).
+- **Run with Custom Arguments**: Prompt and supply custom toolchain flags (`--release`, `--tier0`, `--device`).
+- **Phonetic English Typing**: Autocompletes `mudran` ➔ `मुद्रण`, `karya` ➔ `कार्य`, `yadi` ➔ `यदि`, `dish` ➔ `दिश`.
+- **Custom Sanskrit File Icons**: Official Sanskrit glyph (`सं`) file icon and `sanskrit-icons` theme for `.skt` and `.sns`.
+- **35+ Configuration Settings**: Fine-grained control over execution backends (Tier-0 VM, MLIR JIT, AOT), terminal auto-save/clear/focus, hardware devices (`cpu`, `metal`, `cuda`, `tpu`), type inlay hints, static tensor linting, formatting, and benchmark iterations.

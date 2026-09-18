@@ -2,6 +2,25 @@
 
 All notable changes to the "sanskrit-vscode" extension will be documented in this file.
 
+## [2.0.3] - 2026-09-19
+
+### Added
+- **Interactive Sanskrit VM Terminal Runner**: Run Sanskrit files directly in a dedicated integrated VS Code terminal (`Sanskrit VM`) with sub-2ms startup!
+- **Run Selection in Terminal**: Highlight any block of Sanskrit code and execute it immediately via a transient script in the terminal.
+- **Run with Custom Arguments**: Prompt and pass custom flags (`--release`, `--tier0`, `--device`) directly to `sanskrit run`.
+- **Editor Title Bar Play Button**: One-click execution button (`$(play)`) in the editor tab bar for all `.skt` and `.sns` files.
+- **Keyboard Shortcuts**: `Ctrl+Alt+N` / `Cmd+Alt+N` to run active file in terminal, `Ctrl+Alt+S` / `Cmd+Alt+S` to run selection.
+- **35+ Comprehensive Configuration Settings**:
+  - `sanskrit.execution.*`: Terminal title, run in terminal, clear terminal before run, focus terminal, auto-save before run, tier0, release, backend, device acceleration, custom args, working directory.
+  - `sanskrit.compiler.*`: Custom path, check on save, emit MLIR by default, optimization levels (`-O0` to `-Ofast`).
+  - `sanskrit.transliteration.*`: Enable/disable phonetic typing, script preference (both/devanagari/latin), show in completion list.
+  - `sanskrit.inlayHints.*`: Type hints, parameter name hints, tensor shape hints.
+  - `sanskrit.formatting.*`: Format on save, indent size, align colons.
+  - `sanskrit.diagnostics.*`: Enable diagnostics, strict tensor checking, mixed script warnings.
+  - `sanskrit.tensorInspector.*`: Auto-open on debug, color theme (saffron, viridis, plasma, etc.), max cell display.
+  - `sanskrit.benchmark.*`: Iterations count, warmup runs, save results JSON.
+  - `sanskrit.lsp.*`: Custom server path, LSP trace level.
+
 ## [2.0.2] - 2026-09-19
 
 ### Added

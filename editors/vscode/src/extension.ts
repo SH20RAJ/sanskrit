@@ -4,16 +4,21 @@ import { SanskritLspManager } from './lsp/client';
 import { SanskritDebugAdapterFactory } from './debug/debugAdapter';
 import { SanskritDebugConfigurationProvider } from './debug/debugConfiguration';
 import { SanskritTestManager } from './testing/testController';
-import { runSanskritFile } from './commands/run';
+import {
+  runSanskritFile,
+  runSanskritInTerminal,
+  runSanskritSelectionInTerminal,
+  runSanskritWithArgs,
+} from './commands/run';
 import { buildSanskritProject } from './commands/build';
 import { checkSanskritFile } from './commands/check';
 import { runBenchmarks } from './commands/bench';
 import { runDoctor } from './commands/doctor';
 import { inspectEnvironment } from './commands/env';
-import { startRepl } from './commands/repl';
 import { createNewProject } from './commands/newProject';
 import { formatDocument } from './commands/fmt';
 import { TensorInspectorPanel } from './commands/tensorInspector';
+import { SanskritTerminalManager } from './terminal';
 import { SanskritProjectExplorerProvider } from './views/projectExplorer';
 import { SanskritBenchmarkProvider } from './views/benchmarkExplorer';
 import { SanskritDoctorProvider } from './views/doctorView';
@@ -125,15 +130,21 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     )
   );
 
-  // 8. Command Registrations
+  // 8. Terminal Manager
+  SanskritTerminalManager.initialize(context);
+
+  // 9. Command Registrations
   context.subscriptions.push(
     vscode.commands.registerCommand(COMMANDS.RUN, (uri?: vscode.Uri) => runSanskritFile(uri)),
+    vscode.commands.registerCommand(COMMANDS.RUN_IN_TERMINAL, (uri?: vscode.Uri) => runSanskritInTerminal(uri)),
+    vscode.commands.registerCommand(COMMANDS.RUN_SELECTION, () => runSanskritSelectionInTerminal()),
+    vscode.commands.registerCommand(COMMANDS.RUN_WITH_ARGS, (uri?: vscode.Uri) => runSanskritWithArgs(uri)),
     vscode.commands.registerCommand(COMMANDS.BUILD, (uri?: vscode.Uri) => buildSanskritProject(uri)),
     vscode.commands.registerCommand(COMMANDS.CHECK, (uri?: vscode.Uri) => checkSanskritFile(uri)),
     vscode.commands.registerCommand(COMMANDS.BENCH, () => runBenchmarks()),
     vscode.commands.registerCommand(COMMANDS.DOCTOR, () => runDoctor()),
     vscode.commands.registerCommand(COMMANDS.ENV, () => inspectEnvironment()),
-    vscode.commands.registerCommand(COMMANDS.REPL, () => startRepl()),
+    vscode.commands.registerCommand(COMMANDS.REPL, () => SanskritTerminalManager.startReplInTerminal()),
     vscode.commands.registerCommand(COMMANDS.NEW, () => createNewProject()),
     vscode.commands.registerCommand(COMMANDS.FMT, (uri?: vscode.Uri) => formatDocument(uri)),
     vscode.commands.registerCommand(COMMANDS.OPEN_TENSOR_INSPECTOR, () =>

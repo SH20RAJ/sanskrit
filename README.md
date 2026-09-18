@@ -219,14 +219,14 @@ For full lexical specifications, consult [docs/design/language-naming.md](docs/d
 
 ---
 
-## 💻 Visual Studio Code Extension (v2.0.2)
+## 💻 Visual Studio Code Extension (v2.0.3)
 
 Sanskrit Next features an official, first-class language platform extension for Visual Studio Code, Cursor, and Antigravity IDE:
 
 - **Visual Studio Marketplace**: [https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode](https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode)
 - **Extension Identifier**: `sh20raj.sanskrit-vscode`
-- **Latest Release**: [`vscode-v2.0.2`](https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.2)
-- **Direct VSIX Download**: [Download `sanskrit-vscode-2.0.2.vsix`](https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.2/sanskrit-vscode-2.0.2.vsix)
+- **Latest Release**: [`vscode-v2.0.3`](https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.3)
+- **Direct VSIX Download**: [Download `sanskrit-vscode-2.0.3.vsix`](https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.3/sanskrit-vscode-2.0.3.vsix)
 
 ### Instant Installation
 
@@ -246,6 +246,12 @@ agy-ide --install-extension sh20raj.sanskrit-vscode
 ```
 
 ### Key Extension Capabilities
+- **🖥️ Interactive Sanskrit VM Terminal Runner**:
+  - Run `.skt` and `.sns` files directly in an interactive VS Code integrated terminal (`Sanskrit VM`) with sub-2ms startup!
+  - 1-click execution via the **Play button** (`$(play)`) in the editor tab bar.
+  - **Run Selection in Terminal**: Highlight any block of Sanskrit code and execute it immediately.
+  - **Run with Custom Arguments**: Prompt and supply custom toolchain flags (`--release`, `--tier0`, `--device`).
+  - Keyboard shortcuts: <kbd>Ctrl+Alt+N</kbd> / <kbd>Cmd+Alt+N</kbd> to run file, <kbd>Ctrl+Alt+S</kbd> / <kbd>Cmd+Alt+S</kbd> to run selection.
 - **⌨️ Phonetic Romanized English Typing (DX Superpower)**: Type seamlessly using an English/QWERTY keyboard without needing a Sanskrit IME:
   - `mudran` / `mud` ➔ Autocompletes to `मुद्रण(...args)` with parameter snippet.
   - `karya` ➔ Autocompletes to `कार्य <नाम>(<मापदण्ड>): <प्रकार>`.
@@ -255,6 +261,7 @@ agy-ide --install-extension sh20raj.sanskrit-vscode
   - `sutra` ➔ Autocompletes to `सूत्र` (str).
   - Real-time phonetic transliteration for any Sanskrit identifier name.
 - **🎨 Custom Sanskrit File Icons & Theme**: High-res Sanskrit glyph (`सं`) file icon and integrated `sanskrit-icons` file icon theme for `.skt` and `.sns` files.
+- **⚙️ 35+ Comprehensive Configuration Settings**: Fine-grained control over execution backends (Tier-0 VM, MLIR JIT, AOT), terminal auto-save/clear/focus, hardware devices (CPU, CUDA, Metal, TPU), type inlay hints, static tensor linting, formatting, and benchmark iterations.
 - **⚡ TSX & Tailwind-Class Language Intelligence**: Semantic tokens across Devanagari and Latin, inlay hints for parameter names and types, signature help tooltips, and document symbol outlines.
 - **🧪 Native Test Explorer**: Discovers and runs tests with the VS Code Test Controller UI.
 - **🐛 Debugger (DAP Protocol)**: Line breakpoints, variable stepping, stack frames, and specialized tensor variable inspection.

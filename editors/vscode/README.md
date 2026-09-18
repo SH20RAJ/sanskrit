@@ -32,6 +32,12 @@
 
 Sanskrit Next brings the visual clarity and frictionless developer velocity of modern TypeScript/TSX and Tailwind environments directly to Sanskrit:
 
+- **Interactive Sanskrit VM Terminal Runner**:
+  - Run `.skt` and `.sns` files directly in an interactive VS Code integrated terminal (`Sanskrit VM`) with sub-2ms startup!
+  - 1-click execution via the **Play button** (`$(play)`) in the editor title bar.
+  - **Run Selection in Terminal**: Highlight any block of Sanskrit code and execute it immediately.
+  - **Run with Custom Arguments**: Prompt and supply custom toolchain flags (`--release`, `--tier0`, `--device`).
+  - Keyboard shortcuts: <kbd>Ctrl+Alt+N</kbd> / <kbd>Cmd+Alt+N</kbd> to run file, <kbd>Ctrl+Alt+S</kbd> / <kbd>Cmd+Alt+S</kbd> to run selection.
 - **Phonetic Romanized Typing (DX Superpower)**: Type seamlessly on any standard English/QWERTY keyboard without needing a Devanagari input method editor (IME):
   - Type `mud` or `mudran` ➔ Get instant autocomplete suggestions for `मुद्रण(...args)` with parameter snippets.
   - Type `karya` ➔ Suggests `कार्य <नाम>(<मापदण्ड>): <प्रकार>`.
@@ -94,32 +100,81 @@ Sanskrit Next brings the visual clarity and frictionless developer velocity of m
 
 ## Commands & Shortcuts
 
-| Command | Title | Description |
+| Command | Shortcut | Description |
 | :--- | :--- | :--- |
-| `sanskrit.run` | **Sanskrit: Run Active File** | Executes the open Sanskrit file with the Tier-0 Bytecode VM |
-| `sanskrit.build` | **Sanskrit: Build / Emit MLIR** | Compiles project or lowers SIR to Sanskrit MLIR dialect |
-| `sanskrit.check` | **Sanskrit: Check Syntax & Types** | Runs lexical, syntactic, and type validation without running |
-| `sanskrit.bench` | **Sanskrit: Run Performance Benchmarks** | Executes the full performance benchmark suite |
-| `sanskrit.doctor` | **Sanskrit: Run Doctor Diagnostics** | Inspects toolchain, runtime, and GPU accelerator health |
-| `sanskrit.env` | **Sanskrit: Show Environment Info** | Displays runtime tier and system features |
-| `sanskrit.repl` | **Sanskrit: Start Interactive REPL** | Spawns a Sanskrit interactive terminal session |
-| `sanskrit.openTensorInspector` | **Sanskrit: Open Tensor Inspector** | Launches the scientific computing and tensor visualizer |
-| `sanskrit.new` | **Sanskrit: New Project** | Scaffolds a new Sanskrit Next application |
-| `sanskrit.fmt` | **Sanskrit: Format Document** | Formats current file according to standard conventions |
+| `sanskrit.runInTerminal` | <kbd>Ctrl+Alt+N</kbd> / <kbd>Cmd+Alt+N</kbd> | **Run File in Sanskrit VM Terminal** |
+| `sanskrit.runSelection` | <kbd>Ctrl+Alt+S</kbd> / <kbd>Cmd+Alt+S</kbd> | **Run Selected Code in Terminal** |
+| `sanskrit.runWithArgs` | — | **Run with Custom Arguments...** |
+| `sanskrit.run` | — | Executes open file via configured runner |
+| `sanskrit.build` | — | Compiles project or lowers SIR to Sanskrit MLIR dialect |
+| `sanskrit.check` | — | Runs lexical, syntactic, and type validation without running |
+| `sanskrit.bench` | — | Executes the full performance benchmark suite |
+| `sanskrit.doctor` | — | Inspects toolchain, runtime, and GPU accelerator health |
+| `sanskrit.env` | — | Displays runtime tier and system features |
+| `sanskrit.repl` | — | Spawns a Sanskrit interactive terminal session |
+| `sanskrit.openTensorInspector` | — | Launches the scientific computing and tensor visualizer |
+| `sanskrit.new` | — | Scaffolds a new Sanskrit Next application |
+| `sanskrit.fmt` | — | Formats current file according to standard conventions |
 
 ---
 
 ## Configuration Settings
 
-Customize behavior via `Settings -> Extensions -> Sanskrit Next`:
+Customize every aspect of Sanskrit Next via `Settings -> Extensions -> Sanskrit Next`:
 
 ```json
 {
-  "sanskrit.compilerPath": "",
-  "sanskrit.formatOnSave": true,
-  "sanskrit.tier0": true,
-  "sanskrit.trace.server": "off",
-  "sanskrit.tensorInspectorAutoOpen": false
+  // Execution & Terminal
+  "sanskrit.execution.runInTerminal": true,
+  "sanskrit.execution.terminalTitle": "Sanskrit VM",
+  "sanskrit.execution.clearTerminalBeforeRun": true,
+  "sanskrit.execution.focusTerminal": true,
+  "sanskrit.execution.autoSaveBeforeRun": true,
+  "sanskrit.execution.tier0": true,
+  "sanskrit.execution.release": false,
+  "sanskrit.execution.backend": "tier0-vm",
+  "sanskrit.execution.device": "auto",
+  "sanskrit.execution.workingDirectory": "workspaceRoot",
+
+  // Compiler & Toolchain
+  "sanskrit.compiler.path": "",
+  "sanskrit.compiler.checkOnSave": true,
+  "sanskrit.compiler.emitMlirByDefault": false,
+  "sanskrit.compiler.optimizationLevel": "3",
+
+  // Phonetic English Typing & Transliteration
+  "sanskrit.transliteration.enabled": true,
+  "sanskrit.transliteration.preferScript": "both",
+  "sanskrit.transliteration.showPhoneticInCompletionList": true,
+
+  // Inlay Hints & Code Intelligence
+  "sanskrit.inlayHints.typeHints": true,
+  "sanskrit.inlayHints.parameterNames": true,
+  "sanskrit.inlayHints.tensorShapes": true,
+
+  // Formatting & Style
+  "sanskrit.formatting.formatOnSave": true,
+  "sanskrit.formatting.indentSize": 4,
+  "sanskrit.formatting.alignColons": true,
+
+  // Diagnostics & Linting
+  "sanskrit.diagnostics.enable": true,
+  "sanskrit.diagnostics.strictTensorChecking": true,
+  "sanskrit.diagnostics.mixedScriptWarning": false,
+
+  // Tensor & Autodiff Inspector
+  "sanskrit.tensorInspector.autoOpenOnDebug": false,
+  "sanskrit.tensorInspector.colorTheme": "saffron",
+  "sanskrit.tensorInspector.maxCellDisplay": 256,
+
+  // Benchmarking
+  "sanskrit.benchmark.iterations": 1000,
+  "sanskrit.benchmark.warmupRuns": 100,
+  "sanskrit.benchmark.saveResultsJson": true,
+
+  // Language Server Protocol
+  "sanskrit.lsp.serverPath": "",
+  "sanskrit.lsp.trace": "off"
 }
 ```
 
@@ -129,8 +184,8 @@ Customize behavior via `Settings -> Extensions -> Sanskrit Next`:
 
 - **Visual Studio Marketplace**: [https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode](https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode)
 - **Extension Identifier**: `sh20raj.sanskrit-vscode`
-- **Official GitHub Release**: [GitHub Release `vscode-v2.0.0`](https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.0)
-- **Direct VSIX Download**: [Download `sanskrit-vscode-2.0.0.vsix`](https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.0/sanskrit-vscode-2.0.0.vsix)
+- **Official GitHub Release**: [GitHub Release `vscode-v2.0.3`](https://github.com/SH20RAJ/sanskrit/releases/tag/vscode-v2.0.3)
+- **Direct VSIX Download**: [Download `sanskrit-vscode-2.0.3.vsix`](https://github.com/SH20RAJ/sanskrit/releases/download/vscode-v2.0.3/sanskrit-vscode-2.0.3.vsix)
 - **SHA256**: `3c2398b75e3975bcc84b3f319d65d51e632f58b3c0e28f09d2f1debf8e9a933d`
 
 ### Install from VS Code Marketplace

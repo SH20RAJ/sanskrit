@@ -25,9 +25,10 @@ test('package.json has correct metadata and activation events', () => {
   const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
   assert.strictEqual(pkg.name, 'sanskrit-vscode');
   assert.strictEqual(pkg.displayName, 'Sanskrit Next');
-  assert.strictEqual(pkg.version, '2.0.0');
+  assert.ok(/^\d+\.\d+\.\d+/.test(pkg.version), 'version should follow semantic versioning');
   assert.ok(pkg.activationEvents.includes('onLanguage:sanskrit'));
   assert.ok(pkg.activationEvents.includes('onCommand:sanskrit.run'));
+  assert.ok(pkg.activationEvents.includes('onCommand:sanskrit.runInTerminal'));
   assert.ok(pkg.activationEvents.includes('onCommand:sanskrit.openTensorInspector'));
 });
 

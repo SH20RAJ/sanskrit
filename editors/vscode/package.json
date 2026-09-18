@@ -1,8 +1,8 @@
 {
   "name": "sanskrit-vscode",
   "displayName": "Sanskrit Next",
-  "description": "Comprehensive language platform for Sanskrit Next: Language intelligence, compiler integration, debugger, test explorer, benchmark runner, and tensor inspector.",
-  "version": "2.0.2",
+  "description": "Comprehensive language platform for Sanskrit Next: Language intelligence, compiler integration, Sanskrit VM terminal execution, debugger, test explorer, benchmark runner, and tensor inspector.",
+  "version": "2.0.3",
   "publisher": "sh20raj",
   "author": {
     "name": "Shaswat Raj",
@@ -43,6 +43,9 @@
     "workspaceContains:**/*.skt",
     "workspaceContains:**/*.sns",
     "onCommand:sanskrit.run",
+    "onCommand:sanskrit.runInTerminal",
+    "onCommand:sanskrit.runSelection",
+    "onCommand:sanskrit.runWithArgs",
     "onCommand:sanskrit.build",
     "onCommand:sanskrit.check",
     "onCommand:sanskrit.bench",
@@ -139,6 +142,24 @@
     },
     "commands": [
       {
+        "command": "sanskrit.runInTerminal",
+        "title": "Run in Sanskrit VM (Terminal)",
+        "category": "Sanskrit",
+        "icon": "$(play)"
+      },
+      {
+        "command": "sanskrit.runSelection",
+        "title": "Run Selection in Terminal",
+        "category": "Sanskrit",
+        "icon": "$(symbol-event)"
+      },
+      {
+        "command": "sanskrit.runWithArgs",
+        "title": "Run with Custom Arguments...",
+        "category": "Sanskrit",
+        "icon": "$(gear)"
+      },
+      {
         "command": "sanskrit.run",
         "title": "Run File",
         "category": "Sanskrit",
@@ -205,10 +226,24 @@
         "icon": "$(refresh)"
       }
     ],
+    "keybindings": [
+      {
+        "command": "sanskrit.runInTerminal",
+        "key": "ctrl+alt+n",
+        "mac": "cmd+alt+n",
+        "when": "editorTextFocus && resourceLangId == sanskrit"
+      },
+      {
+        "command": "sanskrit.runSelection",
+        "key": "ctrl+alt+s",
+        "mac": "cmd+alt+s",
+        "when": "editorTextFocus && editorHasSelection && resourceLangId == sanskrit"
+      }
+    ],
     "menus": {
       "editor/title": [
         {
-          "command": "sanskrit.run",
+          "command": "sanskrit.runInTerminal",
           "when": "resourceLangId == sanskrit",
           "group": "navigation@1"
         },
@@ -225,19 +260,29 @@
       ],
       "editor/context": [
         {
-          "command": "sanskrit.run",
+          "command": "sanskrit.runInTerminal",
           "when": "resourceLangId == sanskrit",
           "group": "sanskrit@1"
         },
         {
+          "command": "sanskrit.runSelection",
+          "when": "resourceLangId == sanskrit && editorHasSelection",
+          "group": "sanskrit@2"
+        },
+        {
+          "command": "sanskrit.runWithArgs",
+          "when": "resourceLangId == sanskrit",
+          "group": "sanskrit@3"
+        },
+        {
           "command": "sanskrit.check",
           "when": "resourceLangId == sanskrit",
-          "group": "sanskrit@2"
+          "group": "sanskrit@4"
         },
         {
           "command": "sanskrit.openTensorInspector",
           "when": "resourceLangId == sanskrit",
-          "group": "sanskrit@3"
+          "group": "sanskrit@5"
         }
       ],
       "view/title": [
@@ -300,12 +345,228 @@
       "type": "object",
       "title": "Sanskrit Next",
       "properties": {
-        "sanskrit.compilerPath": {
+        "sanskrit.execution.runInTerminal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Execute Sanskrit files in an interactive VS Code terminal window rather than the background output channel."
+        },
+        "sanskrit.execution.terminalTitle": {
+          "type": "string",
+          "default": "Sanskrit VM",
+          "description": "Title of the dedicated Sanskrit integrated terminal."
+        },
+        "sanskrit.execution.clearTerminalBeforeRun": {
+          "type": "boolean",
+          "default": true,
+          "description": "Clear the terminal screen before launching each Sanskrit execution."
+        },
+        "sanskrit.execution.focusTerminal": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically focus and show the terminal upon executing code."
+        },
+        "sanskrit.execution.autoSaveBeforeRun": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically save unsaved changes in the active Sanskrit file before execution."
+        },
+        "sanskrit.execution.tier0": {
+          "type": "boolean",
+          "default": true,
+          "description": "Force execution using the high-performance Tier-0 Bytecode VM (<2ms cold boot)."
+        },
+        "sanskrit.execution.release": {
+          "type": "boolean",
+          "default": false,
+          "description": "Execute with peak release compiler optimizations (--release)."
+        },
+        "sanskrit.execution.backend": {
+          "type": "string",
+          "enum": [
+            "tier0-vm",
+            "mlir-jit",
+            "interpreter",
+            "aot-native"
+          ],
+          "default": "tier0-vm",
+          "description": "Compiler runtime execution backend: Tier-0 Bytecode VM, MLIR JIT compiler, tree interpreter, or AOT native binary."
+        },
+        "sanskrit.execution.device": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "cpu",
+            "cuda",
+            "metal",
+            "rocm",
+            "vulkan",
+            "tpu"
+          ],
+          "default": "auto",
+          "description": "Target hardware accelerator device for tensor matrix multiplication and autodiff dispatch."
+        },
+        "sanskrit.execution.customArgs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Additional custom CLI flags passed to `sanskrit run`."
+        },
+        "sanskrit.execution.workingDirectory": {
+          "type": "string",
+          "enum": [
+            "workspaceRoot",
+            "fileDir"
+          ],
+          "default": "workspaceRoot",
+          "description": "Working directory when running Sanskrit files in the terminal: workspaceRoot or fileDir."
+        },
+        "sanskrit.compiler.path": {
           "type": "string",
           "default": "",
-          "description": "Custom path to the sanskrit compiler executable. Defaults to locating on PATH or ~/.sanskrit/bin."
+          "description": "Custom filesystem path to the `sanskrit` CLI binary. When blank, automatically resolves from workspace targets, ~/.sanskrit/bin, or system PATH."
         },
-        "sanskrit.trace.server": {
+        "sanskrit.compiler.checkOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically perform syntax, type, and tensor shape validation on save."
+        },
+        "sanskrit.compiler.emitMlirByDefault": {
+          "type": "boolean",
+          "default": false,
+          "description": "Emit Sanskrit MLIR dialect text (.mlir) by default during project compilation."
+        },
+        "sanskrit.compiler.optimizationLevel": {
+          "type": "string",
+          "enum": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "fast",
+            "s",
+            "z"
+          ],
+          "default": "3",
+          "description": "Compiler optimization pass level for code generation and vectorization."
+        },
+        "sanskrit.transliteration.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable phonetic Romanized typing (e.g. typing 'mudran' or 'mud' suggests 'मुद्रण')."
+        },
+        "sanskrit.transliteration.preferScript": {
+          "type": "string",
+          "enum": [
+            "both",
+            "devanagari",
+            "latin"
+          ],
+          "default": "both",
+          "description": "Preferred script style for autocomplete suggestions and documentation."
+        },
+        "sanskrit.transliteration.showPhoneticInCompletionList": {
+          "type": "boolean",
+          "default": true,
+          "description": "Display dedicated phonetic transliteration items ('mudran ➔ मुद्रण') at the top of the IntelliSense popup."
+        },
+        "sanskrit.inlayHints.typeHints": {
+          "type": "boolean",
+          "default": true,
+          "description": "Display inferred types for variables and constants inline (e.g. : पूर्णाङ्क)."
+        },
+        "sanskrit.inlayHints.parameterNames": {
+          "type": "boolean",
+          "default": true,
+          "description": "Display parameter names at function and method call sites."
+        },
+        "sanskrit.inlayHints.tensorShapes": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show tensor dimensions and matrix shape transformations inline (e.g. [2, 3] × [3, 2] → [2, 2])."
+        },
+        "sanskrit.formatting.formatOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically format Sanskrit files on save using the native Sanskrit formatter (`sanskrit fmt`)."
+        },
+        "sanskrit.formatting.indentSize": {
+          "type": "integer",
+          "default": 4,
+          "minimum": 2,
+          "maximum": 8,
+          "description": "Number of spaces per indentation level."
+        },
+        "sanskrit.formatting.alignColons": {
+          "type": "boolean",
+          "default": true,
+          "description": "Align block colons (:) in struct definitions and pattern matching arms."
+        },
+        "sanskrit.diagnostics.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable real-time compiler diagnostics, type errors, and syntax warnings."
+        },
+        "sanskrit.diagnostics.strictTensorChecking": {
+          "type": "boolean",
+          "default": true,
+          "description": "Perform static compile-time validation of tensor dimension compatibility."
+        },
+        "sanskrit.diagnostics.mixedScriptWarning": {
+          "type": "boolean",
+          "default": false,
+          "description": "Warn when Devanagari and Latin keywords are mixed arbitrarily within the same function scope."
+        },
+        "sanskrit.tensorInspector.autoOpenOnDebug": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically open the visual Tensor Inspector panel when hitting a breakpoint in tensor code."
+        },
+        "sanskrit.tensorInspector.colorTheme": {
+          "type": "string",
+          "enum": [
+            "saffron",
+            "viridis",
+            "plasma",
+            "coolwarm",
+            "monochrome"
+          ],
+          "default": "saffron",
+          "description": "Color theme for tensor dimension heatmaps and computational graph visualization."
+        },
+        "sanskrit.tensorInspector.maxCellDisplay": {
+          "type": "integer",
+          "default": 256,
+          "minimum": 16,
+          "maximum": 4096,
+          "description": "Maximum number of tensor array elements to render in the interactive slice viewer."
+        },
+        "sanskrit.benchmark.iterations": {
+          "type": "integer",
+          "default": 1000,
+          "minimum": 1,
+          "maximum": 1000000,
+          "description": "Default iteration count for Sanskrit performance benchmarks."
+        },
+        "sanskrit.benchmark.warmupRuns": {
+          "type": "integer",
+          "default": 100,
+          "minimum": 0,
+          "maximum": 10000,
+          "description": "Number of warmup runs before recording latency and memory throughput metrics."
+        },
+        "sanskrit.benchmark.saveResultsJson": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically save benchmark metrics to JSON files in benchmarks/results/."
+        },
+        "sanskrit.lsp.serverPath": {
+          "type": "string",
+          "default": "",
+          "description": "Custom path to the `sanskrit-lsp` binary. Defaults to embedded LSP daemon via `sanskrit lsp`."
+        },
+        "sanskrit.lsp.trace": {
           "type": "string",
           "enum": [
             "off",
@@ -315,20 +576,35 @@
           "default": "off",
           "description": "Traces communication between VS Code and the Sanskrit Language Server."
         },
+        "sanskrit.compilerPath": {
+          "type": "string",
+          "default": "",
+          "description": "(Legacy Alias) Custom path to the sanskrit compiler executable. Use sanskrit.compiler.path instead."
+        },
+        "sanskrit.trace.server": {
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "(Legacy Alias) Traces communication between VS Code and Sanskrit LSP. Use sanskrit.lsp.trace instead."
+        },
         "sanskrit.formatOnSave": {
           "type": "boolean",
           "default": true,
-          "description": "Automatically format Sanskrit files on save."
+          "description": "(Legacy Alias) Automatically format Sanskrit files on save. Use sanskrit.formatting.formatOnSave instead."
         },
         "sanskrit.tier0": {
           "type": "boolean",
           "default": true,
-          "description": "Run files using the high-performance Tier-0 Bytecode VM."
+          "description": "(Legacy Alias) Run files using Tier-0 Bytecode VM. Use sanskrit.execution.tier0 instead."
         },
         "sanskrit.tensorInspectorAutoOpen": {
           "type": "boolean",
           "default": false,
-          "description": "Automatically open Tensor Inspector when debugging tensor operations."
+          "description": "(Legacy Alias) Automatically open Tensor Inspector. Use sanskrit.tensorInspector.autoOpenOnDebug instead."
         }
       }
     }

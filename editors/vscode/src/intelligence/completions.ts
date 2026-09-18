@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { CONFIG_KEYS } from '../constants';
 import { PHONETIC_ENTRIES, transliterateToDevanagari } from './transliteration';
 
 export class SanskritCompletionItemProvider implements vscode.CompletionItemProvider {
@@ -8,6 +9,10 @@ export class SanskritCompletionItemProvider implements vscode.CompletionItemProv
     _token: vscode.CancellationToken,
     _context: vscode.CompletionContext
   ): vscode.ProviderResult<vscode.CompletionItem[] | vscode.CompletionList> {
+    const config = vscode.workspace.getConfiguration();
+    const translitEnabled = config.get<boolean>(CONFIG_KEYS.TRANSLIT_ENABLED, true);
+    const showPhoneticInList = config.get<boolean>(CONFIG_KEYS.TRANSLIT_SHOW_IN_COMPLETIONS, true);
+
     const linePrefix = document.lineAt(position).text.substring(0, position.character);
     const items: vscode.CompletionItem[] = [];
 
@@ -21,29 +26,33 @@ export class SanskritCompletionItemProvider implements vscode.CompletionItemProv
       const item = new vscode.CompletionItem(entry.devanagari, this.getCompletionKind(entry.category));
       item.detail = entry.detail;
       item.documentation = new vscode.MarkdownString(entry.documentation);
-      item.filterText = `${entry.devanagari} ${entry.latin} ${entry.aliases.join(' ')}`;
+      item.filterText = translitEnabled
+        ? `${entry.devanagari} ${entry.latin} ${entry.aliases.join(' ')}`
+        : entry.devanagari;
       if (entry.snippet) {
         item.insertText = new vscode.SnippetString(entry.snippet);
       }
       items.push(item);
 
       // Dedicated English/Romanized Typing Item (e.g. 'mudran ➔ मुद्रण')
-      const romanItem = new vscode.CompletionItem(
-        { label: entry.latin, description: `➔ ${entry.devanagari}` },
-        this.getCompletionKind(entry.category)
-      );
-      romanItem.detail = `𑖭 Transliterate: ${entry.latin} ➔ ${entry.devanagari}`;
-      romanItem.documentation = new vscode.MarkdownString(
-        `### Phonetic Sanskrit Transliteration\n\nTyping **\`${entry.latin}\`** inserts canonical Devanagari **\`${entry.devanagari}\`**.\n\n${entry.documentation}`
-      );
-      romanItem.filterText = `${entry.latin} ${entry.aliases.join(' ')}`;
-      romanItem.insertText = entry.snippet ? new vscode.SnippetString(entry.snippet) : entry.devanagari;
-      romanItem.sortText = `00_${entry.latin}`;
-      items.push(romanItem);
+      if (translitEnabled && showPhoneticInList) {
+        const romanItem = new vscode.CompletionItem(
+          { label: entry.latin, description: `➔ ${entry.devanagari}` },
+          this.getCompletionKind(entry.category)
+        );
+        romanItem.detail = `𑖭 Transliterate: ${entry.latin} ➔ ${entry.devanagari}`;
+        romanItem.documentation = new vscode.MarkdownString(
+          `### Phonetic Sanskrit Transliteration\n\nTyping **\`${entry.latin}\`** inserts canonical Devanagari **\`${entry.devanagari}\`**.\n\n${entry.documentation}`
+        );
+        romanItem.filterText = `${entry.latin} ${entry.aliases.join(' ')}`;
+        romanItem.insertText = entry.snippet ? new vscode.SnippetString(entry.snippet) : entry.devanagari;
+        romanItem.sortText = `00_${entry.latin}`;
+        items.push(romanItem);
+      }
     }
 
     // 2. Dynamic Phonetic Word Transliteration (Any arbitrary Latin word -> Devanagari)
-    if (currentWord && /^[a-zA-Z]+$/.test(currentWord) && currentWord.length >= 2) {
+    if (translitEnabled && currentWord && /^[a-zA-Z]+$/.test(currentWord) && currentWord.length >= 2) {
       const dynamicDeva = transliterateToDevanagari(currentWord);
       if (dynamicDeva && !PHONETIC_ENTRIES.some(e => e.devanagari === dynamicDeva)) {
         const dynamicItem = new vscode.CompletionItem(

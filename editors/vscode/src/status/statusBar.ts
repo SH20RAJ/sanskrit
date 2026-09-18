@@ -40,7 +40,9 @@ export class SanskritStatusBar {
 
   public static async showQuickMenu(): Promise<void> {
     const choice = await vscode.window.showQuickPick([
-      { label: '$(play) Run Active File', command: COMMANDS.RUN },
+      { label: '$(play) Run in Sanskrit VM Terminal', command: COMMANDS.RUN_IN_TERMINAL },
+      { label: '$(symbol-event) Run Selection in Terminal', command: COMMANDS.RUN_SELECTION },
+      { label: '$(gear) Run with Custom Arguments...', command: COMMANDS.RUN_WITH_ARGS },
       { label: '$(check) Check Syntax & Types', command: COMMANDS.CHECK },
       { label: '$(package) Build / Emit MLIR', command: COMMANDS.BUILD },
       { label: '$(database) Open Tensor & Autodiff Inspector', command: COMMANDS.OPEN_TENSOR_INSPECTOR },
