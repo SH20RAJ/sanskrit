@@ -124,7 +124,12 @@ class Parser {
 
     functionDeclaration() {
         const startToken = this.eat(TokenTypes.KEYWORD, 'कार्य');
-        const nameToken = this.eat(TokenTypes.IDENTIFIER);
+        let nameToken;
+        if (this.match(TokenTypes.IDENTIFIER) || this.match(TokenTypes.KEYWORD)) {
+            nameToken = this.eat(this.currentToken.type);
+        } else {
+            nameToken = this.eat(TokenTypes.IDENTIFIER);
+        }
         const id = new Nodes.IdentifierNode(nameToken.value, { line: nameToken.line, column: nameToken.column });
 
         this.eat(TokenTypes.DELIMITER, '(');
@@ -623,7 +628,12 @@ class Parser {
         while (true) {
             if (this.match(TokenTypes.DELIMITER, '.')) {
                 this.eat(TokenTypes.DELIMITER, '.');
-                const propToken = this.eat(TokenTypes.IDENTIFIER);
+                let propToken;
+                if (this.match(TokenTypes.IDENTIFIER) || this.match(TokenTypes.KEYWORD)) {
+                    propToken = this.eat(this.currentToken.type);
+                } else {
+                    propToken = this.eat(TokenTypes.IDENTIFIER);
+                }
                 const property = new Nodes.IdentifierNode(propToken.value, {
                     line: propToken.line,
                     column: propToken.column
@@ -716,6 +726,9 @@ class Parser {
                 case 'सुपर':
                     this.eat(TokenTypes.KEYWORD, 'सुपर');
                     return new Nodes.SuperExpressionNode({ line: token.line, column: token.column });
+                case 'वर्ग':
+                    this.eat(TokenTypes.KEYWORD, 'वर्ग');
+                    return new Nodes.IdentifierNode('वर्ग', { line: token.line, column: token.column });
             }
         }
 

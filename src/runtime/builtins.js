@@ -112,8 +112,15 @@ function createBuiltins(outputStream = console.log) {
     // गणित (Math) utilities
     builtins.set('गणित_वर्ग', (x) => Math.sqrt(x));
     builtins.set('गणित_शक्ति', (base, exp) => Math.pow(base, exp));
-    builtins.set('गणित_न्यूनतम', (...args) => Math.min(...args));
+    builtins.set('गणित_न्यूनतम', (...args) => {
+        if (args.length === 1) return Math.floor(args[0]);
+        return Math.min(...args);
+    });
     builtins.set('गणित_अधिकतम', (...args) => Math.max(...args));
+    builtins.set('गणित_पूर्णांक', (x) => Math.floor(x));
+    builtins.set('गणित_तली', (x) => Math.floor(x));
+    builtins.set('गणित_छत', (x) => Math.ceil(x));
+    builtins.set('गणित_गोल', (x) => Math.round(x));
     builtins.set('गणित_यादृच्छिक', () => Math.random());
 
     // समय & प्रतीक्षा
