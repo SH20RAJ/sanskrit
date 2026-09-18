@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanskrit Next AI Agent Skill & Language Specification | AI Prompt Reference</title>
+    <meta name="description" content="Official AI Agent Skill and complete language reference for Sanskrit Next (v2.0+). Copy the prompt to equip Claude, ChatGPT, Cursor, Copilot, or Antigravity with full Sanskrit language intelligence.">
+    <meta name="keywords" content="Sanskrit programming language, AI skill, Antigravity skill, Cursor rules, Claude prompt, LLM Sanskrit, dual-script compiler, tensors, automatic differentiation">
+    <link rel="canonical" href="https://sh20raj.github.io/sanskrit/skill.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Sanskrit Next">
+    <meta property="og:title" content="Sanskrit Next AI Agent Skill & Language Reference">
+    <meta property="og:description" content="Equip any AI agent with full knowledge of Sanskrit Next dual-script syntax, first-class tensors, automatic differentiation, and compiler commands.">
+    <meta property="og:url" content="https://sh20raj.github.io/sanskrit/skill.html">
+    <meta property="og:image" content="https://sh20raj.github.io/sanskrit/og-image.png">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sanskrit Next AI Agent Skill">
+    <meta name="twitter:description" content="Official AI Agent Skill and language reference for Sanskrit Next.">
+    <meta name="twitter:image" content="https://sh20raj.github.io/sanskrit/og-image.png">
+    <meta name="theme-color" content="#ff6b35">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Sanskrit Next AI Agent Skill and Complete Language Specification",
+      "description": "Comprehensive reference guide and AI skill definition for Sanskrit Next programming language.",
+      "author": {
+        "@type": "Person",
+        "name": "Shaswat Raj",
+        "url": "https://github.com/SH20RAJ"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Sanskrit Next Project",
+        "url": "https://sh20raj.github.io/sanskrit/"
+      },
+      "url": "https://sh20raj.github.io/sanskrit/skill.html"
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0b0f19;
+            --bg-card: rgba(18, 24, 38, 0.75);
+            --bg-glass: rgba(15, 23, 42, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
+            --border-glow: rgba(255, 107, 53, 0.4);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --saffron: #ff6b35;
+            --saffron-hover: #ff854d;
+            --gold: #f59e0b;
+            --emerald: #10b981;
+            --font-main: 'Inter', sans-serif;
+            --font-heading: 'Outfit', sans-serif;
+            --font-code: 'Fira Code', monospace;
+            --font-deva: 'Noto Sans Devanagari', sans-serif;
+            --radius: 16px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 1000;
+            background: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: #fff;
+            text-decoration: none;
+        }
+        .nav-logo span {
+            color: var(--saffron);
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        .nav-link:hover { color: var(--text-main); }
+        .nav-badge {
+            background: rgba(255, 107, 53, 0.15);
+            color: var(--saffron);
+            border: 1px solid var(--border-glow);
+            padding: 0.35rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 8rem 0 3rem;
+            text-align: center;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 20%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px; height: 350px;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.18) 0%, rgba(0,0,0,0) 70%);
+            filter: blur(60px);
+            z-index: -1;
+        }
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            padding: 0.4rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            color: var(--saffron);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            max-width: 750px;
+            margin: 0 auto 2rem;
+            color: var(--text-muted);
+            font-size: 1.15rem;
+        }
+
+        /* Action Buttons */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.75rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: none;
+        }
+        .btn-primary {
+            background: var(--saffron);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.35);
+        }
+        .btn-primary:hover {
+            background: var(--saffron-hover);
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+        }
+
+        /* Skill Container */
+        .skill-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            backdrop-filter: blur(16px);
+            margin-bottom: 4rem;
+            position: relative;
+        }
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .skill-title {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .copy-btn {
+            background: rgba(255, 107, 53, 0.15);
+            color: var(--saffron);
+            border: 1px solid var(--border-glow);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s ease;
+        }
+        .copy-btn:hover {
+            background: var(--saffron);
+            color: #fff;
+        }
+
+        pre code {
+            font-family: var(--font-code);
+            font-size: 0.92rem;
+            color: #e2e8f0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.6;
+        }
+
+        /* Highlights Grid */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.75rem;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-glow);
+        }
+        .card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="nav-logo">
+                संस्कृत <span>Next</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="getting-started.html" class="nav-link">Getting Started</a>
+                <a href="language-guide.html" class="nav-link">Guide</a>
+                <a href="skill.html" class="nav-link nav-badge">⚡ AI Skill</a>
+                <a href="https://github.com/SH20RAJ/sanskrit" target="_blank" class="nav-link">GitHub</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="hero">
+            <div class="hero-tag">
+                🤖 LLM & Agent Customization Skill
+            </div>
+            <h1>Sanskrit Next AI Skill</h1>
+            <p>
+                Equip Claude, ChatGPT, Cursor, Copilot, or Google Antigravity with complete native Sanskrit Next (v2.0+) language capabilities in seconds.
+            </p>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" id="copySkillBtn" onclick="copyFullSkill()">
+                    <span id="copyIcon">📋</span> <span id="copyText">Copy AI Skill Prompt</span>
+                </button>
+                <a href="skill.md" download="sanskrit-language.skill.md" class="btn btn-secondary">
+                    ⬇ Download SKILL.md
+                </a>
+                <a href="index.html" class="btn btn-secondary">
+                    ← Back to Documentation
+                </a>
+            </div>
+        </section>
+
+        <div class="grid-3">
+            <div class="card">
+                <h3>𑖭 Dual-Script Invariance</h3>
+                <p>Teaches AI models the 100% lexical equivalence between Paninian Devanagari (<code>कार्य</code>, <code>मान</code>, <code>दिश</code>) and Latin ASCII aliases (<code>fn</code>, <code>let</code>, <code>Tensor</code>).</p>
+            </div>
+            <div class="card">
+                <h3>⚡ Real Empirical Telemetry</h3>
+                <p>Includes verified performance figures: 1.84ms cold boot startup, 3.1MB heap footprint, and 4.09ms per 100,000 autodiff evaluations.</p>
+            </div>
+            <div class="card">
+                <h3>🔬 Scientific & ML Primitives</h3>
+                <p>Provides exact semantics for multi-dimensional strided tensors (<code>दिश</code>), GEMM matrix operators (<code>@</code>), and forward-mode dual numbers.</p>
+            </div>
+        </div>
+
+        <div class="skill-box">
+            <div class="skill-header">
+                <div class="skill-title">
+                    <span>📄</span> .agents/skills/sanskrit-language/SKILL.md
+                </div>
+                <button class="copy-btn" onclick="copyFullSkill()">
+                    <span>📋</span> Copy
+                </button>
+            </div>
+            <pre><code id="skillCodeBlock">---
+name: sanskrit-language
+description: Comprehensive expert engineering and syntax reference for the Sanskrit Next programming language (v2.0+), covering dual-script syntax (Devanagari & Latin), type system, tensors, autodiff, standard library, and CLI tooling.
+---
+
+# Sanskrit Next (संस्कृत) Language Engineering Skill
+
+## 1. Architectural Model & Core Tenets
+1. Dual-Script Invariance: 100% syntactic & semantic parity between Devanagari (U+0900–U+097F) and ASCII.
+2. Tiered Execution: Sub-2ms cold boot Tier-0 Bytecode VM (1.84 ms) + optimizing MLIR/LLVM release pipeline.
+3. Memory Safety: Zero-GC, deterministic RAII ownership, parameter modes (पठन/read, परिवर्तन/mut, स्वामित्व/owned).
+4. Scientific Primitives: Strided tensors (दिश / Tensor), GEMM operator (@), forward-mode autodiff (4.09 ms / 100k evals).
+5. Zero-Dependency Native Architecture: 100% native Rust, single 4.2 MB binary.
+
+## 2. Dual-Script Keywords
+- Function: कार्य <नाम>(<मापदण्ड>): <प्रकार>  |  fn <name>(<params>): <type>
+- Variable: मान <नाम> = <मूल्य>               |  let <name> = <value>
+- Constant: स्थिर <नाम> = <मूल्य>             |  const <name> = <value>
+- If / Else: यदि <शर्त>: ... अन्यथा: ...      |  if <cond>: ... else: ...
+- Loops: यावत् <शर्त>: ...                   |  while <cond>: ...
+- Return: प्रत्यागम <मूल्य>                   |  return <val>
+- Output: मुद्रण(...args)                    |  print(...args)
+- Panic: विफल(सन्देश)                        |  panic(msg)
+- Assert: निश्चय(शर्त, सन्देश)               |  assert(cond, msg)
+
+## 3. Types
+- Primitives: पूर्णाङ्क (i32), दशमलव (f64), तर्क (bool), सूत्र (str), अक्षर (char), शून्यम् (void)
+- Tensors: दिश[dtype, shape] / Tensor[dtype, shape]
+  - दिश.zeros([M, N]), दिश.ones([M, N]), दिश.randn([M, N]), दिश.eye(N)
+  - Tensor @ Tensor (GEMM), .transpose(), .reshape(), .sum(), .mean()
+- Automatic Differentiation: Dual(primal, tangent), अवकलन(f, x) [diff], प्रवणता(f, x) [grad]
+
+## 4. Standard Library Modules
+- std.core: मुद्रण (print), विफल (panic), निश्चय (assert)
+- std.tensor: Linear algebra, strided views, matrix multiplication (@)
+- std.autodiff: Forward-mode automatic differentiation
+- std.linalg: GEMM, vector norms, matrix operations
+- std.math: Trigonometric, logarithmic, and power routines
+
+## 5. Toolchain CLI
+- sanskrit run <file.skt>       : Sub-2ms Tier-0 Bytecode VM
+- sanskrit run --release <file> : Optimizing MLIR/LLVM pipeline
+- sanskrit check <file.skt>     : Multi-span syntax & type diagnostics
+- sanskrit test                 : Automated test discovery (**/*.test.skt)
+- sanskrit bench                : Hardware telemetry & benchmarks
+- sanskrit doctor               : GPU, AMX, cache & toolchain health
+- sanskrit fmt                  : Dual-script canonical formatter
+- sanskrit lsp                  : Embedded LSP 3.17 daemon</code></pre>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>संस्कृत Next (v2.0+) • Released under MIT License • Maintained by Shaswat Raj and the Sanskrit Community</p>
+            <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+                <a href="llms.txt" style="color: var(--saffron);">llms.txt</a> • 
+                <a href="sitemap.xml" style="color: var(--saffron);">sitemap.xml</a> • 
+                <a href="robots.txt" style="color: var(--saffron);">robots.txt</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function copyFullSkill() {
+            const text = document.getElementById('skillCodeBlock').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const btnText = document.getElementById('copyText');
+                const btnIcon = document.getElementById('copyIcon');
+                btnText.innerText = 'Skill Copied to Clipboard!';
+                btnIcon.innerText = '✓';
+                setTimeout(() => {
+                    btnText.innerText = 'Copy AI Skill Prompt';
+                    btnIcon.innerText = '📋';
+                }, 2500);
+            });
+        }
+    </script>
+</body>
+</html>
