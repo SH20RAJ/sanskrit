@@ -1,64 +1,54 @@
-// Sanskrit Language Compiler Entry Point
-const { Lexer } = require('./lexer');
-const { Parser } = require('./parser');
-const { Interpreter } = require('../interpreter');
+// Sanskrit Language Compiler Facade
+const { Lexer } = require('../lexer');
+const { Parser } = require('../parser');
+const { Interpreter } = require('../runtime');
+const { SanskritError } = require('../diagnostics/errors');
 const fs = require('fs');
-const path = require('path');
 
 class Compiler {
-    constructor() {
-        this.lexer = null;
-        this.parser = null;
-        this.interpreter = null;
+    constructor(options = {}) {
+        this.filename = options.filename || '<anonymous>';
+        this.outputStream = options.outputStream || console.log;
+        this.interpreter = new Interpreter({
+            filename: this.filename,
+            outputStream: this.outputStream
+        });
     }
 
-    compile(sourceCode) {
+    compile(sourceCode, filename = this.filename) {
         try {
-            // Initialize components
-            this.lexer = new Lexer(sourceCode);
-            this.parser = new Parser(this.lexer);
-            this.interpreter = new Interpreter();
-
-            // Parse the code
-            const ast = this.parser.parse();
-            
-            // Interpret the AST
+            const lexer = new Lexer(sourceCode, filename);
+            const parser = new Parser(lexer, filename);
+            const ast = parser.parse();
             return this.interpreter.interpret(ast);
         } catch (error) {
-            console.error('Compilation error:', error.message);
+            if (error instanceof SanskritError) {
+                console.error(error.format());
+            } else {
+                console.error(`[त्रुटि E9999] Unexpected error: ${error.message}`);
+            }
             return null;
         }
     }
 
-    static compileFile(inputPath) {
+    static compileFile(filePath, options = {}) {
         try {
-            const sourceCode = fs.readFileSync(inputPath, 'utf8');
-            const compiler = new Compiler();
-            return compiler.compile(sourceCode);
+            const sourceCode = fs.readFileSync(filePath, 'utf8');
+            const compiler = new Compiler({
+                filename: filePath,
+                ...options
+            });
+            const result = compiler.compile(sourceCode, filePath);
+            return result !== null;
         } catch (error) {
-            console.error('Error reading file:', error.message);
+            if (error.code === 'ENOENT') {
+                console.error(`[त्रुटि E1000] File not found: '${filePath}'`);
+            } else {
+                console.error(`[त्रुटि E1000] Failed to read file '${filePath}': ${error.message}`);
+            }
             return false;
         }
     }
 }
 
-// CLI interface
-if (require.main === module) {
-    const args = process.argv.slice(2);
-    if (args.length !== 1) {
-        console.error('Usage: node compiler.js <input-file>');
-        process.exit(1);
-    }
-
-    const [inputFile] = args;
-    const result = Compiler.compileFile(inputFile);
-    if (result === false) {
-        process.exit(1);
-    } else {
-        console.log(result);
-    }
-}
-
-module.exports = {
-    Compiler
-};
+module.exports = { Compiler };
