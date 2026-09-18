@@ -18,15 +18,27 @@ nav_order: 2
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
-- Node.js (version 14 or higher)
-- npm (usually comes with Node.js)
+- Node.js (version 18 or higher)
 
 ## Installation
 
-Install the Sanskrit programming language using npm:
+You can install the Sanskrit programming language through either of two supported methods:
+
+### Option 1: Via npm (Global Install)
 
 ```bash
 npm install -g sanskrit-lang
+```
+
+### Option 2: Standalone Bash Installer (Without npm)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/SH20RAJ/sanskrit/main/install.sh | bash
+```
+
+Verify your installation:
+```bash
+sanskrit --version
 ```
 
 ## Your First Sanskrit Program
@@ -47,87 +59,71 @@ npm install -g sanskrit-lang
 sanskrit run नमस्ते.sns
 ```
 
-You should see the output: `नमस्ते विश्व!`
+Output:
+```
+नमस्ते विश्व!
+```
 
 ## Basic Concepts
 
-### 1. Functions
+### 1. Variables and Constants
 
-Functions are declared using the `कार्य` keyword:
+```sanskrit
+// Variables
+चर संदेश = "शुभ प्रभात";
+संदेश = "शुभ संध्या";
+
+// Constants
+स्थिर पाई = ३.१४१५९;
+```
+
+### 2. Functions
+
+Functions are declared using the `कार्य` keyword and return values with `प्रत्यागम`:
 
 ```sanskrit
 कार्य योग(क, ख) {
-    मुद्रण(क + ख);
+    प्रत्यागम क + ख;
 }
 
-योग(१०, २०);  // Outputs: ३०
+मुद्रण(योग(१०, २०));  // Outputs: ३०
 ```
 
-### 2. Strings
+### 3. Strings & Unicode
 
-Strings can be written in both Devanagari and Latin scripts:
+Strings support both Devanagari and Latin scripts:
 
 ```sanskrit
 मुद्रण("संस्कृत भाषा");        // Sanskrit text
 मुद्रण("Sanskrit Language");   // Latin text
 ```
 
-### 3. Numbers
+### 4. Numbers
 
-Use either Devanagari or Arabic numerals:
+Supports both Devanagari (`०-९`) and Arabic (`0-9`) numerals:
 
 ```sanskrit
-मुद्रण(१ + २);      // Using Devanagari numerals
-मुद्रण(1 + 2);      // Using Arabic numerals
+मुद्रण(१ + २);      // Using Devanagari numerals -> ३
+मुद्रण(1 + 2);      // Using Arabic numerals -> ३
 ```
 
 ## Command Line Interface
 
-The Sanskrit CLI provides several commands:
+The Sanskrit CLI provides commands for running, checking, and interactive development:
 
 ```bash
-# Run a Sanskrit program
+# Execute a program
 sanskrit run program.sns
 
-# Start the REPL (Coming Soon)
+# Validate syntax without running
+sanskrit check program.sns
+
+# Start the interactive REPL
 sanskrit repl
 ```
 
 ## Next Steps
 
-1. Check out the [Language Guide](../language-guide) for detailed syntax
-2. Try the [Examples](../examples)
+1. Check out the [Language Guide](../language-guide) for full syntax and features
+2. Explore [Examples](../examples)
 3. Join our [GitHub community](https://github.com/sh20raj/sanskrit)
-
-## Common Issues
-
-### Installation Problems
-
-If you encounter installation issues:
-
-1. Make sure Node.js is properly installed:
-   ```bash
-   node --version
-   ```
-
-2. Try updating npm:
-   ```bash
-   npm update -g npm
-   ```
-
-3. If permission errors occur, try:
-   ```bash
-   sudo npm install -g sanskrit-lang
-   ```
-
-### Running Programs
-
-- Make sure your file has the `.sns` extension
-- Check that the file is saved with UTF-8 encoding
-- Verify that all Sanskrit keywords are correctly typed in Devanagari
-
-## Getting Help
-
-- Check the [documentation](https://sh20raj.github.io/sanskrit/docs)
-- Open an issue on [GitHub](https://github.com/sh20raj/sanskrit/issues)
-- Join our community discussions

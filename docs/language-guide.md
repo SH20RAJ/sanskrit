@@ -1,179 +1,291 @@
 # Sanskrit Programming Language Guide
 
-## Introduction
+Sanskrit is a modern programming language with native support for Devanagari script and Sanskrit vocabulary. This guide covers the complete syntax, features, and runtime semantics of the language.
 
-Sanskrit is a programming language that uses Sanskrit vocabulary and Devanagari script. This guide covers the basic concepts and syntax of the language.
+---
 
-## Basic Syntax
+## Table of Contents
+
+1. [Lexical Structure](#lexical-structure)
+2. [Variables and Constants](#variables-and-constants)
+3. [Data Types and Literals](#data-types-and-literals)
+4. [Operators and Expressions](#operators-and-expressions)
+5. [Functions and Closures](#functions-and-closures)
+6. [Control Flow](#control-flow)
+7. [Collections: Arrays and Objects](#collections-arrays-and-objects)
+8. [Object-Oriented Programming (OOP)](#object-oriented-programming-oop)
+9. [Exception Handling](#exception-handling)
+10. [Built-in Standard Functions](#built-in-standard-functions)
+
+---
+
+## Lexical Structure
 
 ### Comments
 
 ```sanskrit
-// एक पंक्ति टिप्पणी (Single line comment)
+// एक पंक्ति टिप्पणी (Single-line comment)
 
-/* 
-बहु पंक्ति टिप्पणी
-(Multi-line comment)
+/*
+   बहु पंक्ति टिप्पणी
+   (Multi-line block comment)
 */
 ```
 
-### Functions
+### Identifiers
 
-Functions are declared using the `कार्य` (kārya) keyword:
-
-```sanskrit
-कार्य नमस्ते() {
-    मुद्रण("नमस्ते विश्व!");
-}
-
-// Function with parameters
-कार्य योग(क, ख) {
-    मुद्रण(क + ख);
-}
-
-// Calling functions
-नमस्ते();
-योग(१०, २०);  // Outputs: ३०
-```
-
-### Strings
-
-Strings can be written in both Devanagari and Latin scripts:
+Identifiers can use Devanagari characters, Sanskrit vowel marks, and Latin characters:
 
 ```sanskrit
-मुद्रण("संस्कृत भाषा");
-मुद्रण("Sanskrit Language");
-
-// String concatenation
-मुद्रण("संस्कृत" + " " + "भाषा");
+चर संख्या = १०;
+चर myVariable = २०;
 ```
 
-### Numbers
+### Numerals
 
-Sanskrit supports both Devanagari and Arabic numerals:
+Both Devanagari (`०-९`) and Arabic (`0-9`) numerals are natively supported:
 
 ```sanskrit
-// Devanagari numerals
-मुद्रण(१ + २);      // Outputs: ३
-मुद्रण(१० * २०);    // Outputs: २००
-
-// Arabic numerals
-मुद्रण(1 + 2);      // Outputs: ३
-मुद्रण(10 * 20);    // Outputs: २००
+मुद्रण(१० + २०); // Devanagari numerals -> ३०
+मुद्रण(10 + 20); // Arabic numerals -> ३०
 ```
 
-### Built-in Functions
+---
 
-#### मुद्रण (Print)
-Prints values to the console:
+## Variables and Constants
 
-```sanskrit
-मुद्रण("Hello");              // Prints: Hello
-मुद्रण(१० + २०);              // Prints: ३०
-मुद्रण("संख्या:", १०);        // Prints: संख्या: १०
-```
+### Variables (`चर`)
 
-## Coming Soon
-
-The following features are under development:
-
-### Variables (Coming Soon)
+Declared with `चर` (chara), variables are mutable and block-scoped:
 
 ```sanskrit
 चर नाम = "राम";
-स्थिर संख्या = ४२;
+नाम = "लक्ष्मण"; // Allowed
 ```
 
-### Control Flow (Coming Soon)
+### Constants (`स्थिर`)
+
+Declared with `स्थिर` (sthira), constants are immutable:
 
 ```sanskrit
-यदि (क > ख) {
-    मुद्रण("क बड़ा है");
+स्थिर पाई = ३.१४१५९;
+// पाई = ३.१४; // Error: Cannot reassign constant variable
+```
+
+---
+
+## Data Types and Literals
+
+- **संख्या (Number)**: Integer and floating-point values (`४२`, `३.१४`)
+- **स्ट्रिंग (String)**: Text enclosed in double or single quotes (`"नमस्ते"`, `'संस्कृत'`)
+- **बूलियन (Boolean)**: `सत्य` (true) or `असत्य` (false)
+- **शून्य (Null)**: Represents intentional absence of value (`शून्य`)
+- **अपरिभाषित (Undefined)**: Uninitialized variables (`अपरिभाषित`)
+- **सूची (Array)**: Ordered collection (`[१, २, ३]`)
+- **वस्तु (Object)**: Key-value dictionary (`{ नाम: "सीता", आयु: २५ }`)
+
+---
+
+## Operators and Expressions
+
+### Arithmetic Operators
+- `+` (योग / Addition)
+- `-` (व्यवकलन / Subtraction)
+- `*` (गुणन / Multiplication)
+- `/` (भाग / Division)
+- `%` (शेषफल / Modulo)
+- `**` (घातांक / Exponentiation)
+
+### Comparison Operators
+- `===` (Strict Equality)
+- `!==` (Strict Inequality)
+- `>` (Greater than)
+- `<` (Less than)
+- `>=` (Greater than or equal)
+- `<=` (Less than or equal)
+
+### Logical Operators
+- `&&` or `और` (Logical AND)
+- `||` or `या` (Logical OR)
+- `!` or `नहीं` (Logical NOT)
+
+### Compound Assignment
+- `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `**=`
+
+---
+
+## Functions and Closures
+
+Functions are declared with `कार्य` and return values with `प्रत्यागम`:
+
+```sanskrit
+कार्य योग(क, ख) {
+    प्रत्यागम क + ख;
+}
+
+मुद्रण(योग(५, १०)); // Outputs: १५
+```
+
+### Lexical Closures
+
+Functions capture their enclosing scope dynamically:
+
+```sanskrit
+कार्य गणक_बनाओ() {
+    चर गणना = ०;
+    कार्य अगला() {
+        गणना++;
+        प्रत्यागम गणना;
+    }
+    प्रत्यागम अगला;
+}
+
+चर गणक = गणक_बनाओ();
+मुद्रण(गणक()); // Outputs: १
+मुद्रण(गणक()); // Outputs: २
+```
+
+---
+
+## Control Flow
+
+### Conditionals (`यदि` / `अन्यथा`)
+
+```sanskrit
+यदि (अंक >= ६०) {
+    मुद्रण("प्रथम श्रेणी");
+} अन्यथा यदि (अंक >= ४५) {
+    मुद्रण("द्वितीय श्रेणी");
 } अन्यथा {
-    मुद्रण("ख बड़ा है");
-}
-
-यावत् (क < १०) {
-    मुद्रण(क);
-    क = क + १;
+    मुद्रण("उत्तीर्ण");
 }
 ```
 
-### Arrays (Coming Soon)
+### Loops
 
+#### While Loop (`यावत्`)
 ```sanskrit
-चर सूची = [१, २, ३, ४, ५];
-मुद्रण(सूची[०]);  // Prints: १
+चर i = ०;
+यावत् (i < ३) {
+    मुद्रण("गणना:", i);
+    i++;
+}
 ```
 
-### Objects (Coming Soon)
-
+#### For Loop (`पुनः`)
 ```sanskrit
-चर विद्यार्थी = {
-    नाम: "राम",
-    आयु: २०,
-    कक्षा: "द्वादश"
+पुनः (चर i = १; i <= ५; i++) {
+    मुद्रण("संख्या:", i);
+}
+```
+
+#### ForEach Loop (`प्रत्येक`)
+```sanskrit
+चर सूची = ["सेब", "केला", "आम"];
+प्रत्येक (फल में सूची) {
+    मुद्रण("फल:", फल);
+}
+```
+
+---
+
+## Collections: Arrays and Objects
+
+### Arrays (सूची)
+```sanskrit
+चर संख्याएं = [१०, २०, ३०, ४०];
+मुद्रण("प्रथम तत्व:", संख्याएं[०]);
+मुद्रण("कुल संख्या:", लंबाई(संख्याएं));
+```
+
+### Objects (वस्तु)
+```sanskrit
+चर छात्र = {
+    नाम: "अर्जुन",
+    कक्षा: "१०वीं",
+    आयु: १५
 };
+
+मुद्रण("नाम:", छात्र.नाम);
+छात्र.आयु = १६; // Property mutation
 ```
 
-## Best Practices
+---
 
-1. **Use Meaningful Names**: Choose Sanskrit words that clearly describe your variables and functions.
-2. **Consistent Script**: Try to stick to either Devanagari or Latin script within a single file.
-3. **Comments**: Add comments in Sanskrit or English to explain complex logic.
-4. **Formatting**: Use proper indentation and spacing for better readability.
+## Object-Oriented Programming (OOP)
 
-## Error Messages
-
-Common error messages you might encounter:
-
-- `Function is not defined`: Function name is misspelled or not declared
-- `Unexpected token`: Syntax error in your code
-- `Cannot read property of undefined`: Trying to access an undefined value
-
-## Examples
-
-Here are some complete examples to help you get started:
-
-### Basic Calculator
+Classes are declared using `वर्ग`, constructor using `निर्माण`, instance reference with `स्व` (this), inheritance with `विस्तार`, superclass reference with `सुपर`, and creation with `नया`:
 
 ```sanskrit
-कार्य जोड़(क, ख) {
-    मुद्रण(क + ख);
+वर्ग व्यक्ति {
+    निर्माण(नाम, आयु) {
+        स्व.नाम = नाम;
+        स्व.आयु = आयु;
+    }
+
+    कार्य परिचय() {
+        मुद्रण("नमस्ते, मेरा नाम", स्व.नाम, "है।");
+    }
+
+    स्थैतिक कार्य प्रजाति() {
+        मुद्रण("मानव");
+    }
 }
 
-कार्य घटा(क, ख) {
-    मुद्रण(क - ख);
+वर्ग छात्र विस्तार व्यक्ति {
+    निर्माण(नाम, आयु, कक्षा) {
+        सुपर(नाम, आयु);
+        स्व.कक्षा = कक्षा;
+    }
+
+    कार्य परिचय() {
+        मुद्रण("मैं", स्व.नाम, "हूँ, कक्षा", स्व.कक्षा, "का छात्र।");
+    }
 }
 
-कार्य गुणा(क, ख) {
-    मुद्रण(क * ख);
-}
+// Create instance
+चर राम = नया छात्र("राम", १६, "१०वीं");
+राम.परिचय();
+व्यक्ति.प्रजाति(); // Static method call
+```
 
+---
+
+## Exception Handling
+
+Handle runtime errors gracefully using `प्रयत्न` (try), `पकड़` (catch), `अंततः` (finally), and `फेंक` (throw):
+
+```sanskrit
 कार्य भाग(क, ख) {
-    मुद्रण(क / ख);
+    यदि (ख === ०) {
+        फेंक "शून्य से विभाजन वर्जित है";
+    }
+    प्रत्यागम क / ख;
 }
 
-// Usage
-जोड़(१०, ५);   // Outputs: १५
-घटा(१०, ५);   // Outputs: ५
-गुणा(१०, ५);  // Outputs: ५०
-भाग(१०, ५);   // Outputs: २
-```
-
-### String Operations
-
-```sanskrit
-कार्य नमस्कार(नाम) {
-    मुद्रण("नमस्ते " + नाम + "!");
+प्रयत्न {
+    मुद्रण(भाग(१०, ०));
+} पकड़ (त्रुटि) {
+    मुद्रण("त्रुटि:", त्रुटि);
+} अंततः {
+    मुद्रण("प्रक्रिया समाप्त");
 }
-
-नमस्कार("राम");    // Outputs: नमस्ते राम!
-नमस्कार("सीता");   // Outputs: नमस्ते सीता!
 ```
 
-## Further Reading
+---
 
-- [Getting Started Guide](../getting-started)
-- [Examples](../examples)
-- [GitHub Repository](https://github.com/sh20raj/sanskrit)
+## Built-in Standard Functions
+
+- `मुद्रण(...args)`: Prints formatted output to console
+- `लंबाई(obj)`: Returns length of string, array, or object
+- `प्रकार(val)`: Returns type of value (`'संख्या'`, `'स्ट्रिंग'`, `'बूलियन'`, `'सूची'`, `'वस्तु'`, `'कार्य'`, `'वर्ग'`, etc.)
+- `पार्स_संख्या(str)`: Parses a string into a number
+- `संख्या(val)`: Converts value to number
+- `स्ट्रिंग(val)`: Converts value to string
+- `बूलियन(val)`: Converts value to boolean
+- `गणित_वर्ग(x)`: Square root
+- `गणित_शक्ति(base, exp)`: Power function
+- `गणित_न्यूनतम(...args)`: Minimum value or integer floor
+- `गणित_अधिकतम(...args)`: Maximum value
+- `गणित_पूर्णांक(x)`: Integer floor
+- `समय()`: Current Unix epoch timestamp

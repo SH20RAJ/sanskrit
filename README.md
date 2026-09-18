@@ -1,76 +1,142 @@
-# संस्कृत Programming Language
+# संस्कृत (Sanskrit) Programming Language
 
-[![GitHub stars](https://img.shields.io/github/stars/sh20raj/sanskrit.svg)](https://github.com/sh20raj/sanskrit/stargazers)
-[![License](https://img.shields.io/github/license/sh20raj/sanskrit.svg)](https://github.com/sh20raj/sanskrit/blob/main/LICENSE)
-[![Website](https://img.shields.io/website?url=https%3A%2F%2Fsh20raj.github.io%2Fsanskrit%2F)](https://sh20raj.github.io/sanskrit/)
-[![Visitors](https://api.visitorbadge.io/api/combined?path=https%3A%2F%2Fgithub.com%2FSH20RAJ%2Fsanskrit&labelColor=%23f47373&countColor=%23dce775&style=flat)](https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2FSH20RAJ%2Fsanskrit)
+[![CI](https://github.com/SH20RAJ/sanskrit/actions/workflows/ci.yml/badge.svg)](https://github.com/SH20RAJ/sanskrit/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/sanskrit-lang.svg)](https://www.npmjs.com/package/sanskrit-lang)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub stars](https://img.shields.io/github/stars/SH20RAJ/sanskrit.svg)](https://github.com/SH20RAJ/sanskrit/stargazers)
 
-A modern programming language that uses Sanskrit vocabulary and grammar, combining the ancient wisdom of Sanskrit with modern computing concepts. Write code in देवनागरी (Devanagari) script with the simplicity of JavaScript.
+> **संस्कृत** is a modern programming language that uses Sanskrit vocabulary and Devanagari script, combining the classical grammatical elegance of Sanskrit with contemporary programming language design and runtime reliability.
 
-![image](https://github.com/user-attachments/assets/f21527b4-9ae5-49af-a6ba-255c9b0193b9)
+---
 
+## Table of Contents
 
-Read about [how and why I created this Sanskrit-based programming language](https://sh20raj.github.io/sanskrit/docs/blog.html).
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Installation](#installation)
+  - [Method 1: Global Installation via npm](#method-1-global-installation-via-npm)
+  - [Method 2: Standalone Bash Installer (Without npm)](#method-2-standalone-bash-installer-without-npm)
+  - [Updating](#updating)
+- [Quick Start](#quick-start)
+- [CLI Reference](#cli-reference)
+- [Language Guide & Syntax](#language-guide--syntax)
+  - [Variables & Constants](#variables--constants)
+  - [Functions & Returns](#functions--returns)
+  - [Control Flow](#control-flow)
+  - [Arrays & Objects](#arrays--objects)
+  - [Classes, Inheritance & OOP](#classes-inheritance--oop)
+  - [Error Handling](#error-handling)
+  - [Standard Library Built-ins](#standard-library-built-ins)
+- [Language Status Matrix](#language-status-matrix)
+- [Development & Testing](#development--testing)
+- [License](#license)
 
-## Features
+---
 
-- **Sanskrit-Based Syntax**: Write code using Sanskrit words and grammar
-- **Devanagari Support**: Native support for Devanagari script and numerals
-- **Cultural Integration**: Programming concepts expressed through Sanskrit terminology
-- **JavaScript-Based**: Easy to install and run with Node.js
-- **Interpreter**: Fast development with immediate feedback
-- **Simple Installation**: No complex dependencies required
-- **Cross-Platform**: Runs anywhere Node.js is available
+## Overview
+
+Sanskrit is designed to be an expressive, syntactically coherent language for general programming, educational use, and algorithmic study.
+
+- **Devanagari & Unicode Native**: Native support for Devanagari script, identifiers, combining marks (virama, matras), and Devanagari numerals (`०-९`).
+- **Lexical Environments**: Robust scoping, parent-chained lexical environments, block scoping, and true closures.
+- **Structured Control Signals**: Clean stack unwinding for `प्रत्यागम` (return), `तोड़` (break), `जारी` (continue), and `फेंक` (throw).
+- **Object-Oriented Features**: Classes (`वर्ग`), constructors (`निर्माण`), inheritance (`विस्तार`), `स्व` (this), `सुपर` (super), static methods (`स्थैतिक`), and instantiation (`नया`).
+- **Standardized Diagnostics**: Source line snippets, caret pointers, error codes, and helpful hints.
+
+---
+
+## Architecture
+
+The canonical Sanskrit runtime is organized into modular layers:
+
+```
+Sanskrit Source (.sns)
+          │
+          ▼
+   [Unicode Lexer] ──► Token Stream (accurate line & column tracking)
+          │
+          ▼
+  [Canonical Parser] ──► Strongly Typed AST (node-types & locations)
+          │
+          ▼
+ [Runtime Interpreter] ──► Lexical Environments + Structured Signals + Built-ins
+          │
+          ▼
+   Standard Output
+```
+
+---
 
 ## Installation
 
-### Prerequisites
-- Node.js (v14 or higher)
-- npm (v6 or higher)
+The Sanskrit programming language provides two official installation routes.
 
-### Quick Install
+### Method 1: Global Installation via npm
 
-For latest development version
-```bash
-curl -fsSL https://raw.githubusercontent.com/sh20raj/sanskrit/main/install.sh | bash
-
-```
-
-or
+Requires **Node.js v18.0.0 or higher**:
 
 ```bash
 npm install -g sanskrit-lang
 ```
 
-### Manual Installation
+Verify the installation:
+```bash
+sanskrit --version
+```
 
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/sh20raj/sanskrit.git
-   cd sanskrit
-   ```
+### Method 2: Standalone Bash Installer (Without npm)
 
-2. **Install Dependencies**
-   ```bash
-   npm install
-   ```
+For users who do not use npm globally or wish to install Sanskrit as a standalone user tool:
 
-3. **Link for Development**
-   ```bash
-   npm link
-   ```
+```bash
+curl -fsSL https://raw.githubusercontent.com/SH20RAJ/sanskrit/main/install.sh | bash
+```
+
+The installer:
+- Installs Sanskrit into `~/.local/share/sanskrit`
+- Creates the executable in `~/.local/bin/sanskrit`
+- Checks your `$PATH` and prints shell configuration steps if needed
+- Supports custom flags:
+  ```bash
+  # Install into custom directory
+  ./install.sh --install-dir /opt/sanskrit --bin-dir /usr/local/bin
+
+  # Uninstall Sanskrit cleanly
+  ./install.sh --uninstall
+  ```
+
+### Updating
+
+To update to the latest release:
+
+- **Via npm**:
+  ```bash
+  npm update -g sanskrit-lang
+  ```
+- **Via Bash Installer**:
+  ```bash
+  curl -fsSL https://raw.githubusercontent.com/SH20RAJ/sanskrit/main/install.sh | bash
+  ```
+
+---
 
 ## Quick Start
 
-Create a file `main.sns` with the following content:
+Create a source file named `main.sns`:
 
 ```sanskrit
-// नमस्ते विश्व
+// नमस्ते संस्कृत
 कार्य नमस्ते() {
     मुद्रण("नमस्ते विश्व!");
 }
 
 नमस्ते();
+
+कार्य योग(क, ख) {
+    प्रत्यागम क + ख;
+}
+
+मुद्रण("१० + २० =", योग(१०, २०));
 ```
 
 Run it:
@@ -78,92 +144,252 @@ Run it:
 sanskrit run main.sns
 ```
 
-## More Examples
+Output:
+```
+नमस्ते विश्व!
+१० + २० = ३०
+```
 
-### Variables and Functions
+---
+
+## CLI Reference
+
+The `sanskrit` CLI includes:
+
+| Command | Description |
+|---|---|
+| `sanskrit run <file>` | Execute a Sanskrit (`.sns`) program |
+| `sanskrit run -d <file>` | Run with token stream and AST tree debugging |
+| `sanskrit check <file>` | Verify source syntax without executing |
+| `sanskrit repl` | Start the interactive REPL shell |
+| `sanskrit --version` | Output the version number |
+| `sanskrit --help` | Display command usage and options |
+
+### Interactive REPL
+
+Launch the REPL with:
+```bash
+sanskrit repl
+```
+```
+संस्कृत (Sanskrit) REPL v0.2.0
+Type '.help' for commands, or '.exit' to quit.
+
+sanskrit> चर x = १०;
+sanskrit> चर y = २०;
+sanskrit> x + y;
+३०
+sanskrit> .exit
+पुनर्मिलामः! (Goodbye!)
+```
+
+---
+
+## Language Guide & Syntax
+
+### Variables & Constants
+
+Variables are mutable (`चर`), while constants (`स्थिर`) prevent reassignment:
+
 ```sanskrit
-कार्य योग(क, ख) {
-    मुद्रण(क + ख);
+चर नाम = "राम";
+नाम = "लक्ष्मण"; // Valid
+
+स्थिर पाई = ३.१४१५९;
+// पाई = ३.१४; // Throws ConstantError
+```
+
+### Functions & Returns
+
+Declared with `कार्य` (kārya) and returned with `प्रत्यागम` (pratyāgama):
+
+```sanskrit
+कार्य गुणा(क, ख) {
+    प्रत्यागम क * ख;
 }
 
-योग(१०, २०);  // Outputs: ३०
+मुद्रण(गुणा(६, ७)); // Outputs: ४२
 ```
 
-### String Operations
+### Control Flow
+
+#### If / Else
 ```sanskrit
-कार्य वाक्य() {
-    मुद्रण("संस्कृत" + " " + "भाषा");  // Outputs: संस्कृत भाषा
+यदि (आयु >= १८) {
+    मुद्रण("वयस्क है");
+} अन्यथा {
+    मुद्रण("नाबालिग है");
+}
+```
+
+#### While Loop (`यावत्`)
+```sanskrit
+चर i = ०;
+यावत् (i < ५) {
+    मुद्रण(i);
+    i++;
+}
+```
+
+#### For Loop (`पुनः`)
+```sanskrit
+पुनः (चर i = १; i <= ५; i++) {
+    मुद्रण(i);
+}
+```
+
+#### Foreach Loop (`प्रत्येक`)
+```sanskrit
+चर संख्याएं = [१०, २०, ३०];
+प्रत्येक (संख्या में संख्याएं) {
+    मुद्रण(संख्या);
+}
+```
+
+### Arrays & Objects
+
+```sanskrit
+// Arrays (सूची)
+चर संख्याएं = [१, २, ३, ४, ५];
+संख्याएं[०] = १०;
+मुद्रण("पहली संख्या:", संख्याएं[०]);
+
+// Objects (वस्तु)
+चर व्यक्ति = {
+    नाम: "सीता",
+    आयु: २२,
+    शहर: "अयोध्या"
+};
+मुद्रण(व्यक्ति.नाम); // Outputs: सीता
+```
+
+### Classes, Inheritance & OOP
+
+Classes use `वर्ग`, constructors use `निर्माण`, instances use `स्व` (this), parent constructors use `सुपर`, and instantiation uses `नया`:
+
+```sanskrit
+वर्ग व्यक्ति {
+    निर्माण(नाम, आयु) {
+        स्व.नाम = नाम;
+        स्व.आयु = आयु;
+    }
+
+    कार्य परिचय() {
+        मुद्रण("नमस्ते, मेरा नाम", स्व.नाम, "है।");
+    }
 }
 
-वाक्य();
+वर्ग छात्र विस्तार व्यक्ति {
+    निर्माण(नाम, आयु, कक्षा) {
+        सुपर(नाम, आयु);
+        स्व.कक्षा = कक्षा;
+    }
+
+    कार्य परिचय() {
+        मुद्रण(स्व.नाम, "कक्षा", स्व.कक्षा, "का छात्र है।");
+    }
+}
+
+चर राम = नया छात्र("राम", १६, "दसवीं");
+राम.परिचय();
 ```
 
-## Usage
+### Error Handling
 
-### Command Line Interface
+Exception handling is implemented with `प्रयत्न` (try), `पकड़` (catch), `अंततः` (finally), and `फेंक` (throw):
 
-1. **Run a Sanskrit File**
-   ```bash
-   sanskrit run program.sns
-   ```
+```sanskrit
+कार्य भाग(क, ख) {
+    यदि (ख === ०) {
+        फेंक "शून्य से विभाजन संभव नहीं है";
+    }
+    प्रत्यागम क / ख;
+}
 
-2. **Start REPL (Coming Soon)**
-   ```bash
-   sanskrit repl
-   ```
-
-## Project Structure
-
-```
-sanskrit/
-├── src/                 # Source code
-│   ├── compiler/       # Lexer and Parser
-│   ├── interpreter/    # JavaScript interpreter
-│   └── cli.js         # Command-line interface
-├── test/              # Test files
-├── package.json       # Project metadata
-└── README.md         # This file
+प्रयत्न {
+    मुद्रण(भाग(१०, ०));
+} पकड़ (त्रुटि) {
+    मुद्रण("त्रुटि पकड़ी गई:", त्रुटि);
+} अंततः {
+    मुद्रण("प्रक्रिया पूर्ण");
+}
 ```
 
-## Language Features
+### Standard Library Built-ins
 
-### Current Features
-- Devanagari script support
-- Function declarations and calls
-- String literals
-- Basic arithmetic operations
-- Built-in `मुद्रण` (print) function
+| Built-in Function | Description | Example |
+|---|---|---|
+| `मुद्रण(...args)` | Print values to standard output | `मुद्रण("नमस्ते", ४२);` |
+| `लंबाई(obj)` | Length of string, array, or object | `लंबाई([१, २, ३])` |
+| `प्रकार(val)` | Type name of value | `प्रकार(४२)` -> `'संख्या'` |
+| `पार्स_संख्या(str)` | Parse string into number | `पार्स_संख्या("१२३")` |
+| `संख्या(val)` | Convert value to number | `संख्या("४५")` |
+| `स्ट्रिंग(val)` | Convert value to string | `स्ट्रिंग(४२)` |
+| `बूलियन(val)` | Convert value to boolean | `बूलियन(१)` |
+| `गणित_वर्ग(x)` | Square root ($\sqrt{x}$) | `गणित_वर्ग(१६)` -> `४` |
+| `गणित_शक्ति(x, y)` | Exponentiation ($x^y$) | `गणित_शक्ति(२, ३)` -> `८` |
+| `गणित_न्यूनतम(...args)` | Minimum or integer floor | `गणित_न्यूनतम(१०, ५)` -> `५` |
+| `गणित_अधिकतम(...args)` | Maximum of arguments | `गणित_अधिकतम(१०, ५)` -> `१०` |
+| `गणित_पूर्णांक(x)` | Integer floor function | `गणित_पूर्णांक(३.७)` -> `३` |
+| `समय()` | Current Unix timestamp (ms) | `समय()` |
 
-### Coming Soon
-- Variables and assignments
-- Control flow (if/else, loops)
-- Arrays and objects
-- More built-in functions
-- REPL environment
+---
+
+## Language Status Matrix
+
+| Feature | Status | Specification / Notes |
+|---|---|---|
+| **Devanagari Numerals & Script** | ✅ **Stable** | Native support for `०-९` and Unicode script |
+| **Variables (`चर`) & Constants (`स्थिर`)** | ✅ **Stable** | Lexical scopes, immutability checks |
+| **Functions (`कार्य`) & Returns (`प्रत्यागम`)** | ✅ **Stable** | First-class functions, recursion |
+| **Closures & Lexical Environments** | ✅ **Stable** | Dynamic parent environments |
+| **Control Flow (`यदि`, `यावत्`, `पुनः`, `प्रत्येक`)** | ✅ **Stable** | Conditionals, while, for, foreach, break, continue |
+| **Arrays & Objects** | ✅ **Stable** | Indexing, member access, assignment |
+| **Classes (`वर्ग`), Inheritance (`विस्तार`)** | ✅ **Stable** | Constructors, `स्व`, `सुपर`, methods, static methods |
+| **Exception Handling (`प्रयत्न`, `पकड़`, `अंततः`)** | ✅ **Stable** | Throw, catch, finally block execution |
+| **Standard Built-ins** | ✅ **Stable** | `मुद्रण`, `लंबाई`, `प्रकार`, `गणित_*`, type conversions |
+| **CLI & REPL** | ✅ **Stable** | `run`, `check`, `repl`, version, help |
+| **LLVM / Native Backend** | 🧪 **Experimental** | Located in `src/compiler/llvm/`, requires native bindings |
+| **Module Import / Export (`आयात` / `निर्यात`)** | 📋 **Planned** | Module system planned for v0.3.0 |
+| **Async / Await (`असिन्क्` / `प्रतीक्षा`)** | 📋 **Planned** | Async runtime integration planned for v0.3.0 |
+
+---
+
+## Development & Testing
+
+Run the automated test suite:
+```bash
+npm test
+```
+
+Validate syntax of example fixtures:
+```bash
+node bin/sanskrit run test/main.sns
+node bin/sanskrit run test/advanced_features.sns
+node bin/sanskrit run test/algorithms.sns
+node bin/sanskrit run test/class_example.sns
+node bin/sanskrit run test/error_handling.sns
+```
+
+Validate npm packaging:
+```bash
+npm pack --dry-run
+```
+
+---
 
 ## Contributing
 
-We welcome contributions! Whether it's:
-- Adding new features
-- Fixing bugs
-- Improving documentation
-- Adding examples
-
+Contributions are welcome!
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+3. Ensure all tests pass (`npm test`)
+4. Commit your changes (`git commit -m 'feat: add amazing feature'`)
+5. Push to the branch (`git push origin feature/amazing-feature`)
+6. Open a Pull Request
+
+---
 
 ## License
 
-Sanskrit is open source and available under the MIT License. See [LICENSE](LICENSE) for more information.
-
-## Community
-
-- **GitHub**: [https://github.com/sh20raj/sanskrit](https://github.com/sh20raj/sanskrit)
-- **Documentation**: [https://sh20raj.github.io/sanskrit/docs](https://sh20raj.github.io/sanskrit/docs)
-
-## Acknowledgments
-
-Special thanks to all contributors and the Sanskrit community for their support in making programming more accessible through this ancient and beautiful language.
+This project is open source and available under the [MIT License](LICENSE).

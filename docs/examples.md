@@ -17,7 +17,7 @@ nav_order: 4
 
 ## Basic Examples
 
-### Hello World
+### Hello World (नमस्ते विश्व)
 
 ```sanskrit
 कार्य नमस्ते() {
@@ -27,128 +27,133 @@ nav_order: 4
 नमस्ते();
 ```
 
-### Basic Calculator
+### Basic Calculator (गणना)
 
 ```sanskrit
 कार्य योग(क, ख) {
-    मुद्रण(क + ख);
+    प्रत्यागम क + ख;
 }
 
 कार्य घटा(क, ख) {
-    मुद्रण(क - ख);
+    प्रत्यागम क - ख;
 }
 
 कार्य गुणा(क, ख) {
-    मुद्रण(क * ख);
+    प्रत्यागम क * ख;
 }
 
 कार्य भाग(क, ख) {
-    मुद्रण(क / ख);
+    प्रत्यागम क / ख;
 }
 
-// Usage
-योग(१०, ५);    // Outputs: १५
-घटा(१०, ५);    // Outputs: ५
-गुणा(१०, ५);   // Outputs: ५०
-भाग(१०, ५);    // Outputs: २
+मुद्रण("योग(१०, ५) =", योग(१०, ५));    // १५
+मुद्रण("घटा(१०, ५) =", घटा(१०, ५));    // ५
+मुद्रण("गुणा(१०, ५) =", गुणा(१०, ५));   // ५०
+मुद्रण("भाग(१०, ५) =", भाग(१०, ५));    // २
 ```
 
-### String Operations
+### Fibonacci Sequence (फिबोनाची श्रृंखला)
 
 ```sanskrit
-कार्य नमस्कार(नाम) {
-    मुद्रण("नमस्ते " + नाम + "!");
+कार्य फिबोनाची(n) {
+    यदि (n <= १) {
+        प्रत्यागम n;
+    }
+    प्रत्यागम फिबोनाची(n - १) + फिबोनाची(n - २);
 }
 
-नमस्कार("राम");     // Outputs: नमस्ते राम!
-नमस्कार("सीता");    // Outputs: नमस्ते सीता!
-```
-
-### Number Systems
-
-```sanskrit
-// Using Devanagari numerals
-कार्य देवनागरी() {
-    मुद्रण(१ + २);        // Outputs: ३
-    मुद्रण(१० * २०);      // Outputs: २००
-    मुद्रण(१०० / २५);     // Outputs: ४
-}
-
-// Using Arabic numerals
-कार्य अरबी() {
-    मुद्रण(1 + 2);        // Outputs: ३
-    मुद्रण(10 * 20);      // Outputs: २००
-    मुद्रण(100 / 25);     // Outputs: ४
+पुनः (चर i = ०; i <= १०; i++) {
+    मुद्रण("F(" + i + ") =", फिबोनाची(i));
 }
 ```
 
-## Coming Soon
-
-These examples showcase upcoming features that are currently under development:
-
-### Variables and Control Flow
+### Factorial (गुणनखंड)
 
 ```sanskrit
-कार्य गणना() {
-    चर क = १०;
-    
-    यदि (क > ५) {
-        मुद्रण("क पाँच से बड़ा है");
-    } अन्यथा {
-        मुद्रण("क पाँच से छोटा है");
+कार्य गुणनखंड(n) {
+    यदि (n <= १) {
+        प्रत्यागम १;
+    }
+    प्रत्यागम n * गुणनखंड(n - १);
+}
+
+मुद्रण("५! =", गुणनखंड(५)); // १२०
+```
+
+### Prime Number Check (अभाज्य संख्या परीक्षण)
+
+```sanskrit
+कार्य अभाज्य_है(n) {
+    यदि (n <= १) {
+        प्रत्यागम असत्य;
+    }
+    यदि (n <= ३) {
+        प्रत्यागम सत्य;
+    }
+    यदि (n % २ === ० || n % ३ === ०) {
+        प्रत्यागम असत्य;
+    }
+    चर i = ५;
+    यावत् (i * i <= n) {
+        यदि (n % i === ० || n % (i + २) === ०) {
+            प्रत्यागम असत्य;
+        }
+        i += ६;
+    }
+    प्रत्यागम सत्य;
+}
+
+मुद्रण("१७ अभाज्य है?", अभाज्य_है(१७)); // सत्य
+मुद्रण("२० अभाज्य है?", अभाज्य_है(२०)); // असत्य
+```
+
+### Object-Oriented Programming (वर्ग एवं विस्तार)
+
+```sanskrit
+वर्ग वाहन {
+    निर्माण(ब्रांड, गति) {
+        स्व.ब्रांड = ब्रांड;
+        स्व.गति = गति;
+    }
+
+    कार्य चलाओ() {
+        मुद्रण(स्व.ब्रांड, "गति:", स्व.गति, "किमी/घंटा");
     }
 }
+
+वर्ग कार विस्तार वाहन {
+    निर्माण(ब्रांड, गति, मॉडल) {
+        सुपर(ब्रांड, गति);
+        स्व.मॉडल = मॉडल;
+    }
+
+    कार्य विवरण() {
+        मुद्रण("मॉडल:", स्व.मॉडल);
+        स्व.चलाओ();
+    }
+}
+
+चर मेरी_कार = नया कार("टाटा", १२०, "नेक्सन");
+मेरी_कार.विवरण();
 ```
 
-### Arrays
+### Error Handling (त्रुटि प्रबंधन)
 
 ```sanskrit
-कार्य सूची_उदाहरण() {
-    चर संख्याएँ = [१, २, ३, ४, ५];
-    
-    मुद्रण(संख्याएँ[०]);     // First element
-    मुद्रण(संख्याएँ[४]);     // Last element
+कार्य सुरक्षित_विभाजन(क, ख) {
+    प्रयत्न {
+        यदि (ख === ०) {
+            फेंक "शून्य से विभाजन अवैध है";
+        }
+        प्रत्यागम क / ख;
+    } पकड़ (त्रुटि) {
+        मुद्रण("त्रुटि:", त्रुटि);
+        प्रत्यागम शून्य;
+    } अंततः {
+        मुद्रण("सफाई कार्य संपन्न");
+    }
 }
+
+मुद्रण(सुरक्षित_विभाजन(१०, २));
+मुद्रण(सुरक्षित_विभाजन(१०, ०));
 ```
-
-### Objects
-
-```sanskrit
-कार्य वस्तु_उदाहरण() {
-    चर विद्यार्थी = {
-        नाम: "राम",
-        आयु: २०,
-        कक्षा: "द्वादश"
-    };
-    
-    मुद्रण(विद्यार्थी.नाम);
-}
-```
-
-## Running the Examples
-
-1. Save any of these examples with a `.sns` extension
-2. Run using the Sanskrit CLI:
-   ```bash
-   sanskrit run example.sns
-   ```
-
-## Contributing
-
-Have a cool example to share? We'd love to see it! Please consider:
-
-1. Fork the repository
-2. Add your example
-3. Submit a pull request
-
-Make sure your example:
-- Demonstrates a clear concept
-- Is well-commented
-- Uses proper Sanskrit programming conventions
-- Works with the current version of Sanskrit
-
-## More Resources
-
-- For more details about the language syntax, please see the [Language Guide](../language-guide).
-- [Getting Started](../getting-started)
-- [GitHub Repository](https://github.com/sh20raj/sanskrit)
