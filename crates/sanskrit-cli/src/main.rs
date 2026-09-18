@@ -133,7 +133,10 @@ fn main() {
             handle_env(json);
         }
         Commands::Lsp => {
-            println!("Sanskrit LSP daemon listening on stdio (LSP 3.17)...");
+            let server = sanskrit_lsp::SanskritLanguageServer::new();
+            if let Err(e) = server.run_stdio_server() {
+                eprintln!("LSP server error: {}", e);
+            }
         }
     }
 }
