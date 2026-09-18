@@ -15,6 +15,16 @@
 
 [Documentation](https://sh20raj.github.io/sanskrit/) • [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=sh20raj.sanskrit-vscode) • [RFC Catalog](https://github.com/SH20RAJ/sanskrit/tree/main/docs/rfc) • [Benchmarks](https://github.com/SH20RAJ/sanskrit/tree/main/benchmarks) • [Roadmap](ROADMAP.md) • [Discussions](https://github.com/SH20RAJ/sanskrit/discussions)
 
+<br>
+
+<p align="center">
+  <a href="assets/sanskrit-demo.mp4">
+    <img src="assets/sanskrit-demo.gif" alt="Sanskrit Next Terminal Live Demo" width="940" style="max-width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);" />
+  </a>
+  <br>
+  <em>⚡ <b>Live Terminal Execution</b>: Sub-2ms cold boot, dual-script execution, linear algebra tensors, compiler doctor & benchmarks. <a href="assets/sanskrit-demo.mp4"><b>[📹 Download Full HD MP4 Video]</b></a></em>
+</p>
+
 </div>
 
 ---

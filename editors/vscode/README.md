@@ -24,6 +24,14 @@
 
 ---
 
+<p align="center">
+  <img src="media/sanskrit-demo.gif" alt="Sanskrit Next Terminal Live Demo" width="940" style="max-width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);" />
+  <br>
+  <em>⚡ <b>Live Terminal Execution</b>: Sub-2ms cold boot, dual-script execution, linear algebra tensors, compiler doctor & benchmarks.</em>
+</p>
+
+---
+
 **Sanskrit Next for VS Code** delivers an end-to-end, high-performance IDE experience for the **Sanskrit Next** programming language. Combining compiler-driven semantic tokenization, TSX/Tailwind-grade IntelliSense, Language Server Protocol (LSP 3.17), and Debug Adapter Protocol (DAP), it provides everything developers need to write, test, debug, benchmark, and deploy Sanskrit code with uncompromising elegance.
 
 ---
