@@ -47,7 +47,13 @@ const NodeTypes = {
     BINARY_EXPRESSION: 'BinaryExpression',
     LOGICAL_EXPRESSION: 'LogicalExpression',
     UNARY_EXPRESSION: 'UnaryExpression',
-    UPDATE_EXPRESSION: 'UpdateExpression'
+    UPDATE_EXPRESSION: 'UpdateExpression',
+
+    // Pythonic & Functional Extensions
+    SLICE_EXPRESSION: 'SliceExpression',
+    COMPREHENSION: 'Comprehension',
+    ARROW_FUNCTION: 'ArrowFunction',
+    CONDITIONAL_EXPRESSION: 'ConditionalExpression'
 };
 
 module.exports = { NodeTypes };

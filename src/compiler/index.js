@@ -7,20 +7,25 @@ const fs = require('fs');
 
 class Compiler {
     constructor(options = {}) {
+        this.options = options;
         this.filename = options.filename || '<anonymous>';
         this.outputStream = options.outputStream || console.log;
         this.interpreter = new Interpreter({
             filename: this.filename,
-            outputStream: this.outputStream
+            outputStream: (...args) => (this.options.outputStream || this.outputStream)(...args)
         });
+    }
+
+    run(sourceCode, filename = this.filename) {
+        const lexer = new Lexer(sourceCode, filename);
+        const parser = new Parser(lexer, filename);
+        const ast = parser.parse();
+        return this.interpreter.interpret(ast);
     }
 
     compile(sourceCode, filename = this.filename) {
         try {
-            const lexer = new Lexer(sourceCode, filename);
-            const parser = new Parser(lexer, filename);
-            const ast = parser.parse();
-            return this.interpreter.interpret(ast);
+            return this.run(sourceCode, filename);
         } catch (error) {
             if (error instanceof SanskritError) {
                 console.error(error.format());

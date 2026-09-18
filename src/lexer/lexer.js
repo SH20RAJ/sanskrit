@@ -28,6 +28,22 @@ class Lexer {
         return targetPos < this.input.length ? this.input[targetPos] : null;
     }
 
+    getState() {
+        return {
+            position: this.position,
+            line: this.line,
+            column: this.column,
+            currentChar: this.currentChar
+        };
+    }
+
+    setState(state) {
+        this.position = state.position;
+        this.line = state.line;
+        this.column = state.column;
+        this.currentChar = state.currentChar;
+    }
+
     skipWhitespace() {
         while (this.currentChar && /\s/.test(this.currentChar)) {
             this.advance();
@@ -233,7 +249,7 @@ class Lexer {
 
                 // 3-char operators
                 const op3 = c1 + (c2 || '') + (c3 || '');
-                if (['===', '!==', '**=', '>>>'].includes(op3)) {
+                if (['===', '!==', '**=', '>>>', '...'].includes(op3)) {
                     this.advance();
                     this.advance();
                     this.advance();
@@ -242,7 +258,7 @@ class Lexer {
 
                 // 2-char operators
                 const op2 = c1 + (c2 || '');
-                if (['==', '!=', '<=', '>=', '&&', '||', '+=', '-=', '*=', '/=', '%=', '**', '++', '--', '<<', '>>'].includes(op2)) {
+                if (['==', '!=', '<=', '>=', '&&', '||', '+=', '-=', '*=', '/=', '%=', '**', '++', '--', '<<', '>>', '=>', '->'].includes(op2)) {
                     this.advance();
                     this.advance();
                     return new Token(TokenTypes.OPERATOR, op2, startLine, startColumn);

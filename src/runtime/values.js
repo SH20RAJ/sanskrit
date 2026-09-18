@@ -3,11 +3,12 @@ const { ReturnSignal } = require('./signals');
 const { RuntimeError, TypeError } = require('../diagnostics/errors');
 
 class SanskritFunction {
-    constructor(name, params, body, closure) {
+    constructor(name, params, body, closure, isExpressionBody = false) {
         this.name = name;
         this.params = params; // array of string names
         this.body = body;
         this.closure = closure; // Environment
+        this.isExpressionBody = isExpressionBody;
     }
 
     call(interpreter, args = [], loc = null) {
@@ -18,6 +19,10 @@ class SanskritFunction {
             const paramName = this.params[i];
             const argVal = i < args.length ? args[i] : undefined;
             callEnv.declare(paramName, argVal, false, loc);
+        }
+
+        if (this.isExpressionBody) {
+            return interpreter.evaluate(this.body, callEnv);
         }
 
         try {

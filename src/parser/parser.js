@@ -15,6 +15,18 @@ class Parser {
         return this.currentToken;
     }
 
+    getState() {
+        return {
+            currentToken: this.currentToken,
+            lexerState: this.lexer.getState()
+        };
+    }
+
+    setState(state) {
+        this.currentToken = state.currentToken;
+        this.lexer.setState(state.lexerState);
+    }
+
     match(type, value = null) {
         if (this.currentToken.type !== type) return false;
         if (value !== null && this.currentToken.value !== value) return false;
@@ -155,7 +167,12 @@ class Parser {
         const isConstant = this.currentToken.value === 'स्थिर';
         const startToken = this.eat(TokenTypes.KEYWORD); // 'चर' or 'स्थिर'
 
-        const nameToken = this.eat(TokenTypes.IDENTIFIER);
+        let nameToken;
+        if (this.match(TokenTypes.IDENTIFIER) || this.match(TokenTypes.KEYWORD)) {
+            nameToken = this.eat(this.currentToken.type);
+        } else {
+            nameToken = this.eat(TokenTypes.IDENTIFIER);
+        }
         const id = new Nodes.IdentifierNode(nameToken.value, { line: nameToken.line, column: nameToken.column });
 
         let init = null;
@@ -431,7 +448,7 @@ class Parser {
     }
 
     assignmentExpression() {
-        const left = this.logicalOrExpression();
+        const left = this.conditionalExpression();
 
         if (this.currentToken.type === TokenTypes.OPERATOR &&
             ['=', '+=', '-=', '*=', '/=', '%=', '**='].includes(this.currentToken.value)) {
@@ -451,6 +468,20 @@ class Parser {
         }
 
         return left;
+    }
+
+    conditionalExpression() {
+        let expr = this.logicalOrExpression();
+
+        if (this.currentToken.type === TokenTypes.KEYWORD && this.currentToken.value === 'यदि') {
+            const ifToken = this.eat(TokenTypes.KEYWORD, 'यदि');
+            const test = this.logicalOrExpression();
+            this.eat(TokenTypes.KEYWORD, 'अन्यथा');
+            const alternate = this.conditionalExpression();
+            return new Nodes.ConditionalExpressionNode(test, expr, alternate, expr.loc);
+        }
+
+        return expr;
     }
 
     logicalOrExpression() {
@@ -640,9 +671,57 @@ class Parser {
                 });
                 node = new Nodes.MemberExpressionNode(node, property, false, node.loc);
             } else if (this.match(TokenTypes.DELIMITER, '[')) {
-                this.eat(TokenTypes.DELIMITER, '[');
-                const property = this.expression();
-                this.eat(TokenTypes.DELIMITER, ']');
+                const bracketToken = this.eat(TokenTypes.DELIMITER, '[');
+                let property;
+
+                if (this.match(TokenTypes.DELIMITER, ':')) {
+                    // e.g. [:stop] or [:] or [::step]
+                    this.eat(TokenTypes.DELIMITER, ':');
+                    let stop = null;
+                    let step = null;
+
+                    if (!this.match(TokenTypes.DELIMITER, ':') && !this.match(TokenTypes.DELIMITER, ']')) {
+                        stop = this.expression();
+                    }
+                    if (this.match(TokenTypes.DELIMITER, ':')) {
+                        this.eat(TokenTypes.DELIMITER, ':');
+                        if (!this.match(TokenTypes.DELIMITER, ']')) {
+                            step = this.expression();
+                        }
+                    }
+                    this.eat(TokenTypes.DELIMITER, ']');
+                    property = new Nodes.SliceExpressionNode(null, stop, step, {
+                        line: bracketToken.line,
+                        column: bracketToken.column
+                    });
+                } else {
+                    const firstExpr = this.expression();
+                    if (this.match(TokenTypes.DELIMITER, ':')) {
+                        // e.g. [start:stop] or [start:] or [start:stop:step]
+                        this.eat(TokenTypes.DELIMITER, ':');
+                        let stop = null;
+                        let step = null;
+
+                        if (!this.match(TokenTypes.DELIMITER, ':') && !this.match(TokenTypes.DELIMITER, ']')) {
+                            stop = this.expression();
+                        }
+                        if (this.match(TokenTypes.DELIMITER, ':')) {
+                            this.eat(TokenTypes.DELIMITER, ':');
+                            if (!this.match(TokenTypes.DELIMITER, ']')) {
+                                step = this.expression();
+                            }
+                        }
+                        this.eat(TokenTypes.DELIMITER, ']');
+                        property = new Nodes.SliceExpressionNode(firstExpr, stop, step, {
+                            line: bracketToken.line,
+                            column: bracketToken.column
+                        });
+                    } else {
+                        this.eat(TokenTypes.DELIMITER, ']');
+                        property = firstExpr;
+                    }
+                }
+
                 node = new Nodes.MemberExpressionNode(node, property, true, node.loc);
             } else if (allowCall && this.match(TokenTypes.DELIMITER, '(')) {
                 // Function call
@@ -705,6 +784,43 @@ class Parser {
             return new Nodes.StringLiteralNode(token.value, token.raw, { line: token.line, column: token.column });
         }
 
+        // Function expression or Arrow function: कार्य(...) => ... or कार्य(...) { ... }
+        if (token.type === TokenTypes.KEYWORD && token.value === 'कार्य') {
+            const startToken = this.eat(TokenTypes.KEYWORD, 'कार्य');
+            let id = null;
+            if (this.match(TokenTypes.IDENTIFIER)) {
+                const nameToken = this.eat(TokenTypes.IDENTIFIER);
+                id = new Nodes.IdentifierNode(nameToken.value, { line: nameToken.line, column: nameToken.column });
+            }
+
+            this.eat(TokenTypes.DELIMITER, '(');
+            const params = [];
+            if (!this.match(TokenTypes.DELIMITER, ')')) {
+                do {
+                    if (params.length > 0) {
+                        this.eat(TokenTypes.DELIMITER, ',');
+                    }
+                    const paramToken = this.eat(TokenTypes.IDENTIFIER);
+                    params.push(new Nodes.IdentifierNode(paramToken.value, { line: paramToken.line, column: paramToken.column }));
+                } while (this.match(TokenTypes.DELIMITER, ','));
+            }
+            this.eat(TokenTypes.DELIMITER, ')');
+
+            if (this.match(TokenTypes.OPERATOR, '=>') || this.match(TokenTypes.OPERATOR, '->')) {
+                this.eat(TokenTypes.OPERATOR);
+                if (this.match(TokenTypes.DELIMITER, '{')) {
+                    const body = this.blockStatement();
+                    return new Nodes.ArrowFunctionNode(params, body, false, { line: startToken.line, column: startToken.column });
+                } else {
+                    const body = this.expression();
+                    return new Nodes.ArrowFunctionNode(params, body, true, { line: startToken.line, column: startToken.column });
+                }
+            }
+
+            const body = this.blockStatement();
+            return new Nodes.FunctionDeclarationNode(id, params, body, { line: startToken.line, column: startToken.column });
+        }
+
         // Keywords
         if (token.type === TokenTypes.KEYWORD) {
             switch (token.value) {
@@ -732,25 +848,76 @@ class Parser {
             }
         }
 
-        // Identifiers
+        // Identifiers or Single-Param Arrow Function: x => x * 2
         if (token.type === TokenTypes.IDENTIFIER) {
-            this.eat(TokenTypes.IDENTIFIER);
-            return new Nodes.IdentifierNode(token.value, { line: token.line, column: token.column });
+            const idToken = this.eat(TokenTypes.IDENTIFIER);
+
+            if (this.match(TokenTypes.OPERATOR, '=>') || this.match(TokenTypes.OPERATOR, '->')) {
+                this.eat(TokenTypes.OPERATOR);
+                const params = [new Nodes.IdentifierNode(idToken.value, { line: idToken.line, column: idToken.column })];
+                if (this.match(TokenTypes.DELIMITER, '{')) {
+                    const body = this.blockStatement();
+                    return new Nodes.ArrowFunctionNode(params, body, false, { line: idToken.line, column: idToken.column });
+                } else {
+                    const body = this.expression();
+                    return new Nodes.ArrowFunctionNode(params, body, true, { line: idToken.line, column: idToken.column });
+                }
+            }
+
+            return new Nodes.IdentifierNode(idToken.value, { line: idToken.line, column: idToken.column });
         }
 
-        // Array Literal: [elem1, elem2]
+        // Array Literal or Comprehension: [elem1, elem2] or [expr पुनः (var में coll) यदि (cond)]
         if (this.match(TokenTypes.DELIMITER, '[')) {
             const startToken = this.eat(TokenTypes.DELIMITER, '[');
-            const elements = [];
+            if (this.match(TokenTypes.DELIMITER, ']')) {
+                this.eat(TokenTypes.DELIMITER, ']');
+                return new Nodes.ArrayLiteralNode([], { line: startToken.line, column: startToken.column });
+            }
 
-            if (!this.match(TokenTypes.DELIMITER, ']')) {
-                do {
-                    if (elements.length > 0) {
-                        this.eat(TokenTypes.DELIMITER, ',');
-                    }
-                    if (this.match(TokenTypes.DELIMITER, ']')) break;
-                    elements.push(this.expression());
-                } while (this.match(TokenTypes.DELIMITER, ','));
+            const firstExpr = this.expression();
+
+            // List comprehension
+            if (this.match(TokenTypes.KEYWORD, 'पुनः')) {
+                this.eat(TokenTypes.KEYWORD, 'पुनः');
+                let hasParen = false;
+                if (this.match(TokenTypes.DELIMITER, '(')) {
+                    hasParen = true;
+                    this.eat(TokenTypes.DELIMITER, '(');
+                }
+
+                const varToken = this.eat(TokenTypes.IDENTIFIER);
+                const variable = new Nodes.IdentifierNode(varToken.value, {
+                    line: varToken.line,
+                    column: varToken.column
+                });
+
+                this.eat(TokenTypes.KEYWORD, 'में');
+                const collection = this.expression();
+
+                if (hasParen) {
+                    this.eat(TokenTypes.DELIMITER, ')');
+                }
+
+                let filterCondition = null;
+                if (this.match(TokenTypes.KEYWORD, 'यदि')) {
+                    this.eat(TokenTypes.KEYWORD, 'यदि');
+                    filterCondition = this.expression();
+                }
+
+                this.eat(TokenTypes.DELIMITER, ']');
+                return new Nodes.ComprehensionNode(firstExpr, variable, collection, filterCondition, {
+                    line: startToken.line,
+                    column: startToken.column
+                });
+            }
+
+            // Normal array literal
+            const elements = [firstExpr];
+            while (this.match(TokenTypes.DELIMITER, ',')) {
+                this.eat(TokenTypes.DELIMITER, ',');
+                if (this.match(TokenTypes.DELIMITER, ']')) break;
+                elements.push(this.expression());
             }
 
             this.eat(TokenTypes.DELIMITER, ']');
@@ -804,8 +971,53 @@ class Parser {
             return new Nodes.ObjectLiteralNode(properties, { line: startToken.line, column: startToken.column });
         }
 
-        // Grouped Expression: (expr)
+        // Arrow function or Grouped Expression: (params) => expr vs (expr)
         if (this.match(TokenTypes.DELIMITER, '(')) {
+            const saved = this.getState();
+            this.eat(TokenTypes.DELIMITER, '(');
+
+            let isArrow = true;
+            const params = [];
+
+            if (!this.match(TokenTypes.DELIMITER, ')')) {
+                while (true) {
+                    if (this.match(TokenTypes.IDENTIFIER)) {
+                        const idToken = this.eat(TokenTypes.IDENTIFIER);
+                        params.push(new Nodes.IdentifierNode(idToken.value, { line: idToken.line, column: idToken.column }));
+                        if (this.match(TokenTypes.DELIMITER, ',')) {
+                            this.eat(TokenTypes.DELIMITER, ',');
+                        } else {
+                            break;
+                        }
+                    } else {
+                        isArrow = false;
+                        break;
+                    }
+                }
+            }
+
+            if (isArrow && this.match(TokenTypes.DELIMITER, ')')) {
+                this.eat(TokenTypes.DELIMITER, ')');
+                if (this.match(TokenTypes.OPERATOR, '=>') || this.match(TokenTypes.OPERATOR, '->')) {
+                    this.eat(TokenTypes.OPERATOR);
+                    if (this.match(TokenTypes.DELIMITER, '{')) {
+                        const body = this.blockStatement();
+                        return new Nodes.ArrowFunctionNode(params, body, false, {
+                            line: saved.currentToken.line,
+                            column: saved.currentToken.column
+                        });
+                    } else {
+                        const body = this.expression();
+                        return new Nodes.ArrowFunctionNode(params, body, true, {
+                            line: saved.currentToken.line,
+                            column: saved.currentToken.column
+                        });
+                    }
+                }
+            }
+
+            // Backtrack to parse grouped expression
+            this.setState(saved);
             this.eat(TokenTypes.DELIMITER, '(');
             const expr = this.expression();
             this.eat(TokenTypes.DELIMITER, ')');

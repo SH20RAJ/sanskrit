@@ -295,6 +295,43 @@ class UpdateExpressionNode extends ASTNode {
     }
 }
 
+class SliceExpressionNode extends ASTNode {
+    constructor(start = null, stop = null, step = null, loc = null) {
+        super(NodeTypes.SLICE_EXPRESSION, loc);
+        this.start = start;
+        this.stop = stop;
+        this.step = step;
+    }
+}
+
+class ComprehensionNode extends ASTNode {
+    constructor(expression, variable, collection, filterCondition = null, loc = null) {
+        super(NodeTypes.COMPREHENSION, loc);
+        this.expression = expression;
+        this.variable = variable;
+        this.collection = collection;
+        this.filterCondition = filterCondition;
+    }
+}
+
+class ArrowFunctionNode extends ASTNode {
+    constructor(params = [], body = null, isExpressionBody = true, loc = null) {
+        super(NodeTypes.ARROW_FUNCTION, loc);
+        this.params = params;
+        this.body = body;
+        this.isExpressionBody = isExpressionBody;
+    }
+}
+
+class ConditionalExpressionNode extends ASTNode {
+    constructor(test, consequent, alternate, loc = null) {
+        super(NodeTypes.CONDITIONAL_EXPRESSION, loc);
+        this.test = test;
+        this.consequent = consequent;
+        this.alternate = alternate;
+    }
+}
+
 module.exports = {
     ASTNode,
     ProgramNode,
@@ -332,5 +369,9 @@ module.exports = {
     BinaryExpressionNode,
     LogicalExpressionNode,
     UnaryExpressionNode,
-    UpdateExpressionNode
+    UpdateExpressionNode,
+    SliceExpressionNode,
+    ComprehensionNode,
+    ArrowFunctionNode,
+    ConditionalExpressionNode
 };

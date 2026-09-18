@@ -11,6 +11,7 @@ const { Compiler } = require('./compiler');
 module.exports = {
     // Core compiler & execution
     Compiler,
+    Sanskrit: Compiler,
     ...AST,
     ...LexerModule,
     ...ParserModule,

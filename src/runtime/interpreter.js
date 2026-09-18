@@ -15,19 +15,23 @@ class Interpreter {
     }
 
     setupGlobals() {
+        const builtinsEnv = new Environment();
+
         // Built-in constants
-        this.globalEnv.declare('सत्य', true, true);
-        this.globalEnv.declare('असत्य', false, true);
-        this.globalEnv.declare('शून्य', null, true);
-        this.globalEnv.declare('अपरिभाषित', undefined, true);
-        this.globalEnv.declare('अनंत', Infinity, true);
-        this.globalEnv.declare('NaN', NaN, true);
+        builtinsEnv.declare('सत्य', true, true);
+        builtinsEnv.declare('असत्य', false, true);
+        builtinsEnv.declare('शून्य', null, true);
+        builtinsEnv.declare('अपरिभाषित', undefined, true);
+        builtinsEnv.declare('अनंत', Infinity, true);
+        builtinsEnv.declare('NaN', NaN, true);
 
         // Standard built-in functions
-        const builtins = createBuiltins(this.outputStream);
+        const builtins = createBuiltins(this.outputStream, this);
         for (const [name, fn] of builtins.entries()) {
-            this.globalEnv.declare(name, fn, false);
+            builtinsEnv.declare(name, fn, false);
         }
+
+        this.globalEnv = builtinsEnv.createChild();
     }
 
     interpret(ast) {
@@ -333,9 +337,18 @@ class Interpreter {
 
             case NodeTypes.MEMBER_EXPRESSION: {
                 const object = this.evaluate(node.object, env);
+
+                if (node.property.type === NodeTypes.SLICE_EXPRESSION) {
+                    return this.evaluateSlice(object, node.property, env);
+                }
+
                 const property = node.computed
                     ? this.evaluate(node.property, env)
                     : node.property.name;
+
+                if (property && property.isSlice) {
+                    return this.evaluateSlice(object, property, env);
+                }
 
                 if (object === null || object === undefined) {
                     throw new TypeError(`Cannot read property '${property}' of ${object}`, {
@@ -512,6 +525,62 @@ class Interpreter {
                 }
             }
 
+            case NodeTypes.SLICE_EXPRESSION: {
+                return {
+                    isSlice: true,
+                    start: node.start ? this.evaluate(node.start, env) : null,
+                    stop: node.stop ? this.evaluate(node.stop, env) : null,
+                    step: node.step ? this.evaluate(node.step, env) : null
+                };
+            }
+
+            case NodeTypes.COMPREHENSION: {
+                const collection = this.evaluate(node.collection, env);
+                if (!collection || typeof collection[Symbol.iterator] !== 'function') {
+                    throw new TypeError(`Target in comprehension is not iterable`, {
+                        filename: this.filename,
+                        line: node.loc ? node.loc.line : 1,
+                        column: node.loc ? node.loc.column : 1
+                    });
+                }
+
+                const result = [];
+                for (const item of collection) {
+                    const compEnv = env.createChild();
+                    compEnv.declare(node.variable.name, item, false, node.variable.loc);
+
+                    if (node.filterCondition) {
+                        const keep = this.evaluate(node.filterCondition, compEnv);
+                        if (!this.isTruthy(keep)) {
+                            continue;
+                        }
+                    }
+
+                    result.push(this.evaluate(node.expression, compEnv));
+                }
+
+                return result;
+            }
+
+            case NodeTypes.ARROW_FUNCTION: {
+                return new SanskritFunction(
+                    null,
+                    node.params.map(p => p.name),
+                    node.body,
+                    env,
+                    node.isExpressionBody
+                );
+            }
+
+            case NodeTypes.CONDITIONAL_EXPRESSION: {
+                const test = this.evaluate(node.test, env);
+                if (this.isTruthy(test)) {
+                    return this.evaluate(node.consequent, env);
+                } else {
+                    return this.evaluate(node.alternate, env);
+                }
+            }
+
             default:
                 throw new RuntimeError(`Unknown AST node type: '${node.type}'`, {
                     filename: this.filename,
@@ -519,6 +588,71 @@ class Interpreter {
                     column: node.loc ? node.loc.column : 1
                 });
         }
+    }
+
+    evaluateSlice(object, slice, env) {
+        if (object === null || object === undefined) {
+            throw new TypeError(`Cannot slice ${object}`, {
+                filename: this.filename,
+                line: slice.loc ? slice.loc.line : 1,
+                column: slice.loc ? slice.loc.column : 1
+            });
+        }
+
+        const isStr = typeof object === 'string';
+        const isArr = Array.isArray(object);
+
+        if (!isStr && !isArr) {
+            throw new TypeError(`Object of type '${typeof object}' is not sliceable`, {
+                filename: this.filename,
+                line: slice.loc ? slice.loc.line : 1,
+                column: slice.loc ? slice.loc.column : 1
+            });
+        }
+
+        const len = object.length;
+        let start = slice.start;
+        let stop = slice.stop;
+        let step = slice.step;
+
+        // If AST nodes, evaluate them
+        if (start && typeof start === 'object' && start.type) start = this.evaluate(start, env);
+        if (stop && typeof stop === 'object' && stop.type) stop = this.evaluate(stop, env);
+        if (step && typeof step === 'object' && step.type) step = this.evaluate(step, env);
+
+        if (step === null || step === undefined) {
+            step = 1;
+        }
+
+        if (step === 0) {
+            throw new RuntimeError(`Slice step cannot be zero`, {
+                filename: this.filename,
+                line: slice.loc ? slice.loc.line : 1,
+                column: slice.loc ? slice.loc.column : 1
+            });
+        }
+
+        let startIndex, stopIndex;
+        if (step > 0) {
+            startIndex = start === null ? 0 : (start < 0 ? Math.max(0, len + start) : Math.min(len, start));
+            stopIndex = stop === null ? len : (stop < 0 ? Math.max(0, len + stop) : Math.min(len, stop));
+        } else {
+            startIndex = start === null ? len - 1 : (start < 0 ? Math.max(-1, len + start) : Math.min(len - 1, start));
+            stopIndex = stop === null ? -1 : (stop < 0 ? Math.max(-1, len + stop) : Math.min(len, stop));
+        }
+
+        const result = [];
+        if (step > 0) {
+            for (let i = startIndex; i < stopIndex; i += step) {
+                result.push(object[i]);
+            }
+        } else {
+            for (let i = startIndex; i > stopIndex; i += step) {
+                result.push(object[i]);
+            }
+        }
+
+        return isStr ? result.join('') : result;
     }
 
     applyCompound(left, right, operator, loc) {

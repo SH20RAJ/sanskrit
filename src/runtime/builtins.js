@@ -61,8 +61,21 @@ function formatValue(val) {
     return String(val);
 }
 
-function createBuiltins(outputStream = console.log) {
+function createBuiltins(outputStream = console.log, interpreter = null) {
     const builtins = new Map();
+
+    function callUserFunction(fn, args) {
+        if (fn && (fn instanceof SanskritFunction || (fn.constructor && fn.constructor.name === 'SanskritBoundMethod'))) {
+            if (interpreter) {
+                return fn.call(interpreter, args);
+            }
+            throw new Error('Interpreter required to invoke Sanskrit function');
+        }
+        if (typeof fn === 'function') {
+            return fn(...args);
+        }
+        throw new Error(`Value is not a callable function`);
+    }
 
     // मुद्रण (print)
     builtins.set('मुद्रण', (...args) => {
@@ -122,6 +135,150 @@ function createBuiltins(outputStream = console.log) {
     builtins.set('गणित_छत', (x) => Math.ceil(x));
     builtins.set('गणित_गोल', (x) => Math.round(x));
     builtins.set('गणित_यादृच्छिक', () => Math.random());
+
+    // Pythonic & Functional Utilities
+    // श्रेणी (range)
+    builtins.set('श्रेणी', (...args) => {
+        let start = 0, stop = 0, step = 1;
+        if (args.length === 1) {
+            stop = Number(args[0]) || 0;
+        } else if (args.length === 2) {
+            start = Number(args[0]) || 0;
+            stop = Number(args[1]) || 0;
+        } else if (args.length >= 3) {
+            start = Number(args[0]) || 0;
+            stop = Number(args[1]) || 0;
+            step = Number(args[2]) || 1;
+        }
+        if (step === 0) throw new Error('श्रेणी (range) step cannot be zero');
+        const result = [];
+        if (step > 0) {
+            for (let i = start; i < stop; i += step) result.push(i);
+        } else {
+            for (let i = start; i > stop; i += step) result.push(i);
+        }
+        return result;
+    });
+
+    // मानचित्रण (map)
+    builtins.set('मानचित्रण', (arg1, arg2) => {
+        const fn = typeof arg1 === 'function' || (arg1 && arg1 instanceof SanskritFunction) ? arg1 : arg2;
+        const list = fn === arg1 ? arg2 : arg1;
+        if (!list || typeof list[Symbol.iterator] !== 'function') {
+            throw new Error('मानचित्रण (map) requires an iterable collection');
+        }
+        const result = [];
+        let idx = 0;
+        for (const item of list) {
+            result.push(callUserFunction(fn, [item, idx++]));
+        }
+        return result;
+    });
+
+    // शोधन (filter)
+    builtins.set('शोधन', (arg1, arg2) => {
+        const fn = typeof arg1 === 'function' || (arg1 && arg1 instanceof SanskritFunction) ? arg1 : arg2;
+        const list = fn === arg1 ? arg2 : arg1;
+        if (!list || typeof list[Symbol.iterator] !== 'function') {
+            throw new Error('शोधन (filter) requires an iterable collection');
+        }
+        const result = [];
+        let idx = 0;
+        for (const item of list) {
+            const keep = callUserFunction(fn, [item, idx++]);
+            if (keep) result.push(item);
+        }
+        return result;
+    });
+
+    // संक्षिप्त (reduce)
+    builtins.set('संक्षिप्त', (fn, list, initial) => {
+        if (!list || typeof list[Symbol.iterator] !== 'function') {
+            throw new Error('संक्षिप्त (reduce) requires an iterable collection');
+        }
+        const arr = Array.isArray(list) ? list : Array.from(list);
+        let accumulator = initial;
+        let startIdx = 0;
+        if (accumulator === undefined) {
+            if (arr.length === 0) throw new Error('संक्षिप्त (reduce) of empty sequence with no initial value');
+            accumulator = arr[0];
+            startIdx = 1;
+        }
+        for (let i = startIdx; i < arr.length; i++) {
+            accumulator = callUserFunction(fn, [accumulator, arr[i], i]);
+        }
+        return accumulator;
+    });
+
+    // योग (sum)
+    builtins.set('योग', (coll, start = 0) => {
+        if (!coll || typeof coll[Symbol.iterator] !== 'function') return Number(coll) || 0;
+        let total = start;
+        for (const x of coll) total += Number(x) || 0;
+        return total;
+    });
+
+    // सभी (all)
+    builtins.set('सभी', (coll) => {
+        if (!coll || typeof coll[Symbol.iterator] !== 'function') return Boolean(coll);
+        for (const x of coll) {
+            if (!x) return false;
+        }
+        return true;
+    });
+
+    // कोई (any)
+    builtins.set('कोई', (coll) => {
+        if (!coll || typeof coll[Symbol.iterator] !== 'function') return Boolean(coll);
+        for (const x of coll) {
+            if (x) return true;
+        }
+        return false;
+    });
+
+    // उलटा (reversed)
+    builtins.set('उलटा', (coll) => {
+        if (typeof coll === 'string') return coll.split('').reverse().join('');
+        if (Array.isArray(coll)) return [...coll].reverse();
+        if (coll && typeof coll[Symbol.iterator] === 'function') return Array.from(coll).reverse();
+        return coll;
+    });
+
+    // क्रमबद्ध (sorted)
+    builtins.set('क्रमबद्ध', (coll, keyFn = null) => {
+        const arr = Array.isArray(coll) ? [...coll] : Array.from(coll || []);
+        if (keyFn) {
+            return arr.sort((a, b) => {
+                const ka = callUserFunction(keyFn, [a]);
+                const kb = callUserFunction(keyFn, [b]);
+                return ka < kb ? -1 : (ka > kb ? 1 : 0);
+            });
+        }
+        return arr.sort((a, b) => (a < b ? -1 : (a > b ? 1 : 0)));
+    });
+
+    // संयोजन (zip)
+    builtins.set('संयोजन', (...iterables) => {
+        if (iterables.length === 0) return [];
+        const arrays = iterables.map(it => Array.isArray(it) ? it : Array.from(it || []));
+        const minLen = Math.min(...arrays.map(a => a.length));
+        const result = [];
+        for (let i = 0; i < minLen; i++) {
+            result.push(arrays.map(a => a[i]));
+        }
+        return result;
+    });
+
+    // क्रमांकन (enumerate)
+    builtins.set('क्रमांकन', (coll, start = 0) => {
+        if (!coll || typeof coll[Symbol.iterator] !== 'function') return [];
+        const result = [];
+        let idx = Number(start) || 0;
+        for (const item of coll) {
+            result.push([idx++, item]);
+        }
+        return result;
+    });
 
     // समय & प्रतीक्षा
     builtins.set('समय', () => Date.now());
