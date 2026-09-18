@@ -5,6 +5,8 @@ const { Interpreter } = require('../runtime');
 const { SanskritError } = require('../diagnostics/errors');
 const fs = require('fs');
 
+const { BytecodeCompiler, VirtualMachine } = require('../vm');
+
 class Compiler {
     constructor(options = {}) {
         this.options = options;
@@ -16,7 +18,22 @@ class Compiler {
         });
     }
 
+    runVM(sourceCode, filename = this.filename) {
+        const lexer = new Lexer(sourceCode, filename);
+        const parser = new Parser(lexer, filename);
+        const ast = parser.parse();
+        const byteCompiler = new BytecodeCompiler();
+        const chunk = byteCompiler.compile(ast);
+        const vm = new VirtualMachine({
+            outputStream: (...args) => (this.options.outputStream || this.outputStream)(...args)
+        });
+        return vm.interpret(chunk);
+    }
+
     run(sourceCode, filename = this.filename) {
+        if (this.options.useVM || this.options.target === 'vm') {
+            return this.runVM(sourceCode, filename);
+        }
         const lexer = new Lexer(sourceCode, filename);
         const parser = new Parser(lexer, filename);
         const ast = parser.parse();

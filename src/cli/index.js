@@ -22,6 +22,8 @@ program
     .description('Execute a Sanskrit (.sns) source file')
     .option('-v, --verbose', 'Enable verbose execution logging')
     .option('-d, --debug', 'Show token stream and AST tree for debugging')
+    .option('--vm', 'Execute using the Bytecode Virtual Machine engine')
+    .option('--disasm', 'Disassemble bytecode to console')
     .action((file, options) => {
         const filePath = path.resolve(process.cwd(), file);
 
@@ -54,6 +56,20 @@ program
                 console.log('\n--- AST ---');
                 console.log(JSON.stringify(ast, null, 2));
                 console.log('\n--- Output ---');
+            }
+
+            if (options.vm) {
+                const { BytecodeCompiler, VirtualMachine } = require('../vm');
+                const byteCompiler = new BytecodeCompiler();
+                const chunk = byteCompiler.compile(ast);
+
+                if (options.disasm) {
+                    console.log(chunk.disassemble(file));
+                }
+
+                const vm = new VirtualMachine({ filename: file });
+                vm.interpret(chunk);
+                process.exit(0);
             }
 
             const interpreter = new Interpreter({ filename: file });
