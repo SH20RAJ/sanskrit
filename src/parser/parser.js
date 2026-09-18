@@ -617,7 +617,7 @@ class Parser {
         return node;
     }
 
-    memberExpression() {
+    memberExpression(allowCall = true) {
         let node = this.primaryExpression();
 
         while (true) {
@@ -634,7 +634,7 @@ class Parser {
                 const property = this.expression();
                 this.eat(TokenTypes.DELIMITER, ']');
                 node = new Nodes.MemberExpressionNode(node, property, true, node.loc);
-            } else if (this.match(TokenTypes.DELIMITER, '(')) {
+            } else if (allowCall && this.match(TokenTypes.DELIMITER, '(')) {
                 // Function call
                 this.eat(TokenTypes.DELIMITER, '(');
                 const args = [];
@@ -663,9 +663,9 @@ class Parser {
 
         // New Expression: नया ClassName(args)
         if (token.type === TokenTypes.KEYWORD && token.value === 'नया') {
-            this.eat(TokenTypes.KEYWORD, 'नया');
-            const callee = this.memberExpression();
-            let args = [];
+            const startToken = this.eat(TokenTypes.KEYWORD, 'नया');
+            const callee = this.memberExpression(false);
+            const args = [];
 
             if (this.match(TokenTypes.DELIMITER, '(')) {
                 this.eat(TokenTypes.DELIMITER, '(');
@@ -680,7 +680,7 @@ class Parser {
                 this.eat(TokenTypes.DELIMITER, ')');
             }
 
-            return new Nodes.NewExpressionNode(callee, args, { line: token.line, column: token.column });
+            return new Nodes.NewExpressionNode(callee, args, { line: startToken.line, column: startToken.column });
         }
 
         // Numbers
